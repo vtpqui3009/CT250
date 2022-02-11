@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "Poppins", sans-serif;
+  }
+}
+@layer components {
+  /*---------------Topbar Components-----------------*/
+  .topbar-header {
+    @apply flex items-center justify-between bg-[#fff] px-6 py-4 fixed;
+  }
+  .topbar-search {
+    @apply relative text-gray-500 ml-4;
+  }
+  .topbar-input {
+    @apply border-transparent bg-input-color w-40 outline-none text-[12px] px-4 py-1 rounded-2xl;
+  }
+  .topbar-search__icon {
+    @apply w-4 h-4 absolute right-3 top-[6px] cursor-pointer;
+  }
+  /*---------------Toggle Sidebar Components-----------------*/
+  .toggle-sidebar {
+    @apply flex items-center flex-col;
+  }
+  .toggle-sidebar__header {
+    @apply text-center py-6;
+  }
+  .toggle-sidebar__content {
+    @apply odd:text-sm mt-6 w-full flex items-center flex-col;
+  }
+  .toggle-sidebar__item {
+    @apply px-5 py-4 cursor-pointer  hover:bg-siderbar-darker  z-10;
+  }
+  .toggle-sidebar__submenu {
+    @apply absolute  left-[95%] text-[12.5px] text-white  bg-siderbar-darker hidden group-hover:block z-0 w-44;
+  }
+  .toggle-sidebar__link {
+    @apply px-4 py-[15px] bg-sidebar-color text-gray-300 hover:text-white text-[12px] whitespace-nowrap;
+  }
+  /*---------------Topbar Auth Components-----------------*/
+  .user-avatar {
+    @apply rounded-full ml-4 cursor-pointer w-[30px] h-[30px];
+  }
+  .menu-dropdown__list {
+    @apply absolute left-[-80px] top-10 shadow-lg w-32 z-20 bg-[#fff];
+  }
+  .menu-dropdown__item {
+    @apply text-[12px] text-gray-700 hover:bg-input-color px-4 py-2 cursor-pointer flex items-center;
+  }
+  .menu-dropdown__logout {
+    @apply text-[12px] flex items-center text-red-500 border-t border-gray-300 hover:bg-input-color px-4 py-2 cursor-pointer;
+  }
+  /*---------------Topbar Noti Components-----------------*/
+  .noti-badge {
+    @apply absolute top-[-65%] right-[-30%] flex items-center justify-center px-[5px] py-[1px] rounded-full bg-red-500 text-white text-[9.5px];
+  }
+  .noti-dropdown {
+    @apply absolute left-[-140px] top-10 shadow-lg w-40 h-24 flex flex-col items-center justify-center;
+  }
+  /*---------------Content Components-----------------*/
+  .content {
+    @apply bg-[#fff] w-[90%] shadow-xl rounded px-2 py-10;
+  }
+  /*---------------Add Product Form Components-----------------*/
+  .add-product__button {
+    @apply px-6 py-2 bg-sidebar-color text-white rounded text-[14px] cursor-pointer hover:bg-siderbar-darker;
+  }
+  /*---------------Table Components-----------------*/
+  .table-heading {
+    @apply mb-6 w-[90%] ml-[5%] flex items-center justify-between;
+  }
+  .table-content {
+    @apply w-[90%] ml-[5%] table-auto text-[12px];
+  }
+  .table-item {
+    @apply px-4 py-2;
+  }
+  .table-edit__button {
+    @apply bg-sidebar-color text-white px-2  cursor-pointer text-[11px] py-1 rounded;
+  }
+  .table-delete__button {
+    @apply bg-red-600 text-white px-2  cursor-pointer text-[11px] py-1 rounded;
+  }
+  /*---------------Table Header Components-----------------*/
+  .table-select {
+    @apply border-[1px] border-gray-400 px-2 py-1 mx-2 outline-none rounded;
+  }
+  .table-input {
+    @apply border-[1px] border-gray-400 px-4 py-1 rounded outline-none ml-2;
+  }
+  /*---------------Table Footer Components-----------------*/
+  .table-footer {
+    @apply flex items-center justify-between mt-6 w-[90%] ml-[5%];
+  }
+  .table-page {
+    @apply border-[1px] border-gray-300 px-[10px] py-1;
+  }
+  .table-actions {
+    @apply border-[1px] border-gray-300 px-2 py-1;
+  }
+  /*---------------Form Components-----------------*/
+  .form-control {
+    @apply flex items-center w-full p-6;
+  }
+  .form-control label {
+    @apply w-[15%] mr-4 font-bold text-[12px];
+  }
+  .form-control input,
+  .form-control textarea,
+  .form-control select {
+    @apply w-[85%] rounded border-[1px] border-gray-400 text-[12px] outline-none px-4 py-1 resize-none;
+  }
+  .error-message {
+    @apply text-red-600 text-[12px] font-bold ml-[18.5%];
+  }
+  /*---------------Auth Components-----------------*/
+  .auth {
+    @apply w-full h-screen z-0 fixed inset-0;
+    background-image: url("./img/auth-bg.png");
+  }
+  .auth-error {
+    @apply text-[14px] font-semibold text-red-600;
+  }
+  .auth-form {
+    @apply bg-[#fff] rounded p-4 w-[35%] absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]  px-10 py-6;
+  }
+  .auth-form-control {
+    @apply flex flex-col;
+  }
+  .auth-form-control label,
+  .auth-form-control input {
+    @apply w-full text-[14px] text-gray-700;
+  }
+  .auth-form-control label {
+    @apply font-semibold my-2;
+  }
+  .auth-form-control input {
+    @apply rounded border-[1px] border-gray-400 outline-none px-4 py-2;
+  }
+  .auth-submit-button {
+    @apply w-full bg-sidebar-color text-white text-center my-4 py-2 text-[14px];
+  }
+}
