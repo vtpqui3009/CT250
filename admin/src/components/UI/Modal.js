@@ -7,7 +7,7 @@ const Modal = (props) => {
         onClick={props.onCloseModal}
       />
       <div className="ease-linear duration-300 transition-transform z-20 w-[40vw] fixed bg-[#fff] rounded top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]   ">
-        <header className="px-10 py-4 bg-blue-500 text-white">
+        <header className="px-10 py-4 bg-sidebar-color text-white">
           {props.header}
         </header>
         <main className="p-10">
@@ -16,7 +16,7 @@ const Modal = (props) => {
         <footer className="px-10 py-4 flex">
           <button
             onClick={props.onCloseModal}
-            className="bg-sidebar-color text-white px-5 py-2 outline-none rounded ml-auto"
+            className="hover:bg-sidebar-color border-[1px] border-sidebar-color hover:text-white px-5 py-2 outline-none rounded ml-auto"
           >
             Confirm
           </button>

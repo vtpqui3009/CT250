@@ -12,6 +12,11 @@ import Customer from "./components/Content/Customer/Customer";
 import { AuthContext, initialState, reducer } from "./context/AuthContext";
 import UpdateCustomer from "./pages/customer/UpdateCustomer";
 import ManageOrders from "./pages/orders/MangeOrder";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import ChangePasswordSuccess from "./pages/ChangePassword/ChangePasswordSuccess";
+import ManageBlog from "./pages/Blog/ManageBlog";
+import NewBlog from "./pages/Blog/NewBlog";
+import UpdateBlog from "./pages/Blog/UpdateBlog";
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const token = localStorage.getItem("token");
@@ -30,9 +35,20 @@ function App() {
             <Route path="manage" element={<ManageCustomer />} />
             <Route path="edit/:uid" element={<UpdateCustomer />} />
           </Route>
+          <Route path="blog" element={<Outlet />}>
+            <Route path="manage" element={<ManageBlog />} />
+            <Route path="new" element={<NewBlog />} />
+            <Route path=":bid" element={<h1>Blog Detail Page</h1>} />
+            <Route path="edit/:bid" element={<UpdateBlog />} />
+          </Route>
           <Route path="orders" element={<Outlet />}>
             <Route path="manage" element={<ManageOrders />} />
           </Route>
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route
+            path="/change-password-success"
+            element={<ChangePasswordSuccess />}
+          />
           <Route path="/history" element={<p> History Page</p>} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/wallet" element={<p> Wallet Page</p>} />

@@ -1,5 +1,5 @@
-import Layout from "../../components/Layout";
 import AddProductForm from "../../components/Content/Product/AddProduct/AddProductForm";
+import Layout from "../../components/Layout";
 import HeadingPath from "../../components/Content/HeadingPath/HeadingPath";
 import HeadingPathItem from "../../components/Content/HeadingPath/HeadingPathItem";
 

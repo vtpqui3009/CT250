@@ -5,8 +5,8 @@ import Footer from "../../components/Footer/Footer";
 import axios from "axios";
 import Modal from "../../components/UI/Modal";
 import { Formik, Form } from "formik";
-import FormikControl from "../../components/UI/FormikControl";
 import * as Yup from "yup";
+import FormikControl from "../../components/UI/FormikControl";
 const initialValues = {
   email: "",
 };

@@ -10,10 +10,13 @@ import { AuthContext, initialState, reducer } from "./context/AuthContext";
 import UserAddress from "./pages/UserAddress";
 import UserOrderSuccess from "./pages/UserOrderSuccess";
 import SendEmail from "./pages/ForgotPassword/SendEmail";
-import PasswordChange from "./pages/PasswordChange";
+import PasswordChange from "./pages/ChangePassword/PasswordChange";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
+import ProductDetail from "./pages/product/ProductDetail";
+import PasswordChangeSuccess from "./pages/ChangePassword/PasswordChangeSuccess";
 
+import "quill/dist/quill.snow.css";
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   return (
@@ -33,6 +36,14 @@ function App() {
               <Route path="send-email" element={<SendEmail />} />
             </Route>
             <Route path="password-change" element={<PasswordChange />} />
+            <Route
+              path="password-change-sucess"
+              element={<PasswordChangeSuccess />}
+            />
+          </Route>
+          <Route path="product" element={<Outlet />}>
+            <Route path="all" element={<h1>Product All page</h1>} />
+            <Route path=":pid" element={<ProductDetail />} />
           </Route>
           <Route path="/" element={<Home />} />
         </Routes>

@@ -15,7 +15,7 @@
 @layer components {
   /*---------------Topbar Components-----------------*/
   .topbar-header {
-    @apply flex items-center justify-between bg-[#fff] px-6 py-4 fixed;
+    @apply flex items-center justify-between bg-[#fff] px-6 py-4 fixed z-20;
   }
   .topbar-search {
     @apply relative text-gray-500 ml-4;
@@ -50,7 +50,7 @@
     @apply rounded-full ml-4 cursor-pointer w-[30px] h-[30px];
   }
   .menu-dropdown__list {
-    @apply absolute left-[-80px] top-10 shadow-lg w-32 z-20 bg-[#fff];
+    @apply absolute left-[-140px] top-10 shadow-lg w-44 z-20 bg-[#fff];
   }
   .menu-dropdown__item {
     @apply text-[12px] text-gray-700 hover:bg-input-color px-4 py-2 cursor-pointer flex items-center;
@@ -147,5 +147,14 @@
   }
   .auth-submit-button {
     @apply w-full bg-sidebar-color text-white text-center my-4 py-2 text-[14px];
+  }
+  .quill-container {
+    @apply h-[200px] w-[85%];
+  }
+  .quill-container > .ql-container.ql-snow > .ql-editor.ql-blank {
+    @apply bg-white;
+  }
+  .quill-container > .ql-container.ql-snow > .ql-editor.ql-blank:focus {
+    @apply bg-white;
   }
 }

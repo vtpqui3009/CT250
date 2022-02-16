@@ -4,6 +4,7 @@ import {
   UilWallet,
   UilSetting,
   UilSignOutAlt,
+  UilKeySkeletonAlt,
 } from "@iconscout/react-unicons";
 import { Link, useNavigate } from "react-router-dom";
 import Backdrop from "../../UI/Backdrop";
@@ -26,12 +27,22 @@ const TopbarAuth = () => {
   };
   return (
     <div className="relative">
-      <img
-        src={avatar}
-        alt=""
-        className="user-avatar"
-        onClick={handleToggleSubmenu}
-      />
+      {userData ? (
+        <img
+          src={avatar}
+          alt=""
+          className="user-avatar"
+          onClick={handleToggleSubmenu}
+        />
+      ) : (
+        <Link to="/">
+          {" "}
+          <button className="ml-4 text-[13px] bg-sidebar-color text-white px-4 py-1 rounded">
+            Login
+          </button>
+        </Link>
+      )}
+
       {isOpen && (
         <>
           <ul className="menu-dropdown__list">
@@ -45,6 +56,12 @@ const TopbarAuth = () => {
               <li className="menu-dropdown__item">
                 <UilWallet size="16" className="mr-2" />
                 <span>Wallet</span>
+              </li>
+            </Link>
+            <Link to="/change-password">
+              <li className="menu-dropdown__item">
+                <UilKeySkeletonAlt size="16" className="mr-2" />
+                <span>Change Password</span>
               </li>
             </Link>
             <Link to="/setting">

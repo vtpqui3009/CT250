@@ -8,12 +8,17 @@ import {
   UilUsersAlt,
   UilHistory,
   UilInvoice,
+  UilPen,
 } from "@iconscout/react-unicons";
 
 const NormalSidebar = (props) => {
-  const [activeSubmenu, setACtiveSubmenu] = useState(false);
-  const handleOpenSubmenu = () => {
-    setACtiveSubmenu((state) => !state);
+  const [activeProductSubmenu, setActiveProductSubmenu] = useState(false);
+  const [activeBlogSubmenu, setActiveBlogSubmenu] = useState(false);
+  const handleOpenProductSubmenu = () => {
+    setActiveProductSubmenu((state) => !state);
+  };
+  const handleOpenBlogSubmenu = () => {
+    setActiveBlogSubmenu((state) => !state);
   };
   return (
     <>
@@ -32,7 +37,10 @@ const NormalSidebar = (props) => {
               <span>Dashboard</span>
             </li>
           </NavLink>
-          <li className="cursor-pointer relative" onClick={handleOpenSubmenu}>
+          <li
+            className="cursor-pointer relative"
+            onClick={handleOpenProductSubmenu}
+          >
             <div className="flex items-center justify-between px-6 py-4 hover:text-white">
               <div className="flex items-center">
                 <UilBox size="16" className="mr-6" />
@@ -42,13 +50,15 @@ const NormalSidebar = (props) => {
                 size="16"
                 className="ease-linear duration-200"
                 style={{
-                  transform: activeSubmenu ? "rotate(90deg)" : "rotate(0deg)",
+                  transform: activeProductSubmenu
+                    ? "rotate(90deg)"
+                    : "rotate(0deg)",
                 }}
               />
             </div>
             <div
               className="overflow-hidden relative ease-linear duration-300"
-              style={{ height: activeSubmenu ? "100px" : 0 }}
+              style={{ height: activeProductSubmenu ? "100px" : 0 }}
             >
               <ul className="ml-2 text-[11.5px]">
                 <NavLink to="/product/new">
@@ -76,6 +86,43 @@ const NormalSidebar = (props) => {
               <span>Orders</span>
             </li>
           </NavLink>
+          <li
+            className="cursor-pointer relative"
+            onClick={handleOpenBlogSubmenu}
+          >
+            <div className="flex items-center justify-between px-6 py-4 hover:text-white">
+              <div className="flex items-center">
+                <UilPen size="16" className="mr-6" />
+                <span>Blog</span>
+              </div>
+              <UilAngleRight
+                size="16"
+                className="ease-linear duration-200"
+                style={{
+                  transform: activeBlogSubmenu
+                    ? "rotate(90deg)"
+                    : "rotate(0deg)",
+                }}
+              />
+            </div>
+            <div
+              className="overflow-hidden relative ease-linear duration-300"
+              style={{ height: activeBlogSubmenu ? "100px" : 0 }}
+            >
+              <ul className="ml-2 text-[11.5px]">
+                <NavLink to="/blog/new">
+                  <li className="px-6 py-4 hover:text-white ml-8">
+                    Create Blog
+                  </li>
+                </NavLink>
+                <NavLink to="/blog/manage">
+                  <li className="px-6 py-4 hover:text-white ml-8">
+                    Manage Blog{" "}
+                  </li>
+                </NavLink>
+              </ul>
+            </div>
+          </li>
           <NavLink to="/history">
             <li className="px-6 py-4 cursor-pointer hover:text-white flex items-center">
               <UilHistory size="16" className="mr-6" />

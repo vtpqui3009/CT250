@@ -31,7 +31,6 @@ const RegisterForm = (props) => {
       onSubmitProps.resetForm();
     };
     registerAccount();
-    console.log("Form data", formData);
   };
   return (
     <Formik

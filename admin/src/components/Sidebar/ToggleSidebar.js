@@ -3,6 +3,7 @@ import {
   UilDashboard,
   UilBox,
   UilUsersAlt,
+  UilPen,
   UilHistory,
 } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
@@ -46,6 +47,22 @@ const ToogleSidebar = () => {
           >
             <Link to="/customer/manage">Customer</Link>
           </span>
+        </li>
+        <li className="toggle-sidebar__item group">
+          <UilPen size="18" className="relative" />
+          <ul className="toggle-sidebar__submenu" style={{ top: "25.3%" }}>
+            <li className=" bg-siderbar-darker px-8 py-[15px]">Blog</li>
+            <Link to="/blog/new">
+              <li className="toggle-sidebar__link">
+                <span className="ml-6">Create Blog</span>
+              </li>
+            </Link>
+            <Link to="/blog/manage">
+              <li className=" toggle-sidebar__link">
+                <span className="ml-6">Manage Blog</span>
+              </li>
+            </Link>
+          </ul>
         </li>
         <li className="toggle-sidebar__item group">
           <UilHistory size="18" className="relative" />

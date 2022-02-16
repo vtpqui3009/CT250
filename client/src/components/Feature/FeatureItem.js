@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { EyeIcon, HeartIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const FeatureItem = (props) => {
   const dispatch = useDispatch();
@@ -23,6 +24,9 @@ const FeatureItem = (props) => {
           props.featureProducts?.map((product, index) => (
             <div className="feature-item" key={index}>
               <div className="relative overflow-hidden group w-full">
+                {product.discount === 0 ? null : (
+                  <span className="bg-red-500 text-white font-bold text-[10px] px-3 py-1 rounded absolute top-4 right-4">{`-${product.discount}%`}</span>
+                )}
                 <img
                   src={product.images[0].url}
                   alt=""
@@ -30,7 +34,9 @@ const FeatureItem = (props) => {
                 />
                 <div className="feature-action">
                   <div className="feature-action__item">
-                    <EyeIcon className="w-4 h-4" />
+                    <Link to={`/product/${product._id}`}>
+                      <EyeIcon className="w-4 h-4" />
+                    </Link>
                   </div>
                   <div className="feature-action__item">
                     <HeartIcon className="w-4 h-4" />
@@ -44,7 +50,9 @@ const FeatureItem = (props) => {
                 </div>
               </div>
               <p className="mt-2">{product.name}</p>
-              <p className="mt-2 font-bold">{`${product.price}k/kg`}</p>
+              <p className="mt-2 font-bold">{`${
+                product.price - (product.price * product.discount) / 100
+              }/kg`}</p>
             </div>
           ))}
       </div>
