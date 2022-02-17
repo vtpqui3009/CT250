@@ -16,7 +16,7 @@ const UpdateCustomerForm = () => {
       const getLoadedCustomer = async () => {
         axios.defaults.withCredentials = true;
         const response = await axios.get(
-          `http://localhost:4000/api/v1/admin/user/${params.uid}`
+          `${process.env.REACT_APP_BASE_API}/admin/user/${params.uid}`
         );
         const responseData = await response.data.user;
         console.log(responseData);
@@ -48,7 +48,7 @@ const UpdateCustomerForm = () => {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:4000/api/v1/admin/user/${params.uid}`,
+        `${process.env.REACT_APP_BASE_API}/admin/user/${params.uid}`,
         formData
       );
       setLoading(false);

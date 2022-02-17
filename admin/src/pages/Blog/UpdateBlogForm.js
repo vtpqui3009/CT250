@@ -22,7 +22,7 @@ const UpdateBlogForm = () => {
     try {
       const getLoadedBlog = async () => {
         const response = await axios.get(
-          `http://localhost:4000/api/v1/blog/${params.bid}`
+          `${process.env.REACT_APP_BASE_API}/blog/${params.bid}`
         );
         const responseData = await response.data.blog;
         setLoadedBlog(responseData);
@@ -61,7 +61,7 @@ const UpdateBlogForm = () => {
     try {
       setIsLoading(true);
       await axios.put(
-        `http://localhost:4000/api/v1/blog/${params.bid}`,
+        `${process.env.REACT_APP_BASE_API}/blog/${params.bid}`,
         formData
       );
       setIsLoading(false);

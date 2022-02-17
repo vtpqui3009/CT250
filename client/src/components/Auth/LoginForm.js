@@ -19,6 +19,7 @@ const LoginForm = () => {
   const showPassword = () => {
     setPasswordShown(passwordShown ? false : true);
   };
+  const handleChange = (e) => {};
   const handleCloseModal = () => {
     setConfirm(false);
     setError(null);
@@ -32,7 +33,7 @@ const LoginForm = () => {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          "http://localhost:4000/api/v1/login",
+          ` ${process.env.REACT_APP_BASE_API}/login`,
           formData
         );
         const responseData = await response.data;
@@ -89,7 +90,12 @@ const LoginForm = () => {
               <Link to="/user/password/send-email">Forgot password?</Link>
             </div>
             <div className="ml-auto text-[14px]">
-              <input type="checkbox" className="mr-2" onClick={showPassword} />
+              <input
+                type="checkbox"
+                className="mr-2"
+                onClick={showPassword}
+                onChange={handleChange}
+              />
               <label>Show password</label>
             </div>
           </div>

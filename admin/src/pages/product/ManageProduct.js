@@ -15,14 +15,13 @@ const ManageProduct = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:4000/api/v1/products"
+          `${process.env.REACT_APP_BASE_API}/products`
         );
         const responseData = await response.data.products;
         const filterData = responseData.slice(0, 5);
         setLoadedProducts(filterData);
         setFilterProducts(filterData.length);
         setIsLoading(false);
-        console.log(responseData);
       } catch (err) {
         setIsLoading(false);
       }
@@ -33,7 +32,9 @@ const ManageProduct = () => {
     axios.defaults.withCredentials = true;
     try {
       setIsLoading(true);
-      await axios.delete(`http://localhost:4000/api/v1/admin/product/${id}`);
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_API}/admin/product/${id}`
+      );
       setLoadedProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== id)
       );

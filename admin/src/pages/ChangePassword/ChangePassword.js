@@ -45,7 +45,10 @@ const ChangePassword = () => {
     try {
       setIsLoading(true);
       axios.defaults.withCredentials = true;
-      await axios.put("http://localhost:4000/api/v1/password/update", formData);
+      await axios.put(
+        `${process.env.REACT_APP_BASE_API}/password/update`,
+        formData
+      );
       setIsLoading(false);
       navigate("/change-password-success");
       dispatch({ type: "LOGOUT" });

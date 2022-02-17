@@ -3,8 +3,10 @@ import { XIcon } from "@heroicons/react/outline";
 import CartEmpty from "./CartEmpty";
 import { removeItemFromCart } from "../../redux/cartSlice";
 import CartAction from "./CartAction";
+import { Link } from "react-router-dom";
 const CartDesktop = () => {
   const cart = useSelector((state) => state.cart);
+  console.log(cart);
   const dispatch = useDispatch();
 
   const handleRemoveFromCart = (cartItem) => {
@@ -14,7 +16,7 @@ const CartDesktop = () => {
   return (
     <>
       <div className="cart-desktop">
-        {cart.cartItems.length === 0 ? (
+        {cart && cart.cartItems.length === 0 ? (
           <CartEmpty />
         ) : (
           <table className="product-table">
@@ -29,43 +31,49 @@ const CartDesktop = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.cartItems?.map((cartItem, index) => (
-                <tr className="border-b border-gray-300" key={index}>
-                  <td className="flex items-center px-6 py-4">
-                    <img
-                      src={cartItem.images[0].url}
-                      alt=""
-                      className="mr-4 w-[100px] h-[100px]"
-                    />
-                    <span>{cartItem.name}</span>
-                  </td>
-                  <td className="px-6 py-4">{cartItem.weight}</td>
-                  <td className="px-6 py-4">
-                    <input
-                      value={cartItem.cartQuantity}
-                      type="number"
-                      className="cart-quantity"
-                      onChange={handleCartQuantityChange}
-                    />
-                  </td>
-                  <td className="px-6 py-4">{cartItem.price}</td>
-                  <td className="px-6 py-4">
-                    {cartItem.cartQuantity * cartItem.price}
-                  </td>
-                  <td className="px-6 py-4">
-                    <XIcon
-                      className="cart-discard"
-                      onClick={() => {
-                        handleRemoveFromCart(cartItem);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))}
+              {cart &&
+                cart.cartItems?.map((cartItem, index) => (
+                  <tr className="border-b border-gray-300" key={index}>
+                    <td className="flex items-center px-6 py-4">
+                      <img
+                        src={cartItem.product.images[0].url}
+                        alt=""
+                        className="mr-4 w-[100px] h-[100px]"
+                      />
+                      <span>{cartItem.product.name}</span>
+                    </td>
+                    <td className="px-6 py-4">{cartItem.product.weight}</td>
+                    <td className="px-6 py-4">
+                      <input
+                        value={cartItem.cartQuantity}
+                        type="number"
+                        className="cart-quantity"
+                        onChange={handleCartQuantityChange}
+                      />
+                    </td>
+                    <td className="px-6 py-4">{cartItem.product.price}</td>
+                    <td className="px-6 py-4">
+                      {cartItem.cartQuantity * cartItem.product.price}
+                    </td>
+                    <td className="px-6 py-4">
+                      <XIcon
+                        className="cart-discard"
+                        onClick={() => {
+                          handleRemoveFromCart(cartItem);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
               <CartAction />
             </tbody>
           </table>
         )}
+        <div className="cart-proceed">
+          <Link to="/user/checkout">
+            <button className="cart-proceed-button">Proceed To Checkout</button>
+          </Link>
+        </div>
       </div>
     </>
   );

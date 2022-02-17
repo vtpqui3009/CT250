@@ -27,7 +27,7 @@ const Auth = () => {
     axios.defaults.withCredentials = "true";
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/login",
+        `${process.env.REACT_APP_BASE_API}/login`,
         formData
       );
       const responseData = response.data;

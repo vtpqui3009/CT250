@@ -30,7 +30,7 @@ const AddProductForm = (props) => {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:4000/api/v1/admin/product/new",
+        `  ${process.env.REACT_APP_BASE_API}/admin/product/new`,
         formData
       );
       setLoading(false);

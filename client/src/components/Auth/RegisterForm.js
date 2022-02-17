@@ -24,7 +24,7 @@ const RegisterForm = (props) => {
     const registerAccount = async () => {
       try {
         axios.defaults.withCredentials = true;
-        axios.post("http://localhost:4000/api/v1/register", formData);
+        axios.post(`${process.env.REACT_APP_BASE_API}/register`, formData);
       } catch (err) {
         console.log(err);
       }

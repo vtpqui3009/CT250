@@ -15,7 +15,7 @@ const ManageProduct = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:4000/api/v1/blogs?page=1"
+          `         ${process.env.REACT_APP_BASE_API}/blogs?page=1`
         );
         const responseData = await response.data.blogs;
         console.log(responseData);
@@ -34,7 +34,7 @@ const ManageProduct = () => {
     axios.defaults.withCredentials = true;
     try {
       setIsLoading(true);
-      await axios.delete(`http://localhost:4000/api/v1/blog/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_API}blog/${id}`);
       setLoadedBlogs((prevBlogs) =>
         prevBlogs.filter((blog) => blog._id !== id)
       );

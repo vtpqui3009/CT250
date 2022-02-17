@@ -8,7 +8,7 @@ const FeatureItem = (props) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    dispatch(addToCart({ product, cartQuantity: 1 }));
     console.log(product._id);
   };
 

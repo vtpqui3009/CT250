@@ -9,7 +9,7 @@ const Feature = () => {
     const getFeatureProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/products"
+          ` ${process.env.REACT_APP_BASE_API}/products`
         );
         const responseData = await response.data.products;
         const filterData = responseData.slice(0, 8);

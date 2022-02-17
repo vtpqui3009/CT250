@@ -13,7 +13,7 @@ const ManageCustomer = () => {
       try {
         axios.defaults.withCredentials = true;
         const response = await axios.get(
-          "http://localhost:4000/api/v1/admin/users"
+          ` ${process.env.REACT_APP_BASE_API}/admin/users`
         );
         const responseData = await response.data.users;
         const filterData = responseData.filter((data) => data.role === "user");
@@ -28,7 +28,7 @@ const ManageCustomer = () => {
     axios.defaults.withCredentials = true;
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:4000/api/v1/admin/user/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_API}/admin/user/${id}`);
       setLoadedUsers((users) => users.filter((user) => user._id !== id));
       setLoading(false);
     } catch (err) {

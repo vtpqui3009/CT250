@@ -45,8 +45,12 @@ const NewBlog = () => {
       axios.defaults.withCredentials = true;
       try {
         setIsLoading(true);
-        await axios.post("http://localhost:4000/api/v1/blog/new", formData);
+        await axios.post(
+          `${process.env.REACT_APP_BASE_API}/blog/new`,
+          formData
+        );
         setIsLoading(false);
+        navigate("/blog/manage");
       } catch (err) {
         setIsLoading(false);
         setConfirm(true);
@@ -55,7 +59,6 @@ const NewBlog = () => {
       }
     };
     createNewBlog();
-    navigate("/blog/manage");
   };
   return (
     <React.Fragment>

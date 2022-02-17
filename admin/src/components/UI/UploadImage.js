@@ -1,7 +1,13 @@
 import { XIcon } from "@heroicons/react/outline";
 export const UploadMultipleImage = ({ selectedImages, setSelectedImages }) => {
   const handleImageChange = (event) => {
+    // let files;
     const files = Array.from(event.target.files);
+    // if (selectedImages) {
+    //   files = Array.from((old) => [...old, event.target.files]);
+    // } else {
+    //   files = Array.from(event.target.files);
+    // }
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -13,11 +19,8 @@ export const UploadMultipleImage = ({ selectedImages, setSelectedImages }) => {
     });
   };
   const handleRemoveImage = (e) => {
-    const filterImage = selectedImages.filter((item, index) => index !== e);
-    setSelectedImages(filterImage);
-    if (selectedImages.length === 0) {
-      setSelectedImages([]);
-    }
+    // const filterImage = selectedImages.filter((item, index) => index !== e);
+    setSelectedImages((image) => image.filter((item, index) => index !== e));
   };
   return (
     <div className="px-6 py-4">

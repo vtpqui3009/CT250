@@ -15,7 +15,7 @@ const ManageOrders = () => {
         setIsLoading(true);
         axios.defaults.withCredentials = true;
         const response = await axios.get(
-          "http://localhost:4000/api/v1/admin/orders"
+          ` "${process.env.REACT_APP_BASE_API}/admin/orders`
         );
         const responseData = await response.data;
         const filterData = responseData.slice(0, 5);
@@ -33,7 +33,7 @@ const ManageOrders = () => {
     axios.defaults.withCredentials = true;
     try {
       setIsLoading(true);
-      await axios.delete(`http://localhost:4000/api/v1/admin/order/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_API}/admin/order/${id}`);
       setLoadedOrders((prevOrders) =>
         prevOrders.filter((order) => order._id !== id)
       );

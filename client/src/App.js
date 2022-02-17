@@ -7,16 +7,15 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthContext, initialState, reducer } from "./context/AuthContext";
-import UserAddress from "./pages/UserAddress";
-import UserOrderSuccess from "./pages/UserOrderSuccess";
+import UserCheckOut from "./pages/User/UserCheckOut";
+import UserOrderSuccess from "./pages/User/UserOrderSuccess";
 import SendEmail from "./pages/ForgotPassword/SendEmail";
 import PasswordChange from "./pages/ChangePassword/PasswordChange";
-import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
-import ProductDetail from "./pages/product/ProductDetail";
+import ProductDetail from "./pages/Product/ProductDetail";
 import PasswordChangeSuccess from "./pages/ChangePassword/PasswordChangeSuccess";
+import "react-toastify/dist/ReactToastify.css";
 
-import "quill/dist/quill.snow.css";
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   return (
@@ -30,7 +29,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="user" element={<Outlet />}>
             <Route path="profile" element={<Profile />} />
-            <Route path="address" element={<UserAddress />} />
+            <Route path="checkout" element={<UserCheckOut />} />
             <Route path="order-success" element={<UserOrderSuccess />} />
             <Route path="password" element={<Outlet />}>
               <Route path="send-email" element={<SendEmail />} />
