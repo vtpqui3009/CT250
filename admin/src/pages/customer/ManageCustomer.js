@@ -24,7 +24,6 @@ const ManageCustomer = () => {
   }, []);
 
   const handleDeleteUser = async (id) => {
-    console.log(id);
     axios.defaults.withCredentials = true;
     try {
       setLoading(true);

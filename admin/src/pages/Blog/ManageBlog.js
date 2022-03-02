@@ -7,21 +7,17 @@ import ManageBlogTable from "./ManageBlogTable";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 const ManageProduct = () => {
   const [loadedBlogs, setLoadedBlogs] = useState([]);
-  const [filterBlogs, setFilterBlogs] = useState("");
-  // const [searchProducts, setSearchProducts] = useState([]);
+  const [selectValue, setSelectValue] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getLoadedProduct = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `         ${process.env.REACT_APP_BASE_API}/blogs?page=1`
+          `${process.env.REACT_APP_BASE_API}/blogs/all`
         );
         const responseData = await response.data.blogs;
-        console.log(responseData);
-        const filterData = responseData.slice(0, 5);
-        setLoadedBlogs(filterData);
-        setFilterBlogs(filterData.length);
+        setLoadedBlogs(responseData);
         setIsLoading(false);
         console.log(responseData);
       } catch (err) {
@@ -34,7 +30,7 @@ const ManageProduct = () => {
     axios.defaults.withCredentials = true;
     try {
       setIsLoading(true);
-      await axios.delete(`${process.env.REACT_APP_BASE_API}blog/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_API}/blog/${id}`);
       setLoadedBlogs((prevBlogs) =>
         prevBlogs.filter((blog) => blog._id !== id)
       );
@@ -48,6 +44,9 @@ const ManageProduct = () => {
     setLoadedBlogs((blog) =>
       blog.filter((blog) => blog.toString().includes(e.target.value))
     );
+  };
+  const handleSelectChange = (e) => {
+    setSelectValue(e.target.value);
   };
   return (
     <React.Fragment>
@@ -77,10 +76,10 @@ const ManageProduct = () => {
             />
 
             <ManageBlogTable
-              blogData={loadedBlogs}
+              blogData={loadedBlogs.slice(0, selectValue)}
               onDeleteBlog={handleDeleteBlog}
               handleInputChange={handleInputChange}
-              fromItem={filterBlogs.length}
+              handleSelectChange={handleSelectChange}
               toItem="unknown"
               totalItem={loadedBlogs.length}
             />

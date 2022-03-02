@@ -25,7 +25,6 @@ const UpdateProductForm = () => {
         );
         const responseData = await response.data.product;
         setLoadedProduct(responseData);
-        setSelectedImages(responseData.images);
       };
       getLoadedProduct();
     } catch (err) {}
@@ -70,7 +69,6 @@ const UpdateProductForm = () => {
     setConfirm(false);
     setError(null);
   };
-  const loadedSelectedImages = selectedImages.map((image, index) => image.url);
   return (
     <React.Fragment>
       {error && confirm && (
@@ -124,16 +122,13 @@ const UpdateProductForm = () => {
               name="discount"
             />
             <UploadMultipleImage
-              selectedImages={
-                selectedImages &&
-                selectedImages?.map((image, index) => image.url)
-              }
+              selectedImages={selectedImages}
               setSelectedImages={setSelectedImages}
             />
 
             <ProductCategory
-              defaultOption={loadedProduct.category}
               options={options}
+              defaultOption="Select an category"
             />
             <FormikControl
               className="form-control"
@@ -145,7 +140,7 @@ const UpdateProductForm = () => {
             />
             <div className="flex items-center justify-center">
               <button className="add-product__button" type="submit">
-                Submit
+                Update
               </button>
             </div>
           </Form>

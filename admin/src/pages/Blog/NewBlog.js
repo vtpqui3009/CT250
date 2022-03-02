@@ -13,23 +13,15 @@ import {
   NewBlogValidationSchema,
 } from "./FormikConstants";
 import { UploadSingleImage } from "../../components/UI/UploadImage";
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const NewBlog = () => {
-  const { quill, quillRef } = useQuill();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const [content, setContent] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
-  React.useEffect(() => {
-    if (quill) {
-      quill.on("text-change", () => {
-        setContent(quill.getText());
-      });
-    }
-  }, [quill]);
+  const [ckeditorContentData, setCkeditorContentData] = useState("");
   const handleCloseModal = () => {
     setConfirm(false);
     setError(null);
@@ -40,7 +32,7 @@ const NewBlog = () => {
     formData.append("title", values.title);
     formData.append("shortDescription", values.shortDescription);
     formData.append("image", selectedImage);
-    formData.append("content", content);
+    formData.append("content", ckeditorContentData);
     const createNewBlog = async () => {
       axios.defaults.withCredentials = true;
       try {
@@ -59,6 +51,9 @@ const NewBlog = () => {
       }
     };
     createNewBlog();
+  };
+  const inputCKEditorContentHandler = (event, editor) => {
+    setCkeditorContentData(editor.getData());
   };
   return (
     <React.Fragment>
@@ -124,10 +119,18 @@ const NewBlog = () => {
                         selectedImage={selectedImage}
                         setSelectedImage={setSelectedImage}
                       />
-                      <div className="form-control">
-                        <label>Content</label>
-                        <div className="quill-container">
-                          <div ref={quillRef} />
+                      <div className="flex items-center w-full p-6">
+                        <label className="w-[15%] mr-4 font-bold text-[12px]">
+                          Content
+                        </label>
+                        <div className="w-[85%] text-[12px]">
+                          <CKEditor
+                            value={ckeditorContentData}
+                            editor={ClassicEditor}
+                            id="content"
+                            onChange={inputCKEditorContentHandler}
+                            className="w-full"
+                          />
                         </div>
                       </div>
                       <div className="flex items-center justify-center">

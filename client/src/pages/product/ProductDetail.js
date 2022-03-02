@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import axios from "axios";
-import { UilPlus, UilMinus } from "@iconscout/react-unicons";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  UilPlus,
+  UilMinus,
+  UilTimes,
+  UilAngleLeft,
+  UilAngleRight,
+} from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
-
+import Comments from "./Comments";
 const ProductDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,6 +20,11 @@ const ProductDetail = () => {
   const [count, setCount] = useState(1);
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [loadedProductImages, setLoadedProductImages] = useState([]);
+  const [productPrice, setProductPrice] = useState();
+  // const [imageUrl, setImageUrl] = useState("");
+  const [imagePreviewScreen, setImagePreviewScreen] = useState(false);
+
+  const [imageIndex, setImageIndex] = useState(0);
   useEffect(() => {
     const fetchDetailProduct = async () => {
       try {
@@ -23,7 +34,12 @@ const ProductDetail = () => {
         const responseData = await response.data;
         setLoadedProduct(responseData.product);
         setLoadedProductImages(responseData.product.images);
-        console.log(responseData);
+        setProductPrice(
+          responseData.product.price.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+          })
+        );
       } catch (err) {}
     };
     fetchDetailProduct();
@@ -31,18 +47,31 @@ const ProductDetail = () => {
   const handleQuantityChange = (e) => {
     setCount(e.target.value);
   };
-  const handleIncreaseQuantity = () => {
-    setCount((count) => count + 1);
+  const handleIncreaseQuantity = (e) => {
+    setCount((count) => (count < 10 ? count + 1 : (count = 10)));
   };
-  const handleDecreaseQuantity = () => {
-    if (count < 1) {
-      setCount(1);
-    }
-    setCount((count) => count - 1);
+  const handleDecreaseQuantity = (e) => {
+    setCount((count) => (count <= 1 ? (count = 1) : count - 1));
   };
   const handleAddToCart = (product) => {
     dispatch(addToCart({ product, cartQuantity: count }));
     navigate("/cart");
+  };
+  const handlePrevImage = () => {
+    setImageIndex((index) =>
+      index > 1 ? index - 1 : (index = loadedProductImages.length - 1)
+    );
+  };
+  const handleNextImage = () => {
+    setImageIndex((index) =>
+      index < loadedProductImages.length - 1 ? index + 1 : (index = 0)
+    );
+  };
+  const handleOpenImageScreen = () => {
+    setImagePreviewScreen(true);
+  };
+  const handleCloseImageScreen = () => {
+    setImagePreviewScreen(false);
   };
   return (
     <>
@@ -52,7 +81,7 @@ const ProductDetail = () => {
       </h1>
       <main className="w-[90%] ml-[5%] my-24">
         {loadedProduct && (
-          <section className="flex items-center w-full gap-[20px]">
+          <section className="flex  w-full gap-[5%]">
             <div className="w-1/2">
               {loadedProductImages && (
                 <div
@@ -66,6 +95,7 @@ const ProductDetail = () => {
                       src={image.url}
                       key={index}
                       className="h-[350px] w-full object-cover"
+                      onClick={handleOpenImageScreen}
                     />
                   ))}
                 </div>
@@ -75,7 +105,7 @@ const ProductDetail = () => {
               <div className="">{loadedProduct.name}</div>
               <div className=" mt-2">{loadedProduct.description}</div>
               <div className="flex items-center mt-2">
-                <p>{loadedProduct.price}VND</p>
+                <div>{productPrice}</div>
               </div>
               <div className="flex items-center mt-2">
                 <span>In Stock : </span>
@@ -93,6 +123,7 @@ const ProductDetail = () => {
                     className="border-[1px] border-gray-400 w-[40px] text-center rounded mx-2"
                     value={count}
                     min="1"
+                    max="10"
                     maxLength="3"
                     onChange={handleQuantityChange}
                   />
@@ -115,6 +146,37 @@ const ProductDetail = () => {
           </section>
         )}
       </main>
+      {imagePreviewScreen && (
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.8)] z-40">
+          <div className="flex items-center justify-center h-screen relative">
+            <UilTimes
+              size="30"
+              className="absolute top-[5%] right-[5%] text-white cursor-pointer"
+              onClick={handleCloseImageScreen}
+            />
+            {loadedProductImages && (
+              <div className="flex justify-between items-center w-[90%]">
+                <UilAngleLeft
+                  size="40"
+                  className="text-white cursor-pointer"
+                  onClick={handlePrevImage}
+                />
+                <img
+                  src={loadedProductImages[imageIndex].url}
+                  alt=""
+                  className="object-cover w-[60%] bg-cover h-[80vh]"
+                />
+                <UilAngleRight
+                  size="40"
+                  className="text-white cursor-pointer"
+                  onClick={handleNextImage}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      <Comments />
       <Footer />
     </>
   );

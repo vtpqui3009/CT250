@@ -1,43 +1,135 @@
-// import Input from "../UI/Input";
-import { UilEditAlt, UilCamera } from "@iconscout/react-unicons";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Formik, Form } from "formik";
+import FormikControl from "../UI/FormikControl";
+import * as Yup from "yup";
+import { CameraIcon } from "@heroicons/react/outline";
+import Modal from "../UI/Modal";
+import LoadingSpinner from "../UI/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
+  const [loadedInfo, setLoadedInfo] = useState({});
+  const [loadedAvatar, setLoadedAvatar] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchLoadedInfo = async () => {
+      try {
+        axios.defaults.withCredentials = true;
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_API}/me`
+        );
+        const responseData = await response.data.user;
+        setLoadedInfo(responseData);
+        setLoadedAvatar(responseData.avatar.url);
+      } catch (err) {}
+    };
+    fetchLoadedInfo();
+  }, []);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setLoadedAvatar(reader.result);
+    };
+  };
+  const initialValues = {
+    name: loadedInfo.name,
+    email: loadedInfo.email,
+  };
+  const validationSchema = Yup.object({
+    name: Yup.string().required("This field is required!"),
+    email: Yup.string()
+      .email("Invalid email format!")
+      .required("This field is required!"),
+  });
+  const onSubmit = async (values, onSubmitProps) => {
+    const formData = new FormData();
+    formData.append("avatar", loadedAvatar);
+    formData.append("name", values.name);
+    formData.append("email", values.email);
+    try {
+      setLoading(true);
+      await axios.put(`${process.env.REACT_APP_BASE_API}/me/update`, formData);
+      setLoading(false);
+      navigate("/");
+    } catch (err) {
+      setLoading(false);
+      setError(true);
+      console.log(err);
+    }
+  };
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setError(false);
+  };
   return (
-    <form className="w-[90%] ml-[5%] pt-10">
-      <div className="flex flex-col items-center justify-center">
-        <div className="relative">
-          <img
-            alt=""
-            src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/217874206_1417329385308451_6732310107345089948_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=S87_19wnJIcAX-Qw4-Z&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT96KXzWFMAcwG69vKQ1PN5ehGso08empVxtzvTnVll_LQ&oe=61EC24AD"
-            className="w-[50px] h-[50px] rounded-full object-cover"
-          />
-          <div className="px-1">
-            <UilCamera
-              size="16"
-              className="absolute bottom-1 right-0 bg-[#fff] rounded-full text-gray-500 cursor-pointer font-extrabold"
-            />
-          </div>
+    <React.Fragment>
+      {loading && <LoadingSpinner />}
+      {!error && modalVisible && (
+        <Modal
+          header="Error Message"
+          content="Something went wrong. Please check your data and try again!"
+          onCloseModal={handleCloseModal}
+        />
+      )}
+      {loadedInfo && (
+        <div className="w-[90%] ml-[5%] pt-10 mt-[5%]">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+            enableReinitialize
+          >
+            <Form className="content mt-6">
+              <div className="relative flex items-center justify-center">
+                <img
+                  alt=""
+                  src={loadedAvatar && loadedAvatar}
+                  className="w-[50px] h-[50px] rounded-full object-cover relative"
+                />
+                <label htmlFor="images">
+                  <CameraIcon
+                    size="16"
+                    className="absolute bottom-[6px] left-[50%] rounded-full cursor-pointer font-extrabold w-[16px] h-[16px] text-gray-700 bg-gray-200 px-[2px]"
+                  />
+                </label>
+                <input
+                  type="file"
+                  id="images"
+                  onChange={handleImageChange}
+                  hidden
+                />
+              </div>
+              <FormikControl
+                className="form-control"
+                errorclass="error-message"
+                label="Name"
+                type="text"
+                id="name"
+                name="name"
+              />
+              <FormikControl
+                className="form-control"
+                errorclass="error-message"
+                label="Email "
+                type="email"
+                id="email"
+                name="email"
+              />
+              <div className="flex items-center justify-center">
+                <button className="add-product__button" type="submit">
+                  Update
+                </button>
+              </div>
+            </Form>
+          </Formik>
         </div>
-        <div className="relative flex items-center justify-center">
-          <input
-            type="text"
-            className="mt-2 border-[1px] border-blue-500 rounded px-4 py-2 relative outline-none"
-          />
-          <p className="absolute top-4 right-[40%]">Qui Phu</p>
-          <UilEditAlt size="16" className="cursor-pointer" />
-        </div>
-      </div>
-      {/* <Input label="Address" type="text" id="adress" />
-      <Input label="Email" type="email" id="adress" /> */}
-      <div>
-        <div className="flex items-center">
-          <p className="mr-4 font-bold text-[12px] ml-6 w-[15%]">Gender</p>
-          <div className="w-[85%] flex">
-            {/* <Input label="Male" type="checkbox" id="male" />
-            <Input label="Female" type="checkbox" id="fmale" /> */}
-          </div>
-        </div>
-      </div>
-    </form>
+      )}
+    </React.Fragment>
   );
 };
 export default Profile;

@@ -1,6 +1,7 @@
 import Layout from "../../components/Layout";
 import HeadingPath from "../../components/Content/HeadingPath/HeadingPath";
 import UpdateBlogForm from "./UpdateBlogForm";
+
 const UpdateBlog = () => {
   return (
     <Layout

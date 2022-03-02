@@ -35,8 +35,8 @@ const ManageBlogTable = (props) => {
               >
                 <td className="table-item">{data.title}</td>
                 <td className="table-item">{data.shortDescription}</td>
-                <td className=" text-center">
-                  <img src={data.image.url} alt="" width={150} height={150} />
+                <td className="table-item text-center">
+                  <img src={data.image.url} alt="" width={200} height={200} />
                 </td>
                 <td className="table-item">{data.content}</td>
                 <td className="p-2 text-center">

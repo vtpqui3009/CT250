@@ -2,6 +2,7 @@ const express = require("express");
 const {
   newBlog,
   getAllBlog,
+  getAllBlogNew,
   updateBlog,
   getDetailBlog,
   deleteBlog,
@@ -14,6 +15,7 @@ const { isAuthenticateUser, authorizeRoles } = require("../middleware/auth");
 const router = express.Router();
 
 router.route("/blogs").get(getAllBlog);
+router.route("/blogs/all").get(getAllBlogNew);
 router
   .route("/blog/:id")
   .get(getDetailBlog)

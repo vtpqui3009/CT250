@@ -1,4 +1,3 @@
-import navData from "./navData";
 import { SearchIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 const NavbarList = () => {
@@ -14,14 +13,23 @@ const NavbarList = () => {
           <SearchIcon className="w-4 h-4 ml-[-35px]" />
         </div>
       </header>
-      {navData.map((data) => (
-        <li
-          key={data.id}
-          className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm"
-        >
-          <a href="#home">{data.name}</a>
-        </li>
-      ))}
+
+      <li className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm">
+        <Link to="/">Home</Link>
+      </li>
+
+      <li className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm">
+        <Link to="/product/all">Shop</Link>
+      </li>
+
+      <li className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm">
+        <a href="#home">Contact</a>
+      </li>
+
+      <li className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm">
+        <Link to="/blog/all">Blog</Link>
+      </li>
+
       <Link to="/login">
         <li className="md:hidden block md:p-0 p-4 md:text-base text-sm">
           Log in

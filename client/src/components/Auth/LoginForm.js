@@ -1,20 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "../UI/FormikControl";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { loginInitialValues, loginValidationSchema } from "./FormikConfig";
-import { AuthContext } from "../../context/AuthContext";
 import Modal from "../UI/Modal";
 import LoadingSpinner from "../UI/LoadingSpinner";
-
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/apiCalls";
 const LoginForm = () => {
   const [passwordShown, setPasswordShown] = useState(false);
-  const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { dispatch } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const showPassword = () => {
     setPasswordShown(passwordShown ? false : true);
@@ -22,32 +22,33 @@ const LoginForm = () => {
   const handleChange = (e) => {};
   const handleCloseModal = () => {
     setConfirm(false);
-    setError(null);
   };
   const onSubmit = async (values, onSubmitProps) => {
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
+    const email = values.email;
+    const password = values.password;
     const registerAccount = async () => {
       axios.defaults.withCredentials = true;
       try {
         setIsLoading(true);
-        const response = await axios.post(
-          ` ${process.env.REACT_APP_BASE_API}/login`,
-          formData
-        );
-        const responseData = await response.data;
-        dispatch({
-          type: "LOGIN",
-          payload: responseData,
-        });
-        navigate("/");
+        // const response = await axios.post(
+        //   ` ${process.env.REACT_APP_BASE_API}/login`,
+        //   formData
+        // );
+        // const responseData = await response.data;
+        login(dispatch, { email, password });
+        // dispatch({
+        //   type: "LOGIN",
+        //   payload: responseData,
+        // });
         setIsLoading(false);
+        navigate("/");
       } catch (err) {
         setIsLoading(false);
         console.log(err);
         setConfirm(true);
-        setError(err);
       }
     };
     registerAccount();

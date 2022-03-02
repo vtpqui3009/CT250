@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
-import { EyeIcon, HeartIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import React from "react";
+import { EyeIcon, HeartIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 
 const FeatureItem = (props) => {
@@ -9,7 +9,6 @@ const FeatureItem = (props) => {
 
   const handleAddToCart = (product) => {
     dispatch(addToCart({ product, cartQuantity: 1 }));
-    console.log(product._id);
   };
 
   return (
@@ -50,9 +49,13 @@ const FeatureItem = (props) => {
                 </div>
               </div>
               <p className="mt-2">{product.name}</p>
-              <p className="mt-2 font-bold">{`${
-                product.price - (product.price * product.discount) / 100
-              }/kg`}</p>
+              <p className="mt-2 font-bold">{`${(
+                product.price -
+                (product.price * product.discount) / 100
+              ).toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })}/kg`}</p>
             </div>
           ))}
       </div>

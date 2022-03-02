@@ -1,8 +1,13 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
-import Feature from "./pages/Feature";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -11,12 +16,20 @@ import UserCheckOut from "./pages/User/UserCheckOut";
 import UserOrderSuccess from "./pages/User/UserOrderSuccess";
 import SendEmail from "./pages/ForgotPassword/SendEmail";
 import PasswordChange from "./pages/ChangePassword/PasswordChange";
-import Profile from "./pages/Profile";
+import UserProfile from "./pages/User/UserProfile";
 import ProductDetail from "./pages/Product/ProductDetail";
 import PasswordChangeSuccess from "./pages/ChangePassword/PasswordChangeSuccess";
+import AllProduct from "./pages/Product/AllProduct";
+import AllBlog from "./pages/Blog/AllBlog";
+import BlogDetail from "./pages/Blog/BlogDetail";
+import ProductCategoryDetail from "./pages/Product/ProductCategoryDetail";
+import UserAddress from "./pages/User/UserAddress";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useSelector } from "react-redux";
+import Cancel from "./components/Checkout/Cancel";
+import Success from "./components/Checkout/Success";
 function App() {
+  const user = useSelector((state) => state.user.currentUser);
   const [state, dispatch] = React.useReducer(reducer, initialState);
   return (
     <BrowserRouter>
@@ -24,11 +37,22 @@ function App() {
       <AuthContext.Provider value={{ state, dispatch }}>
         <Routes>
           <Route path="/cart" element={<Cart />} />
-          <Route path="/feature/:productType" element={<Feature />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/canceled" element={<Cancel />} />
+          <Route path="/success" element={<Success />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/" /> : <Register />}
+          />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> */}
           <Route path="user" element={<Outlet />}>
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<UserProfile />} />
+            <Route path="address" element={<UserAddress />} />
+
             <Route path="checkout" element={<UserCheckOut />} />
             <Route path="order-success" element={<UserOrderSuccess />} />
             <Route path="password" element={<Outlet />}>
@@ -41,8 +65,13 @@ function App() {
             />
           </Route>
           <Route path="product" element={<Outlet />}>
-            <Route path="all" element={<h1>Product All page</h1>} />
+            <Route path="category/:type" element={<ProductCategoryDetail />} />
             <Route path=":pid" element={<ProductDetail />} />
+            <Route path="all" element={<AllProduct />} />
+          </Route>
+          <Route path="blog" element={<Outlet />}>
+            <Route path=":bid" element={<BlogDetail />} />
+            <Route path="all" element={<AllBlog />} />
           </Route>
           <Route path="/" element={<Home />} />
         </Routes>

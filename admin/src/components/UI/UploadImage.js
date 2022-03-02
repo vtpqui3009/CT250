@@ -1,13 +1,7 @@
 import { XIcon } from "@heroicons/react/outline";
 export const UploadMultipleImage = ({ selectedImages, setSelectedImages }) => {
   const handleImageChange = (event) => {
-    // let files;
     const files = Array.from(event.target.files);
-    // if (selectedImages) {
-    //   files = Array.from((old) => [...old, event.target.files]);
-    // } else {
-    //   files = Array.from(event.target.files);
-    // }
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -87,14 +81,17 @@ export const UploadSingleImage = ({ selectedImage, setSelectedImage }) => {
       <input type="file" id="images" onChange={handleImageChange} hidden />
 
       {selectedImage && (
-        <div className=" relative group" key={selectedImage}>
+        <div
+          className="grid grid-cols-4  my-6 relative group "
+          key={selectedImage}
+        >
           <img
             src={selectedImage}
             alt=""
-            className="object-cover h-[150px] mt-6 w-[200px] ml-[17%]"
+            className="object-cover h-[150px] w-full ml-[65%]"
           />
           <XIcon
-            className="absolute top-2 left-[36%] w-4 h-4 cursor-pointer hidden group-hover:block"
+            className="absolute top-2 left-[38%] w-4 h-4 cursor-pointer hidden group-hover:block"
             onClick={handleRemoveImage}
           />
         </div>

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   UilUserCircle,
   UilWallet,
@@ -12,11 +12,16 @@ import { AuthContext } from "../../../context/AuthContext";
 const TopbarAuth = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { dispatch } = useContext(AuthContext);
+  const [avatar, setAvatar] = useState({});
   const navigate = useNavigate();
   const userData =
     localStorage.getItem("user") && JSON.parse(localStorage.getItem("user"));
-  const avatar = userData && userData.avatar.url;
-
+  // const avatar = userData && userData.avatar.url;
+  useEffect(() => {
+    if (userData) {
+      setAvatar(userData.avatar.url);
+    }
+  }, [userData]);
   const handleToggleSubmenu = () => {
     setIsOpen((prevstate) => !prevstate);
   };
@@ -27,7 +32,7 @@ const TopbarAuth = () => {
   };
   return (
     <div className="relative">
-      {userData ? (
+      {avatar ? (
         <img
           src={avatar}
           alt=""

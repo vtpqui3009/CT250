@@ -10,6 +10,7 @@ const navData = [
   {
     id: 3,
     name: "Blog",
+    to: "/blog/all",
   },
   {
     id: 4,

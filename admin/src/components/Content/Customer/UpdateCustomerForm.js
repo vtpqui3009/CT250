@@ -88,8 +88,8 @@ const UpdateCustomerForm = () => {
           <div className="form-control">
             <label>Role</label>
             <select onChange={handleRoleChange}>
-              <option value="user">user</option>
-              <option value="admin">admin</option>
+              <option>user</option>
+              <option>admin</option>
             </select>
           </div>
           <div className="flex items-center justify-center">

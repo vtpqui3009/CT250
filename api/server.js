@@ -2,8 +2,17 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
 const cloudinary = require("cloudinary");
-
 dotenv.config({ path: "config/config.env" });
+
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+//socket io
+io.on("connection", (socket) => {
+  console.log(socket.id + "connected.");
+  socket.on("disconnect", () => {
+    console.log(socket.id + "disconnected.");
+  });
+});
 
 //Handing uncautch exception
 process.on("uncaughtException", (err) => {

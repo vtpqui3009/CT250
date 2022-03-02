@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   getAllProducts,
+  getAllProductsNew,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -16,6 +17,7 @@ const { isAuthenticateUser, authorizeRoles } = require("../middleware/auth");
 const router = express.Router();
 
 router.route("/products").get(getAllProducts);
+router.route("/products/all").get(getAllProductsNew); // update this line
 router.route("/category").get(getCategory);
 router.route("/product/:id").get(getProductDetails);
 router

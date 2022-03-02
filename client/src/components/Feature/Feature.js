@@ -14,7 +14,6 @@ const Feature = () => {
         const responseData = await response.data.products;
         const filterData = responseData.slice(0, 8);
         setFeatureProducts(filterData);
-        console.log(responseData);
       } catch (err) {}
     };
     getFeatureProducts();

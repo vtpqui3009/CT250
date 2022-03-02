@@ -73,11 +73,11 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  itemsPrice: {
-    type: Number,
-    default: 0,
-    required: true,
-  },
+  // itemsPrice: {
+  //   type: Number,
+  //   default: 0,
+  //   required: true,
+  // },
   shippingPrice: {
     type: String,
     default: 0,

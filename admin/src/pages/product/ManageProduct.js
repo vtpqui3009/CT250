@@ -5,22 +5,24 @@ import HeadingPath from "../../components/Content/HeadingPath/HeadingPath";
 import HeadingPathItem from "../../components/Content/HeadingPath/HeadingPathItem";
 import ManageProductTable from "../../components/Content/Product/ManageProductTable";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
+
 const ManageProduct = () => {
   const [loadedProducts, setLoadedProducts] = useState([]);
-  const [filterProducts, setFilterProducts] = useState("");
-  // const [searchProducts, setSearchProducts] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [options, setOptions] = useState(0);
+  const [selectValue, setSelectValue] = useState(5);
+  const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const getLoadedProduct = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_API}/products`
+          `${process.env.REACT_APP_BASE_API}/products/all`
         );
         const responseData = await response.data.products;
-        const filterData = responseData.slice(0, 5);
-        setLoadedProducts(filterData);
-        setFilterProducts(filterData.length);
+        setLoadedProducts(responseData);
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
@@ -28,6 +30,7 @@ const ManageProduct = () => {
     };
     getLoadedProduct();
   }, []);
+
   const handleDeleteProduct = async (id) => {
     axios.defaults.withCredentials = true;
     try {
@@ -44,10 +47,12 @@ const ManageProduct = () => {
       console.log(err);
     }
   };
+
   const handleInputChange = (e) => {
-    setLoadedProducts((product) =>
-      product.filter((product) => product.toString().includes(e.target.value))
-    );
+    setQuery(e.target.value);
+  };
+  const handleSelectChange = (e) => {
+    setSelectValue(e.target.value);
   };
   return (
     <React.Fragment>
@@ -77,11 +82,12 @@ const ManageProduct = () => {
             />
 
             <ManageProductTable
-              productData={loadedProducts}
+              productData={loadedProducts.slice(0, selectValue)}
               onDeleteProduct={handleDeleteProduct}
               handleInputChange={handleInputChange}
-              fromItem={filterProducts.length}
-              toItem="unknown"
+              handleSelectChange={handleSelectChange}
+              fromItem="1"
+              toItem={selectValue}
               totalItem={loadedProducts.length}
             />
           </div>

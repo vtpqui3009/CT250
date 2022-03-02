@@ -34,7 +34,7 @@ exports.newBlog = catchAsyncError(async (req, res, next) => {
 
 //get all blogs
 exports.getAllBlog = catchAsyncError(async (req, res, next) => {
-  const resultPerPage = 5;
+  const resultPerPage = 8;
   const blogCount = await Blog.countDocuments();
 
   const apiFeature = new ApiFeature(Blog.find(), req.query).pagination(
@@ -47,7 +47,16 @@ exports.getAllBlog = catchAsyncError(async (req, res, next) => {
     blogCount,
   });
 });
-
+//get all blogs no query
+exports.getAllBlogNew = catchAsyncError(async (req, res, next) => {
+  const blogCount = await Blog.countDocuments();
+  const blogs = await Blog.find();
+  res.status(200).json({
+    success: true,
+    blogs,
+    blogCount,
+  });
+});
 // get detail blog
 exports.getDetailBlog = catchAsyncError(async (req, res, next) => {
   const blog = await Blog.findById(req.params.id);

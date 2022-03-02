@@ -81,7 +81,7 @@
     @apply w-[90%] ml-[5%] table-auto text-[12px];
   }
   .table-item {
-    @apply px-4 py-2;
+    @apply p-2;
   }
   .table-edit__button {
     @apply bg-sidebar-color text-white px-2  cursor-pointer text-[11px] py-1 rounded;
@@ -156,5 +156,16 @@
   }
   .quill-container > .ql-container.ql-snow > .ql-editor.ql-blank:focus {
     @apply bg-white;
+  }
+  .ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+    height: 160px;
+  }
+
+  .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners {
+    height: 160px;
+  }
+  .form-control
+    > .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners {
+    @apply bg-red-600;
   }
 }

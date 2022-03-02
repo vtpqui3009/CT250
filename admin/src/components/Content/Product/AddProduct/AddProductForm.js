@@ -34,12 +34,12 @@ const AddProductForm = (props) => {
         formData
       );
       setLoading(false);
+      navigate("/product/manage");
     } catch (err) {
       setLoading(false);
       setError(true);
       console.log(err);
     }
-    navigate("/product/manage");
   };
   const handleCloseModal = () => {
     setModalVisible(false);
@@ -71,7 +71,7 @@ const AddProductForm = (props) => {
           />
           <FormikControl
             as="textarea"
-            className="form-control"
+            className="form-control h-[150px]"
             errorclass="error-message"
             label="Desciption"
             type="text"

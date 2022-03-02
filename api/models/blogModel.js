@@ -44,6 +44,22 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      rely: [
+        {
+          user: {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+            required: true,
+          },
+          content: {
+            type: String,
+          },
+          createdAt: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
       createdAt: {
         type: Date,
         default: Date.now,
