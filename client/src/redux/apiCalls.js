@@ -22,7 +22,6 @@ export const login = async (dispatch, user) => {
       `${process.env.REACT_APP_BASE_API}/login`,
       user
     );
-    console.log(res.data);
     dispatch(loginSuccess(res.data));
   } catch (err) {
     dispatch(loginFailure());

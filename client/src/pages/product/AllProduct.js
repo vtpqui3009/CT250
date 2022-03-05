@@ -4,24 +4,37 @@ import Footer from "../../components/Footer/Footer";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
-import Pagination from "../../components/UI/Pagination";
-
+// import Pagination from "../../components/UI/Pagination";
+import { UilFilter } from "@iconscout/react-unicons";
+import SidebarFilterAndSort from "./Sidebar/SidebarFilterAndSort";
 const AllProduct = () => {
-  const [allProduct, setAllProduct] = useState(0);
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePaginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    console.log(pageNumber);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [selectedPriceOption, setSelectedPriceOption] = useState("all");
+  const [selectedCategoryOption, setSelectedCategoryOption] = useState("all");
+  const [query, setQuery] = useState("/all");
+  // const handlePaginate = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  //   console.log(pageNumber);
+  // };
+  const handleFilterProduct = () => {
+    if (selectedPriceOption === selectedCategoryOption) {
+      setQuery("/all");
+    } else {
+      setQuery(
+        `?cat=${selectedCategoryOption}&price[lte]=${selectedPriceOption}`
+      );
+    }
+    // setOpenSidebar(false);
+    console.log(query);
   };
   useEffect(() => {
     const fetchLoadedProduct = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_API}/products?page=${currentPage}`
+          `${process.env.REACT_APP_BASE_API}/products${query}`
         );
         const responseData = await response.data.products;
         setLoadedProduct(responseData);
@@ -31,47 +44,61 @@ const AllProduct = () => {
       }
     };
     fetchLoadedProduct();
-  }, [currentPage]);
-  useEffect(() => {
-    const fetchAllProduct = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_API}/products/all`
-        );
-        const responseData = await response.data.products;
-        setAllProduct(responseData);
-      } catch (err) {}
-    };
-    fetchAllProduct();
-  }, []);
-  console.log(loadedProduct.length);
-  console.log(allProduct.length);
-  console.log(Math.ceil(allProduct.length / loadedProduct.length));
-  const pageNumbers = [];
-  for (
-    let i = 1;
-    i <= Math.ceil(allProduct.length / loadedProduct.length);
-    i++
-  ) {
-    pageNumbers.push(i);
-  }
+  }, [query]);
+
+  const handleOpenSidebar = () => {
+    setOpenSidebar(true);
+  };
+  const handleCloseSidebar = () => {
+    setOpenSidebar(false);
+  };
+  const handlePriceRadioChange = (e) => {
+    console.log(e.target.value);
+    setSelectedPriceOption(e.target.value);
+  };
+  const handleCategoryRadioChange = (e) => {
+    console.log(e.target.value);
+    setSelectedCategoryOption(e.target.value);
+  };
+
   return (
     <React.Fragment>
+      {openSidebar && (
+        <SidebarFilterAndSort
+          handleCloseSidebar={handleCloseSidebar}
+          handlePriceRadioChange={handlePriceRadioChange}
+          handleCategoryRadioChange={handleCategoryRadioChange}
+          selectedPriceOption={selectedPriceOption}
+          selectedCategoryOption={selectedCategoryOption}
+          selectedPriceInitial={selectedPriceOption}
+          selectedCategoryInitial={selectedCategoryOption}
+          handleFilterProduct={handleFilterProduct}
+        />
+      )}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <React.Fragment>
           <Navigation />
-          <div className="my-6">
-            <h1 className="w-[80%] ml-[10%] gap-[2%] font-bold my-6 text-xl">
-              All Product
-            </h1>
+          <div className="my-6 w-[80%] ml-[10%]">
+            <header className="flex items-center justify-between ">
+              <h1 className=" font-bold my-6 text-2xl uppercase">
+                All Product
+              </h1>
+              <button
+                className="flex items-center border-[1px] border-black px-4 py-2 cursor-pointer"
+                onClick={handleOpenSidebar}
+              >
+                <span className="mr-2">Filter and Sort </span>
+                <UilFilter size="16" />
+              </button>
+            </header>
             {loadedProduct && loadedProduct.length === 0 && (
               <div className="text-center my-6">
                 No product updated yet. Please come back later.
               </div>
             )}
-            <div className="grid grid-cols-4 w-[80%] ml-[10%] gap-[2%]">
+            <div className="grid grid-cols-4  gap-[2%]">
               {loadedProduct &&
                 loadedProduct.map((product) => (
                   <div key={product._id}>
@@ -99,32 +126,10 @@ const AllProduct = () => {
                 ))}
             </div>
           </div>
-          <ul className="flex items-center w-[76%] ml-[12%] my-4">
-            {pageNumbers.length === 1 ? (
-              <div></div>
-            ) : (
-              <>
-                {pageNumbers.map((number) => (
-                  <li
-                    key={number}
-                    className="border-[1px] border-base-color px-3 py-1 mr-4 rounded-full cursor-pointer"
-                    // style={{
-                    //   backgroundColor: number === activePage ? "#97AE76" : "",
-                    //   color: number === activePage ? "white" : "",
-                    // }}
-                    // onClick={() => {
-                    //   setActivePage(number);
-                    // }}
-                  >
-                    <span onClick={() => handlePaginate(number)}>{number}</span>
-                  </li>
-                ))}
-              </>
-            )}
-          </ul>
-          {/* <Pagination
+          {/* 
+          <Pagination
             dataPerPage={loadedProduct.length}
-            totalData={allProduct.length}
+            totalData={totalProduct}
             paginate={handlePaginate}
           /> */}
           <Footer />

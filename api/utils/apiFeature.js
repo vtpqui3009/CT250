@@ -3,7 +3,10 @@ class ApiFeature {
     this.query = query;
     this.queryStr = queryStr;
   }
-
+  sorting() {
+    this.query = this.query.sort("-createdAt");
+    return this;
+  }
   search() {
     const keyword = this.queryStr.keyword
       ? {

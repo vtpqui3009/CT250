@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  SearchIcon,
-  ShoppingCartIcon,
-  UserIcon,
-  MenuIcon,
-} from "@heroicons/react/outline";
+import { ShoppingCartIcon, UserIcon, MenuIcon } from "@heroicons/react/outline";
 import {
   UilUserCircle,
   UilSignOutAlt,
@@ -16,6 +11,7 @@ import Backdrop from "../UI/Backdrop";
 import CartTotal from "../Cart/CartTotal";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
+import SearchScreen from "./SearchScreen";
 const Aside = () => {
   const dispatch = useDispatch();
   const [width, setWidth] = useState(0);
@@ -25,8 +21,7 @@ const Aside = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const cart = useSelector((state) => state.cart.cartItems);
   const avatar = currentUser && currentUser.user.avatar.url;
-  const [productImage, setProductImage] = useState([]);
-  console.log(cart);
+
   const handleOpenMobileSideDrawer = () => {
     setWidth("65%");
     setVisible("block");
@@ -46,7 +41,7 @@ const Aside = () => {
   };
   return (
     <div className="flex items-center justify-center">
-      <SearchIcon className="w-4 h-4 mr-4 cursor-pointer hidden md:block" />
+      <SearchScreen />
       <div className="relative">
         <ShoppingCartIcon
           className="w-4 h-4 mr-4 cursor-pointer"
@@ -76,11 +71,12 @@ const Aside = () => {
                           className=" h-full w-[40%] object-cover"
                         />
                         <div className="w-[56%]">
-                          <div>
+                          <div className="flex items-center">
                             <span> {item.product.name}</span>
-                            <sup className="ml-2 text-[14px]">
-                              x{item.cartQuantity}
-                            </sup>
+                            <div className="ml-1 text-[14px] flex items-center ">
+                              <span className="mr-[2px]">x</span>
+                              <span>{item.cartQuantity}</span>
+                            </div>
                           </div>
                           <div>
                             {/* {item.product.price} */}
@@ -94,8 +90,10 @@ const Aside = () => {
                     </div>
                   ))}
                 <div className="flex items-center border-t border-gray-500 pt-2 font-bold">
-                  <span>Tổng cộng :</span>
-                  {/* <CartTotal /> */}
+                  <span>Total : </span>
+                  <div className="ml-1">
+                    <CartTotal />
+                  </div>
                 </div>
                 <Link to="/cart">
                   <button className="w-[80%] ml-[10%] bg-base-color px-6 py-2 my-2 text-white">
@@ -149,11 +147,9 @@ const Aside = () => {
           )}
         </div>
       )}
-      <MenuIcon
-        className="w-4 h-4 cursor-pointer block md:hidden"
-        onClick={handleOpenMobileSideDrawer}
-      />
-
+      <div className=" cursor-pointer block md:hidden ml-2">
+        <MenuIcon className="w-4 h-4" onClick={handleOpenMobileSideDrawer} />
+      </div>
       <MobileSideDrawer
         width={width}
         handleCloseMobileSideDrawer={handleCloseMobileSideDrawer}

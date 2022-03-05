@@ -39,6 +39,7 @@ const UserAddress = () => {
         initialValues={addressInitialValues}
         validationSchema={addressValidationSchema}
         onSubmit={onSubmit}
+        enableReinitialize={true}
       >
         <Form className="w-[60%] ml-[20%] my-[4%]">
           <FormikControl

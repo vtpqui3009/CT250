@@ -13,6 +13,8 @@ import {
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import Comments from "./Comments";
+import Rating from "./Rating";
+
 const ProductDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,9 +23,7 @@ const ProductDetail = () => {
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [loadedProductImages, setLoadedProductImages] = useState([]);
   const [productPrice, setProductPrice] = useState();
-  // const [imageUrl, setImageUrl] = useState("");
   const [imagePreviewScreen, setImagePreviewScreen] = useState(false);
-
   const [imageIndex, setImageIndex] = useState(0);
   useEffect(() => {
     const fetchDetailProduct = async () => {
@@ -31,9 +31,9 @@ const ProductDetail = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_API}/product/${params.pid}`
         );
-        const responseData = await response.data;
-        setLoadedProduct(responseData.product);
-        setLoadedProductImages(responseData.product.images);
+        const responseData = await response.data.product;
+        setLoadedProduct(responseData);
+        setLoadedProductImages(responseData.images);
         setProductPrice(
           responseData.product.price.toLocaleString("it-IT", {
             style: "currency",
@@ -44,6 +44,7 @@ const ProductDetail = () => {
     };
     fetchDetailProduct();
   }, [params.pid]);
+
   const handleQuantityChange = (e) => {
     setCount(e.target.value);
   };
@@ -67,12 +68,14 @@ const ProductDetail = () => {
       index < loadedProductImages.length - 1 ? index + 1 : (index = 0)
     );
   };
-  const handleOpenImageScreen = () => {
+  const handleOpenImageScreen = (index) => {
+    setImageIndex(index);
     setImagePreviewScreen(true);
   };
   const handleCloseImageScreen = () => {
     setImagePreviewScreen(false);
   };
+
   return (
     <>
       <Navigation />
@@ -94,15 +97,19 @@ const ProductDetail = () => {
                       alt=""
                       src={image.url}
                       key={index}
-                      className="h-[350px] w-full object-cover"
-                      onClick={handleOpenImageScreen}
+                      className="h-[350px] w-full object-cover cursor-pointer"
+                      onClick={() => handleOpenImageScreen(index)}
                     />
                   ))}
                 </div>
               )}
             </div>
             <div className="w-1/2">
-              <div className="">{loadedProduct.name}</div>
+              <div>
+                <div className="">{loadedProduct.name}</div>
+                <Rating props={loadedProduct} />
+                {/* <Rating /> */}
+              </div>
               <div className=" mt-2">{loadedProduct.description}</div>
               <div className="flex items-center mt-2">
                 <div>{productPrice}</div>
@@ -176,7 +183,8 @@ const ProductDetail = () => {
           </div>
         </div>
       )}
-      <Comments />
+
+      <Comments productId={params.pid} props={loadedProduct} />
       <Footer />
     </>
   );

@@ -11,7 +11,6 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthContext, initialState, reducer } from "./context/AuthContext";
 import UserCheckOut from "./pages/User/UserCheckOut";
 import UserOrderSuccess from "./pages/User/UserOrderSuccess";
 import SendEmail from "./pages/ForgotPassword/SendEmail";
@@ -28,13 +27,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import Cancel from "./components/Checkout/Cancel";
 import Success from "./components/Checkout/Success";
+import { DataProvider } from "./context/DataProvider";
 function App() {
   const user = useSelector((state) => state.user.currentUser);
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  console.log("App component was rerendered");
   return (
     <BrowserRouter>
       <ToastContainer />
-      <AuthContext.Provider value={{ state, dispatch }}>
+      <DataProvider>
         <Routes>
           <Route path="/cart" element={<Cart />} />
           <Route path="/canceled" element={<Cancel />} />
@@ -75,7 +75,7 @@ function App() {
           </Route>
           <Route path="/" element={<Home />} />
         </Routes>
-      </AuthContext.Provider>
+      </DataProvider>
     </BrowserRouter>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UploadImage } from "../UI/UploadImage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "../UI/FormikControl";
 import axios from "axios";
@@ -9,10 +9,14 @@ import {
   registrationInitialValues,
   registrationValidationSchema,
 } from "./FormikConfig";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/apiCalls";
 const RegisterForm = (props) => {
   const [selectedImage, setSelectedImage] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const showPassword = () => {
     setPasswordShown(passwordShown ? false : true);
   };
@@ -23,6 +27,9 @@ const RegisterForm = (props) => {
       formData.append("email", values.email);
       formData.append("password", values.password);
       formData.append("avatar", selectedImage);
+      const email = values.email;
+      const password = values.password;
+
       try {
         setIsLoading(true);
         axios.defaults.withCredentials = true;
@@ -30,12 +37,17 @@ const RegisterForm = (props) => {
           `${process.env.REACT_APP_BASE_API}/register`,
           formData
         );
+        if (response) {
+          login(dispatch, { email, password });
+        }
         setIsLoading(false);
+        navigate("/");
       } catch (err) {
         setIsLoading(false);
       }
     };
     registerAccount();
+    onSubmitProps.resetForm();
   };
   return (
     <>

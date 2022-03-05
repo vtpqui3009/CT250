@@ -5,39 +5,47 @@ import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import { Link } from "react-router-dom";
-import Pagination from "../../components/UI/Pagination";
-const productCategory = ["Meat", "Vegetable", "Fruit"];
+import { UilFilter } from "@iconscout/react-unicons";
+import SidebarFilterAndSort from "./Sidebar/SidebarFilterAndSort";
 const ProductCategoryDetail = () => {
   const params = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [loadedProducts, setLoadedProducts] = useState([]);
-  const [selectValue, setSelectValue] = useState(params.type);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(8);
 
-  const indexOfLastRecord = currentPage * dataPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - dataPerPage;
-  const currentRecord = loadedProducts.slice(
-    indexOfFirstRecord,
-    indexOfLastRecord
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [selectedPriceOption, setSelectedPriceOption] = useState("all");
+  const [selectedCategoryOption, setSelectedCategoryOption] = useState(
+    params.type
   );
+  const [query, setQuery] = useState(`?cat=${params.type}`);
 
-  const handlePaginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleFilterProduct = () => {
+    setQuery(
+      `?cat=${selectedCategoryOption}&price[lte]=${selectedPriceOption}`
+    );
+    console.log(query);
+  };
+  const handleOpenSidebar = () => {
+    setOpenSidebar(true);
+  };
+  const handleCloseSidebar = () => {
+    setOpenSidebar(false);
+  };
+  const handlePriceRadioChange = (e) => {
+    console.log(e.target.value);
+    setSelectedPriceOption(e.target.value);
+  };
+  const handleCategoryRadioChange = (e) => {
+    console.log(e.target.value);
+    setSelectedCategoryOption(e.target.value);
   };
 
-  const handleSelectChange = (e) => {
-    setSelectValue(e.target.value);
-  };
-  const unExistingSelectValue = productCategory.filter(
-    (category) => category !== selectValue
-  );
   useEffect(() => {
-    const fetchLoadedProducts = async () => {
+    const fetchLoadedProduct = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_API}/products?cat=${selectValue}`
+          `${process.env.REACT_APP_BASE_API}/products${query}`
         );
         const responseData = await response.data.products;
         setLoadedProducts(responseData);
@@ -46,10 +54,23 @@ const ProductCategoryDetail = () => {
         setIsLoading(false);
       }
     };
-    fetchLoadedProducts();
-  }, [selectValue]);
+    fetchLoadedProduct();
+  }, [query]);
   return (
     <>
+      {openSidebar && (
+        <SidebarFilterAndSort
+          handleCloseSidebar={handleCloseSidebar}
+          handlePriceRadioChange={handlePriceRadioChange}
+          handleCategoryRadioChange={handleCategoryRadioChange}
+          selectedPriceOption={selectedPriceOption}
+          selectedCategoryOption={selectedCategoryOption}
+          selectedPriceInitial={selectedPriceOption}
+          selectedCategoryInitial={selectedCategoryOption}
+          handleFilterProduct={handleFilterProduct}
+          categoryFirstElStyle={{ display: "none" }}
+        />
+      )}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -57,20 +78,16 @@ const ProductCategoryDetail = () => {
           <Navigation />
           <div className="my-6 w-[80%] ml-[10%]">
             <header className="flex items-center justify-between">
-              <h1 className=" gap-[2%] font-bold my-6 text-xl">
-                {selectValue}
+              <h1 className=" font-bold my-6 text-2xl uppercase">
+                {selectedCategoryOption}
               </h1>
-              <select
-                onChange={handleSelectChange}
-                className="focus:outline-none border-[1px] border-gray-500"
+              <button
+                className="flex items-center border-[1px] border-black px-4 py-2 cursor-pointer"
+                onClick={handleOpenSidebar}
               >
-                <option key={selectValue} value={selectValue}>
-                  {selectValue}
-                </option>
-                {unExistingSelectValue.map((value) => {
-                  return <option key={value}>{value}</option>;
-                })}
-              </select>
+                <span className="mr-2">Filter and Sort </span>
+                <UilFilter size="16" />
+              </button>
             </header>
             {loadedProducts.length === 0 && (
               <div className="text-center my-6">
@@ -78,8 +95,8 @@ const ProductCategoryDetail = () => {
               </div>
             )}
             <div className="grid grid-cols-4  gap-[2%]">
-              {currentRecord &&
-                currentRecord.map((product) => (
+              {loadedProducts &&
+                loadedProducts.map((product) => (
                   <div key={product._id}>
                     <Link to={`/product/${product._id}`}>
                       <img
@@ -105,11 +122,6 @@ const ProductCategoryDetail = () => {
                 ))}
             </div>
           </div>
-          <Pagination
-            dataPerPage={dataPerPage}
-            totalData={loadedProducts.length}
-            paginate={handlePaginate}
-          />
           <Footer />
         </React.Fragment>
       )}

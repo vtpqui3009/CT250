@@ -161,13 +161,13 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   });
 });
 
-//create new review or update review
+// create new review or update review
 exports.createProductReview = catchAsyncError(async (req, res, next) => {
-  const { rating, comment, productId } = req.body;
+  const { rating, comment, productId, userId, userName } = req.body;
 
   const reviews = {
-    user: req.user._id,
-    name: req.user.name,
+    user: userId,
+    name: userName,
     rating: Number(rating),
     comment,
   };
@@ -177,12 +177,12 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHander("Product not found", 404));
   }
   const isReviewed = product.reviews.find(
-    (x) => x.user.toString() === req.user._id.toString()
+    (x) => x.user.toString() === userId.toString()
   );
 
   if (isReviewed) {
     product.reviews.forEach((rev) => {
-      if (rev.user.toString() === req.user._id.toString()) {
+      if (rev.user.toString() === userId.toString()) {
         (rev.rating = rating), (rev.comment = comment);
       }
     });
@@ -203,10 +203,35 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     success: true,
   });
 });
+//  update review
+exports.updateProductReview = catchAsyncError(async (req, res) => {
+  try {
+    const { ratings, productId } = req.body;
+    if (ratings && ratings !== 0) {
+      const product = await Product.findById(productId);
+      if (!product)
+        return res.status(400).json({ msg: "Product does not exist." });
 
+      let num = product.numOfReviews;
+      let rate = product.ratings;
+
+      await Products.findOneAndUpdate(
+        { _id: productId },
+        {
+          ratings: rate + ratings,
+          numOfReviews: num + 1,
+        }
+      );
+
+      res.json({ msg: "Update success" });
+    }
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+});
 //get all Reviews of a product
 exports.getAllProductReviews = catchAsyncError(async (req, res, next) => {
-  const product = await Product.findById(req.query.id);
+  const product = await Product.findById(req.query.id).sort({ createdAt: -1 });
 
   if (!product) {
     return next(new ErrorHander("Product not found", 404));

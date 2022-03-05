@@ -7,11 +7,12 @@ import FormikControl from "../../components/UI/FormikControl";
 import * as Yup from "yup";
 import { CameraIcon } from "@heroicons/react/outline";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 const UserProfile = () => {
   const [loadedInfo, setLoadedInfo] = useState({});
-  const [loadedAddress, setLoadedAddress] = useState({});
-  const [loadedAvatar, setLoadedAvatar] = useState({});
+  const [loadedAvatar, setLoadedAvatar] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchLoadedInfo = async () => {
       try {
@@ -20,26 +21,14 @@ const UserProfile = () => {
           `${process.env.REACT_APP_BASE_API}/me`
         );
         const responseData = await response.data.user;
+        console.log(responseData);
         setLoadedInfo(responseData);
         setLoadedAvatar(responseData.avatar.url);
       } catch (err) {}
     };
     fetchLoadedInfo();
   }, []);
-  useEffect(() => {
-    const fetchMyAddress = async () => {
-      try {
-        axios.defaults.withCredentials = true;
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_API}/address/my`
-        );
-        const responseData = await response.data.address;
-        console.log(responseData);
-        setLoadedAddress(responseData);
-      } catch (err) {}
-    };
-    fetchMyAddress();
-  }, []);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     var reader = new FileReader();
@@ -48,18 +37,8 @@ const UserProfile = () => {
       setLoadedAvatar(reader.result);
     };
   };
-  const initialValues = loadedAddress
-    ? {
-        name: loadedInfo.name,
-        email: loadedInfo.email,
-      }
-    : {
-        name: loadedInfo.name,
-        email: loadedInfo.email,
-        company: loadedAddress.company,
-        address: loadedAddress.address,
-        phoneNumber: loadedAddress.phoneNumber,
-      };
+  const initialValues = { name: loadedInfo.name, email: loadedInfo.email };
+
   const validationSchema = Yup.object({
     name: Yup.string().required("This field is required!"),
     email: Yup.string()
@@ -75,7 +54,7 @@ const UserProfile = () => {
       setLoading(true);
       await axios.put(`${process.env.REACT_APP_BASE_API}/me/update`, formData);
       setLoading(false);
-      //   navigate("/");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       //   setError(true);
@@ -129,37 +108,8 @@ const UserProfile = () => {
                     label="Email *"
                     name="email"
                   />
-                  {loadedAddress && (
-                    <React.Fragment>
-                      <FormikControl
-                        control="input"
-                        type="text"
-                        label="Company *"
-                        name="company"
-                      />
-                      <FormikControl
-                        control="input"
-                        type="text"
-                        label="Address *"
-                        name="address"
-                      />
-                      <FormikControl
-                        control="input"
-                        type="tel"
-                        label="Phone  *"
-                        name="phoneNumber"
-                      />
-                    </React.Fragment>
-                  )}
+
                   <div className="flex items-center justify-center">
-                    {!loadedAddress && (
-                      <button
-                        className="px-4 py-2 bg-base-color text-white my-4"
-                        type="submit"
-                      >
-                        Address +
-                      </button>
-                    )}
                     <button
                       className="px-4 py-2 bg-base-color text-white my-4"
                       type="submit"

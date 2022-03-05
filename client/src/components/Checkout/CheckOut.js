@@ -46,16 +46,10 @@ const CheckOut = () => {
       console.log(error);
     }
   };
-  const productImage = cart.cartItems.map((item) => item.product.images[0].url);
-  console.log(productImage);
   const handleCreateOrder = async () => {
-    const formData = new FormData();
-    const shippingInfo = {
-      name: "Nguyen Hoang Thai Hoc",
-      address: "Can Ther",
-      phoneNo: "0365478595",
-      gender: "Nam",
-    };
+    const productImage = cart.cartItems.map(
+      (item) => item.product.images[0].url
+    );
     const orderItems = cart.cartItems.map((item) => {
       return {
         name: item.product.name,
@@ -67,34 +61,33 @@ const CheckOut = () => {
         product: item.product._id,
       };
     });
-
-    const paymentInfo = {
-      id: " 123",
-      status: "processing",
+    const data = {
+      shippingPrice: 25000,
+      shippingInfo: {
+        name: "Nguyen Hoang Thai Hoc",
+        address: "Can Ther",
+        phoneNo: "0365478595",
+        gender: "Nam",
+      },
+      totalPrice: cart.cartTotalAmount,
+      orderItems: orderItems,
+      paymentInfo: {
+        id: " 123",
+        status: "processing",
+      },
     };
-    console.log(paymentInfo);
-    formData.append("shippingInfo", {
-      name: "Nguyen Hoang Thai Hoc",
-      address: "Can Ther",
-      phoneNo: "0365478595",
-      gender: "Nam",
-    });
-    formData.append("orderItems", orderItems);
-    formData.append("user", user.user._id);
-    formData.append("paymentInfo", paymentInfo);
-    formData.append("shippingPrice", 25000);
-    formData.append("totalPrice", cart.cartTotalAmount);
+
     axios.defaults.withCredentials = true;
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_API}/order/new`,
         JSON.stringify({
-          shippingInfo: shippingInfo,
-          orderItems: orderItems,
-          user: user.user._id,
-          paymentInfo: { paymentInfo: { id: " 123", status: "processing" } },
-          shippingPrice: 25000,
-          totalPrice: cart.cartTotalAmount,
+          shippingInfo: data.shippingInfo,
+          orderItems: data.orderItems,
+          paymentInfo: data.paymentInfo,
+          shippingPrice: data.shippingPrice,
+          totalPrice: data.totalPrice,
+          userId: user.user._id,
         })
       );
       console.log(response);

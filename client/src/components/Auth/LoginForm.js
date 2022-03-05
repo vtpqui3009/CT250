@@ -12,7 +12,6 @@ import { login } from "../../redux/apiCalls";
 const LoginForm = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -32,21 +31,9 @@ const LoginForm = () => {
     const registerAccount = async () => {
       axios.defaults.withCredentials = true;
       try {
-        setIsLoading(true);
-        // const response = await axios.post(
-        //   ` ${process.env.REACT_APP_BASE_API}/login`,
-        //   formData
-        // );
-        // const responseData = await response.data;
         login(dispatch, { email, password });
-        // dispatch({
-        //   type: "LOGIN",
-        //   payload: responseData,
-        // });
-        setIsLoading(false);
         navigate("/");
       } catch (err) {
-        setIsLoading(false);
         console.log(err);
         setConfirm(true);
       }
@@ -57,7 +44,7 @@ const LoginForm = () => {
   return (
     <React.Fragment>
       {" "}
-      {isLoading && <LoadingSpinner />}
+      {isFetching && <LoadingSpinner />}
       {error && confirm && (
         <Modal
           header="Invalid Email"

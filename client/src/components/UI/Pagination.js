@@ -2,8 +2,12 @@ import React, { useState } from "react";
 const Pagination = ({ dataPerPage, totalData, paginate }) => {
   const [activePage, setActivePage] = useState(1);
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalData / dataPerPage); i++) {
+  let i = 1;
+  for (i; i <= Math.ceil(totalData / dataPerPage); i++) {
     pageNumbers.push(i);
+  }
+  if (i > Math.ceil(totalData / dataPerPage)) {
+    pageNumbers.push(1);
   }
   return (
     <ul className="flex items-center w-[76%] ml-[12%] my-4">

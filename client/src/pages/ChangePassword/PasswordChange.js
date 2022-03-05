@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
@@ -8,7 +8,8 @@ import FormikControl from "../../components/UI/FormikControl";
 import axios from "axios";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import Modal from "../../components/UI/Modal";
-import { AuthContext } from "../../context/AuthContext";
+import { logout } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
 const initialValues = {
   oldPassword: "",
   newPassword: "",
@@ -24,7 +25,7 @@ const validationSchema = Yup.object({
 });
 const PasswordChange = () => {
   const navigate = useNavigate();
-  const { dispatch } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -51,7 +52,7 @@ const PasswordChange = () => {
       );
       setIsLoading(false);
       navigate("/user/password-change-sucess");
-      dispatch({ type: "LOGOUT" });
+      dispatch(logout());
     } catch (err) {
       setIsLoading(false);
       setConfirm(true);
