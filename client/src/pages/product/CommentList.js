@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import Modal from "../../components/UI/Modal";
 import axios from "axios";
-import { UilStar } from "@iconscout/react-unicons";
-import { UisStar } from "@iconscout/react-unicons-solid";
 import moment from "moment";
 import { DataContext } from "../../context/DataProvider";
 import ReplyComment from "./ReplyComment";
@@ -67,11 +65,12 @@ const CommentList = ({ productId }) => {
           onCloseModal={handleCloseModal}
         />
       )}{" "}
-      {currentUser && comments && comments.length === 0 ? (
+      {currentUser && comments && comments.length === 0 && (
         <div className="text-center my-6">
           Let's be the first people to comment this post.
         </div>
-      ) : (
+      )}
+      {!currentUser && (
         <div className="text-center my-6">
           Let's login to comment this post.
         </div>
@@ -81,36 +80,36 @@ const CommentList = ({ productId }) => {
           comments?.map((comment, index) => (
             <div key={index}>
               <div className="flex items-center gap-6 my-6 ">
-                <div className="w-[10%]">
+                <div className="w-[20%] md:w-[10%]">
                   <img
                     src={comment.userAvatar}
                     alt=""
                     className="w-[50px] h-[50px] rounded-full object-cover bg-cover"
                   />
                 </div>
-                <div className="w-[90%] rounded-xl bg-gray-200 p-4">
-                  <div className="flex justify-between mb-4">
+                <div className="w-[80%] md:w-[90%] rounded-xl bg-gray-200 md:p-4 px-4 py-2">
+                  <div className="flex md:flex-row flex-col justify-between mb-0 md:mb-4">
                     <p className="font-bold">{comment.userName}</p>
                     <Rating props={comments} />
                   </div>
                   <p>{comment.comment}</p>
                 </div>
               </div>
-              <div className="ml-[12%] px-4 flex items-center text-[14px] ">
+              <div className="ml-[35%] md:ml-[12%] md:px-4 flex items-center text-[14px] ">
                 <button
                   className="mr-4 text-gray-500"
                   onClick={handleLikeComment}
                 >
                   Like
                 </button>
-                <span className="mr-4 pb-2">.</span>
+                <span className="mr-4 pb-2 md:block hidden">.</span>
                 <button
                   className="mr-4 text-gray-500"
                   onClick={handleRelyComment}
                 >
                   Rely
                 </button>
-                <span className="mr-4 pb-2">.</span>
+                <span className="mr-4 pb-2 md:block hidden">.</span>
                 <span className="text-gray-500">
                   {moment(comment.createdAt).fromNow()}
                 </span>

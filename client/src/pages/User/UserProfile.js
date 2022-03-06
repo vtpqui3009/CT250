@@ -52,7 +52,12 @@ const UserProfile = () => {
     formData.append("email", values.email);
     try {
       setLoading(true);
-      await axios.put(`${process.env.REACT_APP_BASE_API}/me/update`, formData);
+      const response = await axios.put(
+        `${process.env.REACT_APP_BASE_API}/me/update`,
+        formData
+      );
+      const responseData = await response.data;
+      console.log(responseData);
       setLoading(false);
       navigate("/");
     } catch (err) {

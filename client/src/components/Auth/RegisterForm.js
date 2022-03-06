@@ -20,6 +20,7 @@ const RegisterForm = (props) => {
   const showPassword = () => {
     setPasswordShown(passwordShown ? false : true);
   };
+  const handleChange = (e) => {};
   const onSubmit = (values, onSubmitProps) => {
     const registerAccount = async () => {
       const formData = new FormData();
@@ -61,10 +62,13 @@ const RegisterForm = (props) => {
           <header className="text-2xl font-bold text-center">
             <h1>Register</h1>
           </header>
-          <UploadImage
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
-          />
+          <div className="mb-6">
+            {" "}
+            <UploadImage
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+            />
+          </div>
           <FormikControl
             control="input"
             type="text"
@@ -90,8 +94,16 @@ const RegisterForm = (props) => {
             name="confirmPassword"
           />
           <div className="m-2 flex items-center w-full">
+            <div className=" text-[14px]">
+              <Link to="/password/send-email">Forgot password?</Link>
+            </div>
             <div className="ml-auto text-[14px]">
-              <input type="checkbox" className="mr-2" onClick={showPassword} />
+              <input
+                type="checkbox"
+                className="mr-2"
+                onClick={showPassword}
+                onChange={handleChange}
+              />
               <label>Show password</label>
             </div>
           </div>

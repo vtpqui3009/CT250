@@ -94,7 +94,7 @@ const ProductCategoryDetail = () => {
                 No product updated yet. Please come back later.
               </div>
             )}
-            <div className="grid grid-cols-4  gap-[2%]">
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 md:py-[5%] py-[15%] gap-[2%]">
               {loadedProducts &&
                 loadedProducts.map((product) => (
                   <div key={product._id}>
@@ -102,7 +102,7 @@ const ProductCategoryDetail = () => {
                       <img
                         src={product.images[0].url}
                         alt=""
-                        className="w-4/5 h-[200px] ml-[10%]"
+                        className="w-full object-cover h-[200px]"
                       />
                     </Link>
 

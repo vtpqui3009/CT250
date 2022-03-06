@@ -35,7 +35,7 @@ const Rating = ({ props }) => {
         size="20"
         className="my-[5px] pr-[5px] cursor-pointer text-yellow-400"
       />
-      <div className="star-1" style={{ styleStar }}>
+      <div className="star-1" style={styleStar}>
         <UisStar
           size="20"
           className="my-[5px] pr-[5px] cursor-pointer text-yellow-400"

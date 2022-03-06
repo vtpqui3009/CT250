@@ -51,7 +51,7 @@ const PasswordChange = () => {
         formData
       );
       setIsLoading(false);
-      navigate("/user/password-change-sucess");
+      navigate("/password/password-change-sucess");
       dispatch(logout());
     } catch (err) {
       setIsLoading(false);
@@ -82,7 +82,7 @@ const PasswordChange = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className=" w-[30%] ml-[35%] my-[5%]">
+            <Form className=" form">
               <h1>New Credentials</h1>
               <FormikControl
                 control="input"

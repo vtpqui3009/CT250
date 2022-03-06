@@ -3,10 +3,11 @@ const SidebarItem = (props) => {
     <div style={props.style}>
       <input
         type="checkbox"
-        name={props.radioName}
-        onChange={props.handleradioChange}
+        name={props.name}
+        onChange={props.onChange}
         value={props.label}
-        {...props}
+        checked={props.checked}
+        defaultChecked={props.defaultChecked}
       />
       <label htmlFor={props.id} className="ml-2">
         {props.label}

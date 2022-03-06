@@ -1,38 +1,59 @@
 import React, { useState } from "react";
-const Pagination = ({ dataPerPage, totalData, paginate }) => {
-  const [activePage, setActivePage] = useState(1);
-  const pageNumbers = [];
-  let i = 1;
-  for (i; i <= Math.ceil(totalData / dataPerPage); i++) {
-    pageNumbers.push(i);
-  }
-  if (i > Math.ceil(totalData / dataPerPage)) {
-    pageNumbers.push(1);
-  }
+import { Link } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+const Pagination = (props) => {
+  const [pageNumber, setPageNumber] = useState(0);
+  const dataPerPage = props.dataPerPage;
+  const pagesVisited = pageNumber * dataPerPage;
+
+  const displayData = props.data
+    .slice(pagesVisited, pagesVisited + dataPerPage)
+    .map((product) => (
+      <div key={product._id}>
+        <Link to={`/product/${product._id}`}>
+          <img
+            src={product.images[0].url}
+            alt=""
+            className="w-full h-[200px] object-cover"
+          />
+        </Link>
+
+        <div className="text-center">
+          <Link to={`/product/${product._id}`}>
+            {" "}
+            <div>{product.name}</div>{" "}
+          </Link>
+          <div>
+            {product.price.toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </div>
+        </div>
+      </div>
+    ));
+  const pageCount = Math.ceil(props.data.length / dataPerPage);
+  const handlePageChange = (selected) => {
+    setPageNumber(selected.selected);
+    console.log(selected);
+  };
   return (
-    <ul className="flex items-center w-[76%] ml-[12%] my-4">
-      {pageNumbers.length === 1 ? (
-        <div></div>
-      ) : (
-        <>
-          {pageNumbers.map((number) => (
-            <li
-              key={number}
-              className="border-[1px] border-base-color px-3 py-1 mr-4 rounded-full cursor-pointer"
-              style={{
-                backgroundColor: number === activePage ? "#97AE76" : "",
-                color: number === activePage ? "white" : "",
-              }}
-              onClick={() => {
-                setActivePage(number);
-              }}
-            >
-              <span onClick={() => paginate(number)}>{number}</span>
-            </li>
-          ))}
-        </>
-      )}
-    </ul>
+    <>
+      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-[2%] md:mb-[8%]  mb-[55vh]">
+        {displayData}
+      </div>
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={handlePageChange}
+        containerClassName={"paginationContainer"}
+        previousLinkClassName={"paginationPreviousButton"}
+        nextLinkClassName={"paginationNextButton"}
+        disabledClassName={"paginationDisabled"}
+        activeClassName={"paginationActive"}
+      />
+    </>
   );
 };
 export default Pagination;

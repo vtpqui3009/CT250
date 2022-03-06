@@ -8,48 +8,18 @@ import {
 } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { UilPlus, UilMinus } from "@iconscout/react-unicons";
-import { useStripe } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../../redux/cartSlice";
 const CheckOut = () => {
   const dispatch = useDispatch();
-  const stripe = useStripe();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user.currentUser);
-  const userEmail = user.user.email;
-  console.log(user);
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getTotals());
   }, [dispatch, cart]);
 
-  const handleGuessCheckOut = async () => {
-    const line_items = cart.cartItems.map((item) => {
-      return {
-        quantity: item.cartQuantity,
-        price_data: {
-          currency: "usd",
-          unit_amount: item.product.price / 10000,
-          product_data: {
-            name: item.product.name,
-            description: item.product.description,
-            images: [item.product.images[0].url],
-          },
-        },
-      };
-    });
-    const body = { line_items, customer_email: userEmail };
-    const response = await axios.post(
-      `http://localhost:4000/create-checkout-session`,
-      JSON.stringify(body)
-    );
-    const { sessionId } = response.data();
-    const { error } = await stripe.redirectToCheckout({ sessionId });
-    if (error) {
-      console.log(error);
-    }
-  };
   const handleCreateOrder = async () => {
-    const productImage = cart.cartItems.map(
-      (item) => item.product.images[0].url
-    );
     const orderItems = cart.cartItems.map((item) => {
       return {
         name: item.product.name,
@@ -76,20 +46,29 @@ const CheckOut = () => {
         status: "processing",
       },
     };
-
+    const formData = new FormData();
+    console.log(data.paymentInfo);
+    formData.append("shippingInfo", data.shippingInfo);
+    formData.append("orderItems", data.orderItems);
+    formData.append("paymentInfo", data.paymentInfo);
+    formData.append("shippingPrice", data.shippingPrice);
+    formData.append("totalPrice", data.totalPrice);
+    formData.append("userId", user.user._id);
     axios.defaults.withCredentials = true;
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_API}/order/new`,
-        JSON.stringify({
+        {
           shippingInfo: data.shippingInfo,
           orderItems: data.orderItems,
           paymentInfo: data.paymentInfo,
           shippingPrice: data.shippingPrice,
           totalPrice: data.totalPrice,
           userId: user.user._id,
-        })
+        }
       );
+      navigate("/user/order-success");
+      dispatch(clearCart());
       console.log(response);
     } catch (err) {}
   };
@@ -102,18 +81,18 @@ const CheckOut = () => {
   };
   return (
     <>
-      <div className="flex w-full py-[5%] px-[10%] gap-[5%]">
-        <div className="w-[70%]">
+      <div className="flex sm:flex-row flex-col w-full py-[5%] px-[10%] gap-[5%]">
+        <div className="w-full sm:w-[70%]">
           <Link to="/product/all">
             {" "}
-            <button className="px-4 py-1 border-[2px] border-black mb-6">
+            <button className="px-4 py-1 border-[2px] border-black my-6">
               Continue Shopping
             </button>
           </Link>
           {cart.cartItems &&
             cart.cartItems?.map((cartItem, index) => (
               <div key={index}>
-                <div className="flex items-center justify-between">
+                <div className="flex sm:flex-row flex-col md:items-center md:justify-between">
                   <div className="flex items-center">
                     <img
                       alt=" "
@@ -125,13 +104,43 @@ const CheckOut = () => {
                         <span className="font-bold">Product : </span>
                         <span>{cartItem.product.name}</span>
                       </div>
-                      <div>
+                      <div className="sm:block hidden">
                         <span className="font-bold">Id : </span>
                         <span>{cartItem.product._id.slice(0, 8)}</span>
                       </div>
+                      <div>
+                        <span className="font-bold">Price : </span>
+                        <span>
+                          {" "}
+                          {cartItem.product.price.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
+                      </div>
+                      <div className="sm:hidden block">
+                        <div className="flex items-center my-2 ">
+                          <span className="font-bold">Quantity : </span>
+                          <div className="ml-4 flex items-center">
+                            <UilMinus
+                              className="w-[16px] h-[16px] cursor-pointer"
+                              onClick={() => handleDecreaseQuantity(cartItem)}
+                            />
+                            <span className="border-[1px] border-gray-400 w-[40px] text-center rounded mx-2">
+                              {cartItem.cartQuantity}
+                            </span>
+                            <UilPlus
+                              className="w-[16px] h-[16px] cursor-pointer"
+                              onClick={() =>
+                                handleIncreaseQuantity(cartItem.product)
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center">
+                  <div className=" sm:block hidden">
                     <div className="flex items-center my-2 ">
                       <div className="ml-4 flex items-center">
                         <UilMinus
@@ -149,19 +158,13 @@ const CheckOut = () => {
                         />
                       </div>
                     </div>
-                    <div>
-                      {cartItem.product.price.toLocaleString("it-IT", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
-                    </div>
                   </div>
                 </div>
                 <hr className="h-[1px] bg-slate-300 w-full my-4" />
               </div>
             ))}
         </div>
-        <div className="w-[30%] mt-14 border-[1px] border-slate-300 p-6 h-[80%]">
+        <div className="w-full sm:w-[30%] mt-2 sm:mt-14 border-[1px] border-slate-300 p-6 h-[80%]">
           <h1 className="uppercase text-2xl mb-4">Order Summary</h1>
           <div className="flex items-center justify-between mb-4">
             <span>Subtotal</span>

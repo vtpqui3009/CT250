@@ -183,17 +183,14 @@
   }
 
   .image-container {
-    width: 45vw;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
+    @apply w-full md:w-[45vw] grid grid-cols-6 gap-3;
   }
   .image-container > img {
     @apply object-cover bg-cover h-full;
   }
   .image-container > img:first-child {
-    width: 45vw;
-    height: 350px;
+    @apply w-full md:w-[45vw] h-[350px];
+
     grid-column: 1/7;
   }
   .image-container > img:nth-child(2) {
@@ -241,7 +238,7 @@
     @apply relative;
   }
   .star-1 {
-    @apply absolute top-0 left-0 w-[100px] overflow-hidden;
+    @apply absolute inset-0 w-[100px] overflow-hidden;
   }
   .user-rating {
     @apply w-[90px] my-[10px] flex items-center flex-row-reverse ml-auto;
@@ -255,5 +252,26 @@
   }
   .user-rating-label {
     @apply text-gray-400 pr-[5px] cursor-pointer float-right;
+  }
+  /*--------------pagination------------------*/
+  .paginationContainer {
+    @apply flex items-center mb-[5%] justify-center;
+  }
+  .paginationContainer li {
+    @apply mx-2;
+  }
+  .paginationContainer li a {
+    @apply px-4 py-2 rounded-full bg-gray-300;
+  }
+  .paginationContainer li a:active,
+  .paginationContainer li a:focus {
+    @apply bg-base-color text-white;
+  }
+  .paginationDisabled {
+    @apply cursor-not-allowed text-gray-400;
+  }
+  .reset-token-banner {
+    @apply object-cover bg-cover h-96 relative before:absolute before:w-full before:h-full before:inset-0 before:bg-[rgba(0,0,0,0.5)] before:z-0 flex items-center justify-center bg-center;
+    background-image: url("./img/reset-token.png");
   }
 }

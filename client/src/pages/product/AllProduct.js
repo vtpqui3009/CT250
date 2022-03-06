@@ -2,33 +2,18 @@ import React, { useState, useEffect } from "react";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
-// import Pagination from "../../components/UI/Pagination";
 import { UilFilter } from "@iconscout/react-unicons";
 import SidebarFilterAndSort from "./Sidebar/SidebarFilterAndSort";
+import Pagination from "../../components/UI/Pagination";
 const AllProduct = () => {
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [selectedPriceOption, setSelectedPriceOption] = useState("all");
-  const [selectedCategoryOption, setSelectedCategoryOption] = useState("all");
+  const [selectedPriceOption, setSelectedPriceOption] = useState("");
+  const [selectedCategoryOption, setSelectedCategoryOption] = useState("");
   const [query, setQuery] = useState("/all");
-  // const handlePaginate = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  //   console.log(pageNumber);
-  // };
-  const handleFilterProduct = () => {
-    if (selectedPriceOption === selectedCategoryOption) {
-      setQuery("/all");
-    } else {
-      setQuery(
-        `?cat=${selectedCategoryOption}&price[lte]=${selectedPriceOption}`
-      );
-    }
-    // setOpenSidebar(false);
-    console.log(query);
-  };
+  const [defaultChecked, setDefaultChecked] = useState(false);
   useEffect(() => {
     const fetchLoadedProduct = async () => {
       try {
@@ -52,35 +37,144 @@ const AllProduct = () => {
   const handleCloseSidebar = () => {
     setOpenSidebar(false);
   };
-  const handlePriceRadioChange = (e) => {
-    console.log(e.target.value);
+  const handlePriceChange = (e) => {
     setSelectedPriceOption(e.target.value);
-  };
-  const handleCategoryRadioChange = (e) => {
     console.log(e.target.value);
-    setSelectedCategoryOption(e.target.value);
   };
-
+  const handleCategoryChange = (e) => {
+    setSelectedCategoryOption(e.target.value);
+    console.log(e.target.value);
+  };
+  const handleFilterProduct = () => {
+    const queryMeatArr = [
+      `?cat=Meat&price[lte]=50000`,
+      `?cat=Meat&price[gte]=50000&price[lte]=100000`,
+      `?cat=Meat&price[gte]=100000&price[lte]=300000`,
+      `?cat=Meat&price[gte]=300000&price[lte]=500000`,
+    ];
+    const queryFruitArr = [
+      `?cat=Fruit&price[lte]=50000`,
+      `?cat=Fruit&price[gte]=50000&price[lte]=100000`,
+      `?cat=Fruit&price[gte]=100000&price[lte]=300000`,
+      `?cat=Fruit&price[gte]=300000&price[lte]=500000`,
+    ];
+    const queryVegetableArr = [
+      `?cat=Vegetable&price[lte]=50000`,
+      `?cat=Vegetable&price[gte]=50000&price[lte]=100000`,
+      `?cat=Vegetable&price[gte]=100000&price[lte]=300000`,
+      `?cat=Vegetable&price[gte]=300000&price[lte]=500000`,
+    ];
+    if (selectedPriceOption === "all" && selectedCategoryOption === "all") {
+      setQuery("/all");
+    }
+    if (selectedPriceOption === "all") {
+      setQuery(`/cat=${selectedCategoryOption}`);
+    }
+    if (selectedCategoryOption === "all") {
+      setQuery(`all`);
+    }
+    if (
+      selectedPriceOption === "< 50000" &&
+      selectedCategoryOption === "Meat"
+    ) {
+      setQuery(queryMeatArr[0]);
+    }
+    if (
+      selectedPriceOption === "50000 - 100000" &&
+      selectedCategoryOption === "Meat"
+    ) {
+      setQuery(queryMeatArr[1]);
+    }
+    if (
+      selectedPriceOption === "100000 - 300000" &&
+      selectedCategoryOption === "Meat"
+    ) {
+      setQuery(queryMeatArr[2]);
+    }
+    if (
+      selectedPriceOption === "300000 - 500000" &&
+      selectedCategoryOption === "Meat"
+    ) {
+      setQuery(queryMeatArr[3]);
+    }
+    if (
+      selectedPriceOption === "< 50000" &&
+      selectedCategoryOption === "Fruit"
+    ) {
+      setQuery(queryFruitArr[0]);
+    }
+    if (
+      selectedPriceOption === "50000 - 100000" &&
+      selectedCategoryOption === "Fruit"
+    ) {
+      setQuery(queryFruitArr[1]);
+    }
+    if (
+      selectedPriceOption === "100000 - 300000" &&
+      selectedCategoryOption === "Fruit"
+    ) {
+      setQuery(queryFruitArr[2]);
+    }
+    if (
+      selectedPriceOption === "300000 - 500000" &&
+      selectedCategoryOption === "Fruit"
+    ) {
+      setQuery(queryFruitArr[3]);
+    }
+    if (
+      selectedPriceOption === "< 50000" &&
+      selectedCategoryOption === "Vegetable"
+    ) {
+      setQuery(queryVegetableArr[0]);
+    }
+    if (
+      selectedPriceOption === "50000 - 100000" &&
+      selectedCategoryOption === "Vegetable"
+    ) {
+      setQuery(queryVegetableArr[1]);
+    }
+    if (
+      selectedPriceOption === "100000 - 300000" &&
+      selectedCategoryOption === "Vegetable"
+    ) {
+      setQuery(queryVegetableArr[2]);
+    }
+    if (
+      selectedPriceOption === "300000 - 500000" &&
+      selectedCategoryOption === "Vegetable"
+    ) {
+      setQuery(queryVegetableArr[3]);
+    }
+    // setOpenSidebar(false);
+    console.log(query);
+  };
+  const handleCloseFilter = () => {
+    selectedPriceOption("all");
+    setSelectedCategoryOption("all");
+    setQuery("/all");
+  };
   return (
     <React.Fragment>
       {openSidebar && (
         <SidebarFilterAndSort
           handleCloseSidebar={handleCloseSidebar}
-          handlePriceRadioChange={handlePriceRadioChange}
-          handleCategoryRadioChange={handleCategoryRadioChange}
+          handlePriceChange={handlePriceChange}
+          handleCategoryChange={handleCategoryChange}
           selectedPriceOption={selectedPriceOption}
           selectedCategoryOption={selectedCategoryOption}
           selectedPriceInitial={selectedPriceOption}
           selectedCategoryInitial={selectedCategoryOption}
           handleFilterProduct={handleFilterProduct}
+          handleCloseFilter={handleCloseFilter}
+          defaultChecked={defaultChecked}
         />
       )}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <React.Fragment>
+        <div className="flex flex-col">
           <Navigation />
-          <div className="my-6 w-[80%] ml-[10%]">
+          <div className="my-6 w-[80%] ml-[10%] flex-1">
             <header className="flex items-center justify-between ">
               <h1 className=" font-bold my-6 text-2xl uppercase">
                 All Product
@@ -98,42 +192,13 @@ const AllProduct = () => {
                 No product updated yet. Please come back later.
               </div>
             )}
-            <div className="grid grid-cols-4  gap-[2%]">
-              {loadedProduct &&
-                loadedProduct.map((product) => (
-                  <div key={product._id}>
-                    <Link to={`/product/${product._id}`}>
-                      <img
-                        src={product.images[0].url}
-                        alt=""
-                        className="w-4/5 h-[200px] ml-[10%]"
-                      />
-                    </Link>
 
-                    <div className="text-center">
-                      <Link to={`/product/${product._id}`}>
-                        {" "}
-                        <div>{product.name}</div>{" "}
-                      </Link>
-                      <div>
-                        {product.price.toLocaleString("it-IT", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
+            <Pagination dataPerPage="10" data={loadedProduct} />
           </div>
-          {/* 
-          <Pagination
-            dataPerPage={loadedProduct.length}
-            totalData={totalProduct}
-            paginate={handlePaginate}
-          /> */}
-          <Footer />
-        </React.Fragment>
+          <div className="mt-auto">
+            <Footer />
+          </div>
+        </div>
       )}
     </React.Fragment>
   );

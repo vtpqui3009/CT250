@@ -7,13 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { loginInitialValues, loginValidationSchema } from "./FormikConfig";
 import Modal from "../UI/Modal";
 import LoadingSpinner from "../UI/LoadingSpinner";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../redux/apiCalls";
 const LoginForm = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [loginError, setLoginError] = useState(false);
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const showPassword = () => {
     setPasswordShown(passwordShown ? false : true);
@@ -28,24 +29,34 @@ const LoginForm = () => {
     formData.append("password", values.password);
     const email = values.email;
     const password = values.password;
-    const registerAccount = async () => {
+    const loginAccount = async () => {
       axios.defaults.withCredentials = true;
       try {
-        login(dispatch, { email, password });
+        setIsLoading(true);
+        axios.defaults.withCredentials = true;
+        const response = await axios.post(
+          `${process.env.REACT_APP_BASE_API}/login`,
+          formData
+        );
+        if (response) {
+          login(dispatch, { email, password });
+        }
+        setIsLoading(false);
         navigate("/");
       } catch (err) {
-        console.log(err);
+        setIsLoading(false);
         setConfirm(true);
+        setLoginError(true);
       }
     };
-    registerAccount();
+    loginAccount();
     onSubmitProps.resetForm();
   };
   return (
     <React.Fragment>
       {" "}
-      {isFetching && <LoadingSpinner />}
-      {error && confirm && (
+      {isLoading && <LoadingSpinner />}
+      {loginError && confirm && (
         <Modal
           header="Invalid Email"
           content="Your email and password you entered didn't match data you registered in our system. Please check and try again."
@@ -75,7 +86,7 @@ const LoginForm = () => {
           />
           <div className="my-4 flex items-center w-full">
             <div className=" text-[14px]">
-              <Link to="/user/password/send-email">Forgot password?</Link>
+              <Link to="/password/send-email">Forgot password?</Link>
             </div>
             <div className="ml-auto text-[14px]">
               <input

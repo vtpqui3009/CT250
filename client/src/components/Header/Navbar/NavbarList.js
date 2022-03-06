@@ -2,55 +2,57 @@ import { useState, useEffect } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const NavbarList = () => {
   const [inputValue, setInputValue] = useState("");
   const [focus, setFocus] = useState(false);
-  const [filterProducts, setFilterProducts] = useState([]);
   const [loadedProducts, setLoadedProducts] = useState([]);
   useEffect(() => {
     const getLoadedProducts = async () => {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_API}/products/all`
+        `${process.env.REACT_APP_BASE_API}/products?keyword=${inputValue}`
       );
       const responseData = await response.data.products;
+      console.log(responseData);
       setLoadedProducts(responseData);
     };
-    getLoadedProducts();
-  }, []);
-  useEffect(() => {
     const timoutId = setTimeout(() => {
-      const filterProduct =
-        loadedProducts &&
-        loadedProducts.filter((data) =>
-          data.name.toLowerCase().includes(inputValue.toLowerCase())
-        );
-      setFilterProducts(filterProduct);
+      getLoadedProducts();
     }, 500);
+
     return () => {
       clearTimeout(timoutId);
     };
-  }, [inputValue, loadedProducts]);
+  }, [inputValue]);
   const handleInputChange = (e) => {
     if (e.target.value.trim().length > 0) {
       setFocus(true);
     }
     setInputValue(e.target.value);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(loadedProducts);
+  };
   return (
     <ul className="flex md:flex-row flex-col md:items-center justify-center">
       <header className="block md:hidden w-full">
-        <div className="flex items-center px-4 py-2">
+        <form className="flex items-center px-4 py-2" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Nhập thực phẩm cần tìm ... "
             className="w-full border-[1px] border-gray-400 text-[12px] px-4 py-[6px] rounded mr-2 outline-none focus:outline-none relative"
             onChange={handleInputChange}
+            value={inputValue}
           />
-          <SearchIcon className="w-4 h-4 ml-[-35px]" />
-        </div>
+          <button type="submit">
+            {" "}
+            <SearchIcon className="w-4 h-4 translate-x-[-30px]" />
+          </button>
+        </form>
         {focus &&
-          filterProducts &&
-          filterProducts?.map((product) => (
+          loadedProducts &&
+          loadedProducts?.map((product) => (
             <Link to={`/product/${product._id}`} key={product._id}>
               <div className="absolute flex gap-4 items-center left-3 top-30 w-[200px] bg-white p-2 hover:bg-gray-200 cursor-pointer z-40">
                 <div className="w-[40%]">

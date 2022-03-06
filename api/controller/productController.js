@@ -215,7 +215,7 @@ exports.updateProductReview = catchAsyncError(async (req, res) => {
       let num = product.numOfReviews;
       let rate = product.ratings;
 
-      await Products.findOneAndUpdate(
+      await Product.findOneAndUpdate(
         { _id: productId },
         {
           ratings: rate + ratings,

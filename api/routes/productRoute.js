@@ -29,7 +29,7 @@ router
   .put(isAuthenticateUser, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticateUser, authorizeRoles("admin"), deleteProduct);
 router.route("/review").put(createProductReview);
-router.route("/edit/product/:id").put(updateProductReview);
+router.route("/edit/review/:id").put(updateProductReview);
 router
   .route("/reviews")
   .get(getAllProductReviews)

@@ -7,31 +7,25 @@ const SearchScreen = () => {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [focus, setFocus] = useState(false);
-  const [filterProducts, setFilterProducts] = useState([]);
   const [loadedProducts, setLoadedProducts] = useState([]);
   useEffect(() => {
     const getLoadedProducts = async () => {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_API}/products/all`
+        `${process.env.REACT_APP_BASE_API}/products?keyword=${inputValue}`
       );
       const responseData = await response.data.products;
+      console.log(responseData);
       setLoadedProducts(responseData);
     };
-    getLoadedProducts();
-  }, []);
-  useEffect(() => {
     const timoutId = setTimeout(() => {
-      const filterProduct =
-        loadedProducts &&
-        loadedProducts.filter((data) =>
-          data.name.toLowerCase().includes(inputValue.toLowerCase())
-        );
-      setFilterProducts(filterProduct);
+      getLoadedProducts();
     }, 500);
+
     return () => {
       clearTimeout(timoutId);
     };
-  }, [inputValue, loadedProducts]);
+  }, [inputValue]);
+
   const handleInputChange = (e) => {
     if (e.target.value.trim().length > 0) {
       setFocus(true);
@@ -73,6 +67,7 @@ const SearchScreen = () => {
             width: open ? "80%" : "0",
           }}
           onChange={handleInputChange}
+          value={inputValue}
         />
         {open && (
           <UilTimes
@@ -82,8 +77,8 @@ const SearchScreen = () => {
         )}
       </div>
       {focus &&
-        filterProducts &&
-        filterProducts?.map((product) => (
+        loadedProducts &&
+        loadedProducts?.map((product) => (
           <Link to={`/product/${product._id}`} key={product._id}>
             <div className="absolute left-[-250px] flex gap-4 items-center top-10 w-[200px] bg-white p-2 hover:bg-gray-200 cursor-pointer">
               <div className="w-[40%]">

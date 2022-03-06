@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { DataContext } from "../../context/DataProvider";
 import { UisStar } from "@iconscout/react-unicons-solid";
 import CommentList from "./CommentList";
+// import axios from "axios";
 const Comments = ({ productId }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [openCommentAction, setOpenCommentAction] = useState(false);
@@ -43,19 +44,15 @@ const Comments = ({ productId }) => {
       productId,
       ratings,
     });
-
-    // const createNewReview = async () => {
+    // const updateReview = async () => {
     //   try {
     //     axios.defaults.withCredentials = true;
     //     const formData = new FormData();
-    //     formData.append("userId", userId);
-    //     formData.append("userName", userName);
     //     formData.append("productId", productId);
-    //     formData.append("comment", comment);
-    //     formData.append("rating", rating);
+    //     formData.append("ratings", ratings);
 
     //     const response = await axios.put(
-    //       `${process.env.REACT_APP_BASE_API}/review`,
+    //       `${process.env.REACT_APP_BASE_API}/edit/review/${productId}`,
     //       formData
     //     );
     //     console.log(response);
@@ -65,8 +62,9 @@ const Comments = ({ productId }) => {
     //     console.log(error);
     //   }
     // };
-    // createNewReview();
+    // updateReview();
     setComment("");
+    setRatings(0);
   };
 
   return (
@@ -74,15 +72,15 @@ const Comments = ({ productId }) => {
       <div className="w-[90%] ml-[5%] mb-[5%]">
         <div className="text-xl uppercase"> Comments</div>
         {allowComment && (
-          <div className="flex items-center gap-6 my-6 w-4/5 ml-[5%]">
-            <div className="w-[10%]">
+          <div className="flex items-center md:gap-6 my-6 w-[96%] ml-[2%]">
+            <div className="w-[20%] md:w-[10%]">
               <img
                 src={currentUser && currentUser.user.avatar.url}
                 alt=""
                 className="w-[50px] h-[50px] rounded-full object-cover bg-cover"
               />
             </div>
-            <div className="w-[90%] rounded-xl p-4">
+            <div className="w-[80%] md:w-[90%] rounded-xl p-4">
               {openCommentAction && (
                 <div className="user-rating">
                   <input
@@ -93,7 +91,7 @@ const Comments = ({ productId }) => {
                     onChange={() => setRatings(5)}
                   />
                   <label htmlFor="radio1" className="user-rating-label">
-                    <UisStar />
+                    <UisStar className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]" />
                   </label>
                   <input
                     type="radio"
@@ -103,7 +101,7 @@ const Comments = ({ productId }) => {
                     onChange={() => setRatings(4)}
                   />
                   <label htmlFor="radio2" className="user-rating-label">
-                    <UisStar />
+                    <UisStar className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]" />
                   </label>
                   <input
                     type="radio"
@@ -113,7 +111,7 @@ const Comments = ({ productId }) => {
                     onChange={() => setRatings(3)}
                   />
                   <label htmlFor="radio3" className="user-rating-label">
-                    <UisStar />
+                    <UisStar className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]" />
                   </label>
                   <input
                     type="radio"
@@ -123,7 +121,7 @@ const Comments = ({ productId }) => {
                     onChange={() => setRatings(2)}
                   />
                   <label htmlFor="radio4" className="user-rating-label">
-                    <UisStar />
+                    <UisStar className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]" />
                   </label>
                   <input
                     type="radio"
@@ -133,7 +131,7 @@ const Comments = ({ productId }) => {
                     onChange={() => setRatings(1)}
                   />
                   <label htmlFor="radio5" className="user-rating-label">
-                    <UisStar />
+                    <UisStar className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]" />
                   </label>
                 </div>
               )}

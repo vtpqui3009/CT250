@@ -1,49 +1,45 @@
 import { UilTimes } from "@iconscout/react-unicons";
 import SidebarItem from "./SidebarItem";
-const SidebarFilterAndSort = ({
-  handleCloseSidebar,
-  handlePriceRadioChange,
-  handleCategoryRadioChange,
-  selectedPriceOption,
-  selectedCategoryOption,
-  selectedPriceInitial,
-  selectedCategoryInitial,
-  handleFilterProduct,
-  categoryFirstElStyle,
-}) => {
+const SidebarFilterAndSort = (props) => {
   return (
     <>
-      <div className="fixed h-screen w-[30%] right-0 top-0 bottom-0 bg-white z-50 flex flex-col ">
+      <div className="fixed h-screen w-[70%] lg:w-[30%] right-0 top-0 bottom-0 bg-white z-50 flex flex-col ">
         <header className="flex items-center justify-between border-b p-4 border-gray-300">
           <span className="font-bold text-xl">Filter and Sort</span>
           <div className="flex items-center">
-            <span className="text-gray-500 underline mr-2 text-sm">
+            <span
+              className="text-gray-500 underline mr-2 text-sm cursor-pointer"
+              onClick={props.handleClearFilter}
+            >
               Clear All
             </span>
-            <UilTimes onClick={handleCloseSidebar} className="cursor-pointer" />
+            <UilTimes
+              onClick={props.handleCloseSidebar}
+              className="cursor-pointer"
+            />
           </div>
         </header>
         <main>
           <div className="border-b p-4 border-gray-300">
             <h1 className="font-bold py-2">Filters is applied</h1>
             <ul className="flex gap-2 my-2">
-              <li className="flex items-center px-2 py-1 border-[1px] bg-gray-200 w-auto rounded">
+              <li className="flex items-center px-2 py-1 border-[1px] bg-gray-200 w-fit rounded">
                 <UilTimes size="20" className="w-[30%] mr-2" />
                 <span className="w-[70%]">
-                  {selectedPriceInitial.charAt(0).toUpperCase() +
-                    selectedPriceInitial.slice(
+                  {props.selectedPriceInitial.charAt(0).toUpperCase() +
+                    props.selectedPriceInitial.slice(
                       1,
-                      selectedPriceInitial.trim().length
+                      props.selectedPriceInitial.trim().length
                     )}
                 </span>
               </li>
-              <li className="flex items-center px-2 py-1 border-[1px] bg-gray-200 w-auto rounded">
+              <li className="flex items-center px-2 py-1 border-[1px] bg-gray-200 w-fit rounded">
                 <UilTimes size="20" className="w-[30%] mr-2" />
                 <span className="w-[70%]">
-                  {selectedCategoryInitial.charAt(0).toUpperCase() +
-                    selectedCategoryInitial.slice(
+                  {props.selectedCategoryInitial.charAt(0).toUpperCase() +
+                    props.selectedCategoryInitial.slice(
                       1,
-                      selectedCategoryInitial.trim().length
+                      props.selectedCategoryInitial.trim().length
                     )}
                 </span>
               </li>
@@ -56,37 +52,39 @@ const SidebarFilterAndSort = ({
                 <SidebarItem
                   id="checkbox0"
                   label="All"
-                  radioName="price"
-                  handleradioChange={(e) => handlePriceRadioChange(e)}
-                  checked={selectedPriceOption === "all"}
+                  name="price"
+                  onChange={(e) => props.handlePriceChange(e)}
+                  // defaultChecked={props.defaultChecked}
+                  checked={props.selectedPriceOption === "all"}
                 />
                 <SidebarItem
                   id="checkbox1"
-                  label="10000"
-                  radioName="price"
-                  handleradioChange={(e) => handlePriceRadioChange(e)}
-                  checked={selectedPriceOption === "10000"}
+                  label="< 50000"
+                  name="price"
+                  onChange={(e) => props.handlePriceChange(e)}
+                  // defaultChecked={props.defaultChecked}
+                  checked={props.selectedPriceOption === "< 50000"}
                 />
                 <SidebarItem
                   id="checkbox2"
-                  label="20000"
-                  radioName="price"
-                  handleradioChange={(e) => handlePriceRadioChange(e)}
-                  checked={selectedPriceOption === "20000"}
+                  label="50000 - 100000"
+                  name="price"
+                  onChange={(e) => props.handlePriceChange(e)}
+                  checked={props.selectedPriceOption === "50000 - 100000"}
                 />
                 <SidebarItem
                   id="checkbox3"
-                  label="30000"
-                  radioName="price"
-                  handleradioChange={(e) => handlePriceRadioChange(e)}
-                  checked={selectedPriceOption === "30000"}
+                  label="100000 - 300000"
+                  name="price"
+                  onChange={(e) => props.handlePriceChange(e)}
+                  checked={props.selectedPriceOption === "100000 - 300000"}
                 />
                 <SidebarItem
                   id="checkbox4"
-                  label="40000"
-                  radioName="price"
-                  handleradioChange={(e) => handlePriceRadioChange(e)}
-                  checked={selectedPriceOption === "40000"}
+                  label="300000 - 500000"
+                  name="price"
+                  onChange={(e) => props.handlePriceChange(e)}
+                  checked={props.selectedPriceOption === "300000 - 500000"}
                 />
               </div>
             </li>
@@ -96,38 +94,38 @@ const SidebarFilterAndSort = ({
                 <SidebarItem
                   id="all"
                   label="All"
-                  radioName="category"
-                  handleradioChange={(e) => handleCategoryRadioChange(e)}
-                  checked={selectedCategoryOption === "all"}
-                  style={categoryFirstElStyle}
+                  name="category"
+                  onChange={(e) => props.handleCategoryChange(e)}
+                  checked={props.selectedCategoryOption === "all"}
+                  style={props.categoryFirstElStyle}
                 />
                 <SidebarItem
                   id="meat"
                   label="Meat"
-                  radioName="category"
-                  handleradioChange={(e) => handleCategoryRadioChange(e)}
-                  checked={selectedCategoryOption === "Meat"}
+                  name="category"
+                  onChange={(e) => props.handleCategoryChange(e)}
+                  checked={props.selectedCategoryOption === "Meat"}
                 />
                 <SidebarItem
                   id="fruit"
                   label="Fruit"
-                  radioName="category"
-                  handleradioChange={(e) => handleCategoryRadioChange(e)}
-                  checked={selectedCategoryOption === "Fruit"}
+                  name="category"
+                  onChange={(e) => props.handleCategoryChange(e)}
+                  checked={props.selectedCategoryOption === "Fruit"}
                 />
                 <SidebarItem
                   id="vegetable"
                   label="Vegetable"
-                  radioName="category"
-                  handleradioChange={(e) => handleCategoryRadioChange(e)}
-                  checked={selectedCategoryOption === "Vegetable"}
+                  name="category"
+                  onChange={(e) => props.handleCategoryChange(e)}
+                  checked={props.selectedCategoryOption === "Vegetable"}
                 />
               </div>
             </li>
           </ul>
         </main>
         <button
-          onClick={handleFilterProduct}
+          onClick={props.handleFilterProduct}
           className="w-[90%] ml-[5%] py-3 text-white uppercase mt-auto bg-base-color mb-[5%]"
         >
           Apply
@@ -135,7 +133,7 @@ const SidebarFilterAndSort = ({
       </div>
       <div
         className="fixed h-screen w-screen inset-0 bg-[rgba(0,0,0,0.4)] z-40"
-        onClick={handleCloseSidebar}
+        onClick={props.handleCloseSidebar}
       ></div>
     </>
   );
