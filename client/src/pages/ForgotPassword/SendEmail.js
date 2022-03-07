@@ -67,7 +67,7 @@ const SendEmail = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className=" w-[30%] ml-[35%] my-[5%]">
+            <Form className="form">
               <div>
                 <h2 className="font-bold">Forgot your password</h2>
                 <label className="w-full block my-2" htmlFor="email">

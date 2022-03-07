@@ -5,10 +5,12 @@ const SidebarFilterAndSort = (props) => {
     <>
       <div className="fixed h-screen w-[70%] lg:w-[30%] right-0 top-0 bottom-0 bg-white z-50 flex flex-col ">
         <header className="flex items-center justify-between border-b p-4 border-gray-300">
-          <span className="font-bold text-xl">Filter and Sort</span>
+          <span className="font-bold text-[18px] sm:text-xl">
+            Filter and Sort
+          </span>
           <div className="flex items-center">
             <span
-              className="text-gray-500 underline mr-2 text-sm cursor-pointer"
+              className="text-gray-500 underline mr-2  cursor-pointer sm:text-sm text-[12px]"
               onClick={props.handleClearFilter}
             >
               Clear All
@@ -21,8 +23,10 @@ const SidebarFilterAndSort = (props) => {
         </header>
         <main>
           <div className="border-b p-4 border-gray-300">
-            <h1 className="font-bold py-2">Filters is applied</h1>
-            <ul className="flex gap-2 my-2">
+            <h1 className="font-bold py-2 sm:text-base text-sm">
+              Filters is applied
+            </h1>
+            <ul className="flex gap-2 my-2 sm:text-base text-sm">
               <li className="flex items-center px-2 py-1 border-[1px] bg-gray-200 w-fit rounded">
                 <UilTimes size="20" className="w-[30%] mr-2" />
                 <span className="w-[70%]">
@@ -45,7 +49,7 @@ const SidebarFilterAndSort = (props) => {
               </li>
             </ul>
           </div>
-          <ul className="">
+          <ul className="sm:text-base text-sm">
             <li className="border-b p-4 border-gray-300">
               <span className="font-bold">Price</span>
               <div className="ml-4 py-2">
@@ -54,7 +58,6 @@ const SidebarFilterAndSort = (props) => {
                   label="All"
                   name="price"
                   onChange={(e) => props.handlePriceChange(e)}
-                  // defaultChecked={props.defaultChecked}
                   checked={props.selectedPriceOption === "all"}
                 />
                 <SidebarItem
@@ -62,7 +65,6 @@ const SidebarFilterAndSort = (props) => {
                   label="< 50000"
                   name="price"
                   onChange={(e) => props.handlePriceChange(e)}
-                  // defaultChecked={props.defaultChecked}
                   checked={props.selectedPriceOption === "< 50000"}
                 />
                 <SidebarItem
@@ -126,7 +128,7 @@ const SidebarFilterAndSort = (props) => {
         </main>
         <button
           onClick={props.handleFilterProduct}
-          className="w-[90%] ml-[5%] py-3 text-white uppercase mt-auto bg-base-color mb-[5%]"
+          className="w-[90%] ml-[5%] py-3 text-white uppercase mt-auto bg-base-color mb-[5%] sm:text-base text-sm"
         >
           Apply
         </button>

@@ -9,15 +9,15 @@ const FooterInfo = () => {
       <h1 className="text-3xl">Organic</h1>
       <div className="flex items-center text-sm mt-4">
         <LocationMarkerIcon className="w-4 h-4 mr-4" />
-        <p>Address: 60-49 Road 11378 New York</p>
+        <p>Address: Can Tho, Viet Nam</p>
       </div>
       <div className="flex items-center text-sm mt-4">
         <PhoneIcon className="w-4 h-4 mr-4" />
-        <p>Phone: +65 11.188.888</p>
+        <p>Phone: +0356547882</p>
       </div>
       <div className="flex items-center text-sm mt-4">
         <MailIcon className="w-4 h-4 mr-4" />
-        <p>Email: hello@colorlib.com</p>
+        <p>Email: vtpqui@gmail.com</p>
       </div>
     </div>
   );

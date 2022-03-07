@@ -97,7 +97,7 @@ const RegisterForm = (props) => {
             <div className=" text-[14px]">
               <Link to="/password/send-email">Forgot password?</Link>
             </div>
-            <div className="ml-auto text-[14px]">
+            <div className="ml-auto text-[14px] mr-2">
               <input
                 type="checkbox"
                 className="mr-2"

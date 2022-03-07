@@ -9,14 +9,14 @@ import { useEffect } from "react";
 const Home = () => {
   useEffect(() => {}, []);
   return (
-    <>
+    <div className="flex flex-col">
       <Header />
       <Product />
       <Feature />
-      {/* <Blog /> */}
+      <Blog />
       <CallToAction />
       <Footer />
-    </>
+    </div>
   );
 };
 export default Home;

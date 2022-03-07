@@ -85,7 +85,7 @@
     background-image: url("./img/sub-heading.jpg");
   }
   .sub-heading-content {
-    @apply text-white text-3xl z-10 relative before:absolute before:w-[80%] before:h-[1px] before:bg-white before:left-[10%] before:translate-y-10 after:absolute after:w-[80%] after:h-[1px] after:bg-white after:left-[10%] after:translate-y-11;
+    @apply text-white md:ml-0 ml-[5%] text-base md:text-3xl z-10 relative md:before:absolute md:before:w-[80%] md:before:h-[1px] md:before:bg-white md:before:left-[10%] md:before:translate-y-10 md:after:absolute md:after:w-[80%] md:after:h-[1px] md:after:bg-white md:after:left-[10%] md:after:translate-y-11;
   }
   .form {
     @apply mx-4 my-10 w-[90%] ml-[5%] lg:w-[40%] lg:ml-[30%] font-playfair;
@@ -96,6 +96,12 @@
   /*--------------Feature-----------------*/
   .feature {
     @apply grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-8 mt-6;
+  }
+  .feature > div:last-child {
+    @apply sm:block hidden;
+  }
+  .feature > div:nth-child(7) {
+    @apply sm:block hidden;
   }
   .feature-item {
     @apply w-full flex items-center flex-col;
@@ -254,24 +260,41 @@
     @apply text-gray-400 pr-[5px] cursor-pointer float-right;
   }
   /*--------------pagination------------------*/
-  .paginationContainer {
-    @apply flex items-center mb-[5%] justify-center;
+  .paginationBttns {
+    width: 80%;
+    margin-left: 10%;
+    height: 40px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
   }
-  .paginationContainer li {
-    @apply mx-2;
+
+  .paginationBttns a {
+    @apply px-4 py-2 mx-2 rounded-full cursor-pointer text-base-color border-[1px] border-base-color;
   }
-  .paginationContainer li a {
-    @apply px-4 py-2 rounded-full bg-gray-300;
+
+  .paginationBttns a:hover {
+    color: white;
+    @apply text-white bg-base-color;
   }
-  .paginationContainer li a:active,
-  .paginationContainer li a:focus {
-    @apply bg-base-color text-white;
+
+  .paginationActive a {
+    @apply text-white bg-base-color;
   }
-  .paginationDisabled {
-    @apply cursor-not-allowed text-gray-400;
+
+  .paginationDisabled a {
+    /* color: grey; */
+    @apply bg-gray-300 text-white cursor-not-allowed border-[1px] border-gray-300;
+    /* background-color: grey; */
+  }
+  .paginationDisabled a:hover {
+    @apply bg-gray-300;
   }
   .reset-token-banner {
     @apply object-cover bg-cover h-96 relative before:absolute before:w-full before:h-full before:inset-0 before:bg-[rgba(0,0,0,0.5)] before:z-0 flex items-center justify-center bg-center;
     background-image: url("./img/reset-token.png");
+  }
+  .blog > li:last-child {
+    @apply md:block hidden;
   }
 }

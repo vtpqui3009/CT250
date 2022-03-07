@@ -46,7 +46,7 @@ const AllBlog = () => {
                       <img
                         src={blog.image.url}
                         alt=""
-                        className="w-full h-[200px] object-cover"
+                        className="w-full h-[200px] object-cover bg-cover"
                       />
                     </Link>
 

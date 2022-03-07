@@ -47,9 +47,9 @@ const Pagination = (props) => {
         nextLabel={"Next"}
         pageCount={pageCount}
         onPageChange={handlePageChange}
-        containerClassName={"paginationContainer"}
-        previousLinkClassName={"paginationPreviousButton"}
-        nextLinkClassName={"paginationNextButton"}
+        containerClassName={"paginationBttns"}
+        previousLinkClassName={"previousBttn"}
+        nextLinkClassName={"nextBttn"}
         disabledClassName={"paginationDisabled"}
         activeClassName={"paginationActive"}
       />

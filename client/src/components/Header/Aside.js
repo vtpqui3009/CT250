@@ -23,7 +23,7 @@ const Aside = () => {
   const avatar = currentUser && currentUser.user.avatar.url;
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const handleOpenMobileSideDrawer = () => {
-    setWidth("65%");
+    setWidth("75%");
     setVisible("block");
   };
   const handleCloseMobileSideDrawer = () => {
@@ -67,7 +67,7 @@ const Aside = () => {
           </span>
           {cartVisible && (
             <div className="w-[50vw] sm:w-[40vw] lg:w-[20vw] absolute top-8 right-0 sm:right-[50%] shadow-lg bg-[#fff] p-2 z-40">
-              {!cart ? (
+              {cart.length === 0 ? (
                 <div className="text-center my-4 w-[60%] ml-[20%]">
                   There no item on your cart. Shop now!
                 </div>

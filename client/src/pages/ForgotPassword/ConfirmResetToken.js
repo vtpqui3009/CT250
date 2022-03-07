@@ -82,7 +82,7 @@ const ConfirmResetToken = () => {
             onSubmit={handleSubmit}
             enableReinitialize={true}
           >
-            <Form className=" w-[30%] ml-[35%] my-[5%]">
+            <Form className=" form">
               <div>
                 <label className="w-full block mb-6 " htmlFor="email">
                   Enter your reset token here and new credentials for your

@@ -29,6 +29,7 @@ import Cancel from "./components/Checkout/Cancel";
 import Success from "./components/Checkout/Success";
 import { DataProvider } from "./context/DataProvider";
 import ConfirmResetToken from "./pages/ForgotPassword/ConfirmResetToken";
+
 function App() {
   const user = useSelector((state) => state.user.currentUser);
   console.log("App component was rerendered");

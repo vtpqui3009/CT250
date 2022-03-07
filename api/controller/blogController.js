@@ -8,8 +8,6 @@ const ErrorHander = require("../utils/errorHanler");
 exports.newBlog = catchAsyncError(async (req, res, next) => {
   const myCloud = await cloudinary.v2.uploader.upload(req.body.image, {
     folder: "blog",
-    width: 150,
-    crop: "scale",
   });
 
   req.body.author = req.user._id;

@@ -10,10 +10,9 @@ const AllProduct = () => {
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [selectedPriceOption, setSelectedPriceOption] = useState("");
-  const [selectedCategoryOption, setSelectedCategoryOption] = useState("");
+  const [selectedPriceOption, setSelectedPriceOption] = useState("all");
+  const [selectedCategoryOption, setSelectedCategoryOption] = useState("all");
   const [query, setQuery] = useState("/all");
-  const [defaultChecked, setDefaultChecked] = useState(false);
   useEffect(() => {
     const fetchLoadedProduct = async () => {
       try {
@@ -148,10 +147,11 @@ const AllProduct = () => {
     // setOpenSidebar(false);
     console.log(query);
   };
-  const handleCloseFilter = () => {
-    selectedPriceOption("all");
+  const handleClearFilter = () => {
+    setSelectedPriceOption("all");
     setSelectedCategoryOption("all");
-    setQuery("/all");
+    // setQuery("/all");
+    console.log("ok");
   };
   return (
     <React.Fragment>
@@ -165,8 +165,7 @@ const AllProduct = () => {
           selectedPriceInitial={selectedPriceOption}
           selectedCategoryInitial={selectedCategoryOption}
           handleFilterProduct={handleFilterProduct}
-          handleCloseFilter={handleCloseFilter}
-          defaultChecked={defaultChecked}
+          handleClearFilter={handleClearFilter}
         />
       )}
       {isLoading ? (
