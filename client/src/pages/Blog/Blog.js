@@ -16,9 +16,9 @@ const Blog = () => {
     fetchLoadedBlog();
   }, []);
   return (
-    <div className="w-[90%] ml-[5%] mb-[18%] mt-[5%]">
+    <div className="w-[90%] ml-[5%] mb-[12%] mt-[5%]">
       <h1 className="heading font-playfair">The Blog</h1>
-      <ul className="grid grid-cols-1 md:grid-cols-3 h-[200px] gap-[5%] blog">
+      <ul className="grid grid-cols-1 md:grid-cols-3 h-[200px] gap-[5%] blog mb-[15%] sm:mb-[8%] lg:mb-0 ">
         {loadedBlog &&
           loadedBlog.map((blog) => {
             return (
@@ -31,9 +31,7 @@ const Blog = () => {
                   />
                 </Link>
                 <Link to={`/blog/${blog._id}`}>
-                  <div className="font-playfair text-[18px] mb-4 mt-4">
-                    {blog.title}
-                  </div>
+                  <div className="mb-4 mt-4">{blog.title}</div>
                 </Link>
                 <div className="flex items-center justify-between text-gray-600 mb-4">
                   <div className="flex items-center ">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
@@ -15,6 +15,7 @@ const initialValues = {
   newPassword: "",
   confirmPassword: "",
 };
+
 const validationSchema = Yup.object({
   oldPassword: Yup.string().min(8).required("This field is required."),
   newPassword: Yup.string().min(8).required("This field is required."),
@@ -30,6 +31,9 @@ const PasswordChange = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
+  useEffect(() => {
+    document.title = "Đổi mật khẩu";
+  }, []);
   const handleCloseModal = () => {
     setConfirm(false);
     setError(null);

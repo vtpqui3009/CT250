@@ -33,7 +33,7 @@ const Aside = () => {
   const handleToggleSubmenu = () => {
     setIsOpen((prevstate) => !prevstate);
   };
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     dispatch(logout());
   };
   const handleCartVisible = () => {

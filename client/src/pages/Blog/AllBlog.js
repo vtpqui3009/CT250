@@ -15,6 +15,7 @@ const AllBlog = () => {
           `${process.env.REACT_APP_BASE_API}/blogs?pages=1`
         );
         const responseData = await response.data.blogs;
+        document.title = "Tất cả bài blog";
         setAllBlog(responseData);
         console.log(responseData);
         setIsLoading(false);

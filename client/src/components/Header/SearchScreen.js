@@ -14,7 +14,7 @@ const SearchScreen = () => {
         `${process.env.REACT_APP_BASE_API}/products?keyword=${inputValue}`
       );
       const responseData = await response.data.products;
-      console.log(responseData);
+      // console.log(responseData);
       setLoadedProducts(responseData);
     };
     const timoutId = setTimeout(() => {

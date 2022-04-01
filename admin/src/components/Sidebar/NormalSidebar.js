@@ -80,12 +80,12 @@ const NormalSidebar = (props) => {
               <span>Customer</span>
             </li>
           </NavLink>
-          <NavLink to="/orders/manage">
+          {/* <NavLink to="/orders/manage">
             <li className="px-6 py-4 cursor-pointer hover:text-white flex items-center">
               <UilInvoice size="16" className="mr-6" />
               <span>Orders</span>
             </li>
-          </NavLink>
+          </NavLink> */}
           <li
             className="cursor-pointer relative"
             onClick={handleOpenBlogSubmenu}

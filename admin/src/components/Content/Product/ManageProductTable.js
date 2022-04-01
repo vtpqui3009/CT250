@@ -1,13 +1,21 @@
+import { useState } from "react";
 import TableHeader from "../TableLayout/TableHeader";
 import TableFooter from "../TableLayout/TableFooter";
 import { Link } from "react-router-dom";
-
+import Tooltip from "../../UI/Tooltip";
 const ManageProductTable = (props) => {
+  const [lastClicked, setLastClicked] = useState(null);
+  const handleOpenTooltip = (id) => {
+    setLastClicked(id);
+  };
+  const handleCloseTooltip = () => {
+    setLastClicked(0);
+  };
   return (
     <div className="content ml-[5%] text-[12px]">
       <TableHeader
         handleSelectChange={props.handleSelectChange}
-        handleInputCHange={props.handleInputChange}
+        handleInputChange={props.handleInputChange}
       />
       {props.productData.length === 0 ? (
         <div className="flex items-center justify-center w-full py-10">
@@ -32,12 +40,27 @@ const ManageProductTable = (props) => {
           </thead>
           <tbody>
             {props.productData.map((data, index) => (
-              <tr
-                key={index}
-                className="border-b border-gray-300 text-center hover:bg-slate-200"
-              >
+              <tr key={index} className="border-b border-gray-300 text-center ">
                 <td className="table-item">{data.name}</td>
-                <td className="table-item">{data.description}</td>
+                <td className="table-item ">
+                  <div className="blog-content relative">
+                    <p
+                      className="relative"
+                      onMouseEnter={() => handleOpenTooltip(data._id)}
+                      onMouseLeave={() => handleCloseTooltip(data._id)}
+                    >
+                      {data.description}
+                    </p>
+                  </div>
+                  <div className="absolute left-1/5 translate-y-[-120px] translate-x-4">
+                    {lastClicked === data._id ? (
+                      <Tooltip
+                        content={data.description}
+                        style={{ zIndex: "100" }}
+                      />
+                    ) : null}
+                  </div>
+                </td>
                 <td className=" text-center">
                   <img
                     src={data.images[0].url}

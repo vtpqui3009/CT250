@@ -29,15 +29,16 @@ const address = require("./routes/addressRoute");
 const blog = require("./routes/blogRoute");
 const comment = require("./routes/commentRoute");
 const stripe = require("./routes/stripeRoute");
-const { stripePayment } = require("./controller/stripeController");
+const createCheckoutSession = require("./controller/stripeController");
+
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", address);
 app.use("/api/v1", blog);
 app.use("/api/v1", comment);
-// app.use("/", stripe);
-app.post("/create-checkout-session", stripePayment);
+app.use("/api/v1", stripe);
+app.post("/create-checkout-session", createCheckoutSession);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 

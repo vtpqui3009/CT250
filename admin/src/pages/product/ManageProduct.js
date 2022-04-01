@@ -8,12 +8,10 @@ import LoadingSpinner from "../../components/UI/LoadingSpinner";
 
 const ManageProduct = () => {
   const [loadedProducts, setLoadedProducts] = useState([]);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [options, setOptions] = useState(0);
   const [selectValue, setSelectValue] = useState(5);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [queryProduct, setQueryProduct] = useState(null);
   useEffect(() => {
     const getLoadedProduct = async () => {
       try {
@@ -22,6 +20,7 @@ const ManageProduct = () => {
           `${process.env.REACT_APP_BASE_API}/products/all`
         );
         const responseData = await response.data.products;
+        console.log(responseData);
         setLoadedProducts(responseData);
         setIsLoading(false);
       } catch (err) {
@@ -47,7 +46,24 @@ const ManageProduct = () => {
       console.log(err);
     }
   };
-
+  useEffect(() => {
+    const getLoadedProduct = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_API}/products?keyword=${query}`
+        );
+        const responseData = await response.data.products;
+        setQueryProduct(responseData);
+        console.log(responseData);
+      } catch (err) {}
+    };
+    const timoutId = setTimeout(() => {
+      getLoadedProduct();
+    }, 500);
+    return () => {
+      clearTimeout(timoutId);
+    };
+  }, [query]);
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
@@ -80,16 +96,27 @@ const ManageProduct = () => {
                 </React.Fragment>
               }
             />
-
-            <ManageProductTable
-              productData={loadedProducts.slice(0, selectValue)}
-              onDeleteProduct={handleDeleteProduct}
-              handleInputChange={handleInputChange}
-              handleSelectChange={handleSelectChange}
-              fromItem="1"
-              toItem={selectValue}
-              totalItem={loadedProducts.length}
-            />
+            {!query ? (
+              <ManageProductTable
+                productData={loadedProducts}
+                onDeleteProduct={handleDeleteProduct}
+                handleInputChange={handleInputChange}
+                handleSelectChange={handleSelectChange}
+                fromItem="1"
+                toItem={selectValue}
+                totalItem={loadedProducts.length}
+              />
+            ) : (
+              <ManageProductTable
+                productData={queryProduct}
+                onDeleteProduct={handleDeleteProduct}
+                handleInputChange={handleInputChange}
+                handleSelectChange={handleSelectChange}
+                fromItem="1"
+                toItem={selectValue}
+                totalItem={loadedProducts.length}
+              />
+            )}
           </div>
         }
       />

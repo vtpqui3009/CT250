@@ -21,6 +21,7 @@ const AllProduct = () => {
           `${process.env.REACT_APP_BASE_API}/products${query}`
         );
         const responseData = await response.data.products;
+        document.title = "Tất cả sản phẩm";
         setLoadedProduct(responseData);
         setIsLoading(false);
       } catch (err) {
@@ -150,8 +151,6 @@ const AllProduct = () => {
   const handleClearFilter = () => {
     setSelectedPriceOption("all");
     setSelectedCategoryOption("all");
-    // setQuery("/all");
-    console.log("ok");
   };
   return (
     <React.Fragment>
@@ -191,8 +190,11 @@ const AllProduct = () => {
                 No product updated yet. Please come back later.
               </div>
             )}
-
-            <Pagination dataPerPage="10" data={loadedProduct} />
+            {loadedProduct && loadedProduct.length === 0 ? (
+              <div></div>
+            ) : (
+              <Pagination dataPerPage="10" data={loadedProduct} />
+            )}
           </div>
           <div className="mt-auto">
             <Footer />

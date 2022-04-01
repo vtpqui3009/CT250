@@ -48,6 +48,7 @@ const ProductCategoryDetail = () => {
           `${process.env.REACT_APP_BASE_API}/products${query}`
         );
         const responseData = await response.data.products;
+        document.title = `Danh mục sản phẩm - ${params.type}`;
         setLoadedProducts(responseData);
         setIsLoading(false);
       } catch (err) {
@@ -55,7 +56,7 @@ const ProductCategoryDetail = () => {
       }
     };
     fetchLoadedProduct();
-  }, [query]);
+  }, [query, params.type]);
   return (
     <>
       {openSidebar && (

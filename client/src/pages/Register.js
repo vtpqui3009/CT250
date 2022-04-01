@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RegisterForm from "../components/Auth/RegisterForm";
 import Navigation from "../components/Header/Navigation";
 import Footer from "../components/Footer/Footer";
 const Register = () => {
+  useEffect(() => {
+    document.title = "Đăng ký";
+  }, []);
   return (
     <>
       <Navigation />

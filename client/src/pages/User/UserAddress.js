@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "../../components/UI/FormikControl";
@@ -29,6 +29,9 @@ const UserAddress = () => {
     };
     postUserAddress();
   };
+  useEffect(() => {
+    document.title = "Địa chỉ khách hàng";
+  }, []);
   return (
     <>
       <Navigation />

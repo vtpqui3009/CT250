@@ -3,14 +3,14 @@ import { UisStar } from "@iconscout/react-unicons-solid";
 let rate = 0;
 const Rating = ({ props }) => {
   if (props.numOfReviews) {
-    rate = 100 - (props.rating / props.numReviews) * 20;
+    rate = 100 - (props.ratings / props.numOfReviews) * 20;
   } else {
-    rate = 100 - props.rating * 20;
+    rate = 100 - props.ratings * 20;
   }
 
   const styleStar = {
     clipPath:
-      props.rating === 0 ? `inset(0 100% 0 0)` : `inset(0 ${rate}% 0 0)`,
+      props.ratings === 0 ? `inset(0 100% 0 0)` : `inset(0 ${rate}% 0 0)`,
   };
 
   return (

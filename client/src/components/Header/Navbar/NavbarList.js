@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 const NavbarList = () => {
   const [inputValue, setInputValue] = useState("");
   const [focus, setFocus] = useState(false);
@@ -13,7 +12,6 @@ const NavbarList = () => {
         `${process.env.REACT_APP_BASE_API}/products?keyword=${inputValue}`
       );
       const responseData = await response.data.products;
-      console.log(responseData);
       setLoadedProducts(responseData);
     };
     const timoutId = setTimeout(() => {
@@ -32,7 +30,7 @@ const NavbarList = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(loadedProducts);
+    // console.log(loadedProducts);
   };
   return (
     <ul className="flex md:flex-row flex-col md:items-center justify-center">
@@ -43,7 +41,7 @@ const NavbarList = () => {
             placeholder="Nhập thực phẩm cần tìm ... "
             className="w-full border-[1px] border-gray-400 text-[12px] px-4 py-[6px] rounded mr-2 outline-none focus:outline-none relative"
             onChange={handleInputChange}
-            value={inputValue}
+            // value={inputValue}
           />
           <button type="submit">
             {" "}

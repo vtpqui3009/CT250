@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
@@ -57,6 +57,9 @@ const ConfirmResetToken = () => {
     setPasswordShown(passwordShown ? false : true);
   };
   const handleChange = (e) => {};
+  useEffect(() => {
+    document.title = "Lấy lại mật khẩu";
+  }, []);
   return (
     <React.Fragment>
       {error && confirm && (

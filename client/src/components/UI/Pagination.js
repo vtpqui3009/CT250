@@ -39,7 +39,7 @@ const Pagination = (props) => {
   };
   return (
     <>
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-[2%] md:mb-[8%]  mb-[55vh]">
+      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-[2%] md:mb-[8%] mb-[70vh] sm:mb-[55vh]">
         {displayData}
       </div>
       <ReactPaginate

@@ -15,6 +15,7 @@ const BlogDetail = () => {
           `${process.env.REACT_APP_BASE_API}/blog/${params.bid}`
         );
         const responseData = await response.data.blog;
+        document.title = responseData.title;
         console.log(responseData);
         setLoadedBlog(responseData);
       } catch (err) {}

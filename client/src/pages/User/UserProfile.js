@@ -16,15 +16,19 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchLoadedInfo = async () => {
       try {
+        setLoading(true);
         axios.defaults.withCredentials = true;
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_API}/me`
         );
         const responseData = await response.data.user;
-        console.log(responseData);
+        document.title = "Thông tin cá nhân";
         setLoadedInfo(responseData);
         setLoadedAvatar(responseData.avatar.url);
-      } catch (err) {}
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
     };
     fetchLoadedInfo();
   }, []);

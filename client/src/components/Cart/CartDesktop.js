@@ -116,26 +116,30 @@ const CartDesktop = () => {
             </tbody>
           </table>
         )}
-        <div className="cart-proceed">
-          {!userData ? (
-            <React.Fragment>
-              <button
-                className="cart-proceed-button"
-                onClick={handleLoginRequire}
-              >
-                Proceed To Checkout
-              </button>
-              {modalVisible && (
-                <Modal
-                  content="Please login to continue checkout."
-                  onCloseModal={handleCloseModal}
-                />
-              )}
-            </React.Fragment>
-          ) : (
-            submitButton
-          )}
-        </div>
+        {cart && cart.cartItems.length === 0 ? (
+          <div></div>
+        ) : (
+          <div className="cart-proceed">
+            {!userData ? (
+              <React.Fragment>
+                <button
+                  className="cart-proceed-button"
+                  onClick={handleLoginRequire}
+                >
+                  Proceed To Checkout
+                </button>
+                {modalVisible && (
+                  <Modal
+                    content="Please login to continue checkout."
+                    onCloseModal={handleCloseModal}
+                  />
+                )}
+              </React.Fragment>
+            ) : (
+              submitButton
+            )}
+          </div>
+        )}
       </div>
     </>
   );

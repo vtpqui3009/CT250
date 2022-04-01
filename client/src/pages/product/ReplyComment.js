@@ -2,7 +2,7 @@ import { useState, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
 import { DataContext } from "../../context/DataProvider";
 import { UisStar } from "@iconscout/react-unicons-solid";
-const ReplyComment = () => {
+const ReplyComment = (props) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [openCommentAction, setOpenCommentAction] = useState(false);
   const [rating, setRating] = useState(0);
@@ -99,7 +99,7 @@ const ReplyComment = () => {
           <div className="ml-auto">
             <button
               className="mr-4 rounded-full px-3 py-1 hover:bg-gray-200 mt-4"
-              onClick={handleCloseCommentField}
+              onClick={props.handleCloseCommentField}
               // type="submit"
             >
               Cancel

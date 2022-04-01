@@ -9,6 +9,8 @@ const ManageProduct = () => {
   const [loadedBlogs, setLoadedBlogs] = useState([]);
   const [selectValue, setSelectValue] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState(null);
+  const [queryBlog, setQueryBlog] = useState(null);
   useEffect(() => {
     const getLoadedProduct = async () => {
       try {
@@ -40,10 +42,25 @@ const ManageProduct = () => {
       console.log(err);
     }
   };
+  useEffect(() => {
+    const getLoadedProduct = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_API}/blogs/all`
+        );
+        const responseData = await response.data.blogs;
+        setQueryBlog(responseData.filter((data) => data.title.includes(query)));
+      } catch (err) {}
+    };
+    const timoutId = setTimeout(() => {
+      getLoadedProduct();
+    }, 500);
+    return () => {
+      clearTimeout(timoutId);
+    };
+  }, [query]);
   const handleInputChange = (e) => {
-    setLoadedBlogs((blog) =>
-      blog.filter((blog) => blog.toString().includes(e.target.value))
-    );
+    setQuery(e.target.value);
   };
   const handleSelectChange = (e) => {
     setSelectValue(e.target.value);
@@ -53,7 +70,7 @@ const ManageProduct = () => {
       {isLoading && <LoadingSpinner />}
       <Layout
         chilren={
-          <div className="w-full h-full bg-bg-color pt-[8%]">
+          <div className="w-full h-full bg-bg-color pt-[8%] overflow-hidden">
             <HeadingPath
               heading="Manage Blog"
               chilren={
@@ -74,15 +91,25 @@ const ManageProduct = () => {
                 </React.Fragment>
               }
             />
-
-            <ManageBlogTable
-              blogData={loadedBlogs.slice(0, selectValue)}
-              onDeleteBlog={handleDeleteBlog}
-              handleInputChange={handleInputChange}
-              handleSelectChange={handleSelectChange}
-              toItem="unknown"
-              totalItem={loadedBlogs.length}
-            />
+            {!query ? (
+              <ManageBlogTable
+                blogData={loadedBlogs.slice(0, selectValue)}
+                onDeleteBlog={handleDeleteBlog}
+                handleInputChange={handleInputChange}
+                handleSelectChange={handleSelectChange}
+                toItem="unknown"
+                totalItem={loadedBlogs.length}
+              />
+            ) : (
+              <ManageBlogTable
+                blogData={queryBlog}
+                onDeleteBlog={handleDeleteBlog}
+                handleInputChange={handleInputChange}
+                handleSelectChange={handleSelectChange}
+                toItem="unknown"
+                totalItem={loadedBlogs.length}
+              />
+            )}
           </div>
         }
       />

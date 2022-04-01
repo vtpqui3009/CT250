@@ -10,6 +10,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
   }
 }
 @layer components {
@@ -37,7 +38,7 @@
     @apply odd:text-sm mt-6 w-full flex items-center flex-col;
   }
   .toggle-sidebar__item {
-    @apply px-5 py-4 cursor-pointer  hover:bg-siderbar-darker  z-10;
+    @apply px-6 py-4 cursor-pointer  hover:bg-siderbar-darker  z-10;
   }
   .toggle-sidebar__submenu {
     @apply absolute  left-[95%] text-[12.5px] text-white  bg-siderbar-darker hidden group-hover:block z-0 w-44;
@@ -94,7 +95,7 @@
     @apply border-[1px] border-gray-400 px-2 py-1 mx-2 outline-none rounded;
   }
   .table-input {
-    @apply border-[1px] border-gray-400 px-4 py-1 rounded outline-none ml-2;
+    @apply border-[1px] border-gray-400 px-4 py-1 rounded outline-none ml-2 text-[14px];
   }
   /*---------------Table Footer Components-----------------*/
   .table-footer {
@@ -167,5 +168,37 @@
   .form-control
     > .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners {
     @apply bg-red-600;
+  }
+  .table-detail__button,
+  .table-deny__button,
+  .table-accept__button {
+    @apply text-white cursor-pointer px-2  text-[11px] py-1 rounded;
+  }
+  .table-detail__button {
+    @apply bg-green-600;
+  }
+  .table-deny__button {
+    @apply bg-red-600;
+  }
+  .table-accept__button {
+    @apply bg-sidebar-color;
+  }
+  .blog-title,
+  .blog-description,
+  .blog-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+  .blog-title {
+    -webkit-line-clamp: 1;
+  }
+  .blog-description {
+    -webkit-line-clamp: 2;
+  }
+  .blog-content {
+    -webkit-line-clamp: 3;
   }
 }

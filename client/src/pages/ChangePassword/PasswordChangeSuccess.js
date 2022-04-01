@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 const PasswordChangeSuccess = () => {
+  useEffect(() => {
+    document.title = "Đổi mật khẩu thành công";
+  }, []);
   return (
     <div className="h-screen w-full flex flex-col ">
       <div className="bg-green-600 text-white">

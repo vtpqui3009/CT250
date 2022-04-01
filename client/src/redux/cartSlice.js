@@ -21,20 +21,13 @@ const cartSlice = createSlice({
             state.cartItems[existingIndex].cartQuantity +
             action.payload.cartQuantity,
         };
-        // toast.info(`Increased product quantity`, {
-        //   position: "bottom-left",
-        // });
       } else {
         let tempProductItem = {
           ...action.payload,
           cartQuantity: action.payload.cartQuantity,
         };
         state.cartItems.push(tempProductItem);
-        // toast.success("Product added to cart", {
-        //   position: "bottom-left",
-        // });
       }
-      // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     decreaseCartQuantity(state, action) {
       const itemIndex = state.cartItems.findIndex(
@@ -42,44 +35,23 @@ const cartSlice = createSlice({
       );
       if (state.cartItems[itemIndex].cartQuantity > 1) {
         state.cartItems[itemIndex].cartQuantity -= 1;
-        // toast.info(
-        //   `Decreased ${state.cartItems[itemIndex].product.name} cart quantity successfully!`,
-        //   {
-        //     position: "top-right",
-        //   }
-        // );
       } else if (state.cartItems[itemIndex].cartQuantity === 1) {
         const nextCartItems = state.cartItems.filter(
           (cartItem) => cartItem.product._id !== action.payload.product._id
         );
         state.cartItems = nextCartItems;
-        // toast.error(
-        //   `${action.payload.product.name} removed from cart succesfully!`,
-        //   {
-        //     position: "top-right",
-        //   }
-        // );
       }
-      // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     removeItemFromCart(state, action) {
       const nextCartItems = state.cartItems.filter(
         (cartItem) => cartItem.product._id !== action.payload.product._id
       );
       state.cartItems = nextCartItems;
-      // toast.error(
-      //   `${action.payload.product.name} removed from cart succesfully!`,
-      //   {
-      //     position: "top-right",
-      //   }
-      // );
     },
     clearCart(state, action) {
       state.cartItems = [];
-      // toast.error(`Cart cleared!`, {
-      //   position: "top-right",
-      // });
-      // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      state.cartTotalQuantity = 0;
+      state.cartTotalAmount = 0;
     },
     getTotals(state, action) {
       let { total, quantity } = state.cartItems.reduce(

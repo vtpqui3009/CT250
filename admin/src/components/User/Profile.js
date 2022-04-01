@@ -17,6 +17,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchLoadedInfo = async () => {
       try {
+        setLoading(true);
         axios.defaults.withCredentials = true;
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_API}/me`
@@ -24,7 +25,10 @@ const Profile = () => {
         const responseData = await response.data.user;
         setLoadedInfo(responseData);
         setLoadedAvatar(responseData.avatar.url);
-      } catch (err) {}
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
     };
     fetchLoadedInfo();
   }, []);

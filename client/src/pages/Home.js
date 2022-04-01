@@ -7,7 +7,9 @@ import Footer from "../components/Footer/Footer";
 import { useEffect } from "react";
 
 const Home = () => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    document.title = "Organic Food";
+  }, []);
   return (
     <div className="flex flex-col">
       <Header />

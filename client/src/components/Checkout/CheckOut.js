@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import {
@@ -8,17 +8,17 @@ import {
 } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { UilPlus, UilMinus } from "@iconscout/react-unicons";
-import { useNavigate } from "react-router-dom";
-import { clearCart } from "../../redux/cartSlice";
+import CardIcon from "./credit-card.svg";
+import { useStripe } from "@stripe/react-stripe-js";
 const CheckOut = () => {
+  const stripe = useStripe();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user.currentUser);
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     dispatch(getTotals());
   }, [dispatch, cart]);
-
   const handleCreateOrder = async () => {
     const orderItems = cart.cartItems.map((item) => {
       return {
@@ -47,7 +47,6 @@ const CheckOut = () => {
       },
     };
     const formData = new FormData();
-    console.log(data.paymentInfo);
     formData.append("shippingInfo", data.shippingInfo);
     formData.append("orderItems", data.orderItems);
     formData.append("paymentInfo", data.paymentInfo);
@@ -55,22 +54,47 @@ const CheckOut = () => {
     formData.append("totalPrice", data.totalPrice);
     formData.append("userId", user.user._id);
     axios.defaults.withCredentials = true;
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_API}/order/new`,
-        {
-          shippingInfo: data.shippingInfo,
-          orderItems: data.orderItems,
-          paymentInfo: data.paymentInfo,
-          shippingPrice: data.shippingPrice,
-          totalPrice: data.totalPrice,
-          userId: user.user._id,
-        }
-      );
-      navigate("/user/order-success");
-      dispatch(clearCart());
-      console.log(response);
-    } catch (err) {}
+    await axios.post(`${process.env.REACT_APP_BASE_API}/order/new`, {
+      shippingInfo: data.shippingInfo,
+      orderItems: data.orderItems,
+      paymentInfo: data.paymentInfo,
+      shippingPrice: data.shippingPrice,
+      totalPrice: data.totalPrice,
+      userId: user.user._id,
+    });
+    // if (response) {
+    //   dispatch(clearCart());
+    // }
+  };
+  const handleCheckOut = async () => {
+    setIsLoading(true);
+    const line_items = cart.cartItems.map((item) => {
+      return {
+        quantity: item.cartQuantity,
+        price_data: {
+          currency: "vnd",
+          unit_amount: item.product.price,
+          product_data: {
+            name: item.product.name,
+            images: [item.product.images[0].url],
+          },
+        },
+      };
+    });
+    const response = await axios.post(
+      `http://localhost:4000/create-checkout-session`,
+      { line_items, customer_email: user.user.email }
+    );
+    if (response) {
+      handleCreateOrder();
+    }
+    const responseData = await response.data.sessionID;
+    const sessionId = responseData;
+    const { error } = await stripe.redirectToCheckout({ sessionId });
+    if (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   };
 
   const handleIncreaseQuantity = (product) => {
@@ -193,10 +217,19 @@ const CheckOut = () => {
             </span>
           </div>
           <button
-            className="bg-base-color w-full py-2 text-white text-[14px]"
-            onClick={handleCreateOrder}
+            // className="bg-base-color w-full py-2 text-white text-[14px]"
+            onClick={handleCheckOut}
+            disabled={isLoading}
+            className="checkout-button"
           >
-            CHECKOUT NOW
+            <div className="grey-circle">
+              <div className="green-circle">
+                <img className="icon" src={CardIcon} alt="credit-card-icon" />
+              </div>
+            </div>
+            <div className="text-container">
+              <p className="text">{isLoading ? "Processing..." : "Buy"}</p>
+            </div>
           </button>
         </div>
       </div>

@@ -10,7 +10,7 @@ const Content = (props) => {
       }
     >
       <Topbar toggleSidebar={props.toggleSidebar} isActive={props.isActive} />
-      {props.children}
+      <div className="mt-16"> {props.children}</div>
     </div>
   );
 };

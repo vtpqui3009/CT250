@@ -11,12 +11,12 @@ import Auth from "./components/Auth/Auth";
 import Customer from "./components/Content/Customer/Customer";
 import { AuthContext, initialState, reducer } from "./context/AuthContext";
 import UpdateCustomer from "./pages/Customer/UpdateCustomer";
-import ManageOrders from "./pages/Orders/MangeOrder";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ChangePasswordSuccess from "./pages/ChangePassword/ChangePasswordSuccess";
 import ManageBlog from "./pages/Blog/ManageBlog";
 import NewBlog from "./pages/Blog/NewBlog";
 import UpdateBlog from "./pages/Blog/UpdateBlog";
+import OrderDetail from "./pages/Orders/OrderDetail";
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const token = localStorage.getItem("token");
@@ -42,7 +42,8 @@ function App() {
             <Route path="edit/:bid" element={<UpdateBlog />} />
           </Route>
           <Route path="orders" element={<Outlet />}>
-            <Route path="manage" element={<ManageOrders />} />
+            <Route path="detail/:oid" element={<OrderDetail />} />
+            {/* <Route path="manage" element={<ManageOrders />} /> */}
           </Route>
           <Route path="/change-password" element={<ChangePassword />} />
           <Route

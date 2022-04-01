@@ -10,11 +10,11 @@ const Comments = ({ productId }) => {
   const [ratings, setRatings] = useState(0);
   const [comment, setComment] = useState("");
   const [commentEmpty, setCommentEmpty] = useState("");
+
   const allowComment = currentUser ? true : false;
   const commentRef = useRef();
   const state = useContext(DataContext);
   const socket = state.socket;
-
   const handleCommentFieldFocus = (e) => {
     setOpenCommentAction(true);
   };
@@ -27,14 +27,13 @@ const Comments = ({ productId }) => {
       setCommentEmpty("");
     }
   };
+
   const handleSubmitComment = () => {
-    // e.preventDefault();
     const userId = currentUser && currentUser.user._id;
     const userAvatar = currentUser.user.avatar.url;
     const userName = currentUser && currentUser.user.name;
     if (comment.trim().length === 0) {
       setCommentEmpty("This field is required !");
-      // alert("This field is required !");
     }
     socket.emit("createComment", {
       userId,
@@ -44,29 +43,9 @@ const Comments = ({ productId }) => {
       productId,
       ratings,
     });
-    // const updateReview = async () => {
-    //   try {
-    //     axios.defaults.withCredentials = true;
-    //     const formData = new FormData();
-    //     formData.append("productId", productId);
-    //     formData.append("ratings", ratings);
-
-    //     const response = await axios.put(
-    //       `${process.env.REACT_APP_BASE_API}/edit/review/${productId}`,
-    //       formData
-    //     );
-    //     console.log(response);
-    //   } catch (error) {
-    //     commentRef.focus();
-    //     setComment("");
-    //     console.log(error);
-    //   }
-    // };
-    // updateReview();
     setComment("");
     setRatings(0);
   };
-
   return (
     <>
       <div className="w-[90%] ml-[5%] mb-[5%]">

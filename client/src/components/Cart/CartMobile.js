@@ -113,27 +113,30 @@ const CartMobile = () => {
             />
             <button className="cart-coupon__action">Apply Coupon</button>
           </div>
-
-          <div className="flex items-center justify-center w-full ">
-            {!userData ? (
-              <div>
-                <button
-                  className=" uppercase rounded-full w-full py-2 border-base-color"
-                  onClick={handleLoginRequire}
-                >
-                  Proceed To Checkout
-                </button>
-                {modalVisible && (
-                  <Modal
-                    content="Please login to continue checkout."
-                    onCloseModal={handleCloseModal}
-                  />
-                )}
-              </div>
-            ) : (
-              submitButton
-            )}
-          </div>
+          {cart.cartItems.length === 0 ? (
+            <div></div>
+          ) : (
+            <div className="flex items-center justify-center w-full ">
+              {!userData ? (
+                <div>
+                  <button
+                    className=" uppercase rounded-full w-full py-2 border-base-color"
+                    onClick={handleLoginRequire}
+                  >
+                    Proceed To Checkout
+                  </button>
+                  {modalVisible && (
+                    <Modal
+                      content="Please login to continue checkout."
+                      onCloseModal={handleCloseModal}
+                    />
+                  )}
+                </div>
+              ) : (
+                submitButton
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

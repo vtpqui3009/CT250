@@ -1,4 +1,6 @@
+// import { UilSearchAlt } from "@iconscout/react-unicons";
 const options = [5, 10, 15, 20];
+
 const TableHeader = (props) => {
   return (
     <header className="table-heading">
@@ -11,13 +13,19 @@ const TableHeader = (props) => {
         </select>
         <span>entries</span>
       </div>
-      <form className="flex items-center">
+      <form
+        className="flex items-center text-[14px]"
+        // onSubmit={props.handleSubmit}
+      >
         <span>Search :</span>
         <input
           type="text"
-          onChange={props.handleInputCHange}
           className="table-input"
+          onChange={props.handleInputChange}
         />
+        {/* <button type="submit">
+          <UilSearchAlt className="h-5 w5" />
+        </button> */}
       </form>
     </header>
   );

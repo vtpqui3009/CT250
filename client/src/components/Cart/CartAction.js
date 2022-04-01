@@ -1,4 +1,10 @@
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../redux/cartSlice";
 const CartAction = () => {
+  const dispatch = useDispatch();
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
   return (
     <tr className="border-b border-gray-300">
       <td className="px-6 py-4 ">
@@ -6,7 +12,9 @@ const CartAction = () => {
         <button className="cart-coupon__action">Apply Coupon</button>
       </td>
       <td className="cart-update">
-        <button className="cart-update__action">Update Cart</button>
+        <button className="cart-clear__action " onClick={handleClearCart}>
+          Clear Cart
+        </button>
       </td>
     </tr>
   );

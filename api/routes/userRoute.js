@@ -30,7 +30,7 @@ router
   .get(isAuthenticateUser, authorizeRoles("admin"), getAllUsers);
 router
   .route("/admin/user/:id")
-  .get(isAuthenticateUser, authorizeRoles("admin"), getSigleUser)
+  .get(getSigleUser)
   .put(isAuthenticateUser, authorizeRoles("admin"), updateUserRole)
   .delete(isAuthenticateUser, authorizeRoles("admin"), deleteUser);
 

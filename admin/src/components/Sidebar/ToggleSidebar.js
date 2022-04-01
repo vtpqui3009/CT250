@@ -18,14 +18,14 @@ const ToogleSidebar = () => {
           <UilDashboard size="18" className="relative" />
           <span
             className="toggle-sidebar__submenu px-8 py-[15px]"
-            style={{ top: "16.5%" }}
+            style={{ top: "15%" }}
           >
             <Link to="/">Dashboard</Link>
           </span>
         </li>
         <li className="toggle-sidebar__item group">
           <UilBox size="18" className="relative" />
-          <ul className="toggle-sidebar__submenu" style={{ top: "25.3%" }}>
+          <ul className="toggle-sidebar__submenu" style={{ top: "23%" }}>
             <li className=" bg-siderbar-darker px-8 py-[15px]">Product</li>
             <Link to="/product/new">
               <li className="toggle-sidebar__link">
@@ -43,14 +43,14 @@ const ToogleSidebar = () => {
           <UilUsersAlt size="18" className="relative" />
           <span
             className="toggle-sidebar__submenu px-8 py-[15px]"
-            style={{ top: "34%" }}
+            style={{ top: "31%" }}
           >
             <Link to="/customer/manage">Customer</Link>
           </span>
         </li>
         <li className="toggle-sidebar__item group">
           <UilPen size="18" className="relative" />
-          <ul className="toggle-sidebar__submenu" style={{ top: "25.3%" }}>
+          <ul className="toggle-sidebar__submenu" style={{ top: "39%" }}>
             <li className=" bg-siderbar-darker px-8 py-[15px]">Blog</li>
             <Link to="/blog/new">
               <li className="toggle-sidebar__link">
@@ -65,10 +65,10 @@ const ToogleSidebar = () => {
           </ul>
         </li>
         <li className="toggle-sidebar__item group">
-          <UilHistory size="18" className="relative" />
+          <UilHistory size="18" className="relative " />
           <span
             className="toggle-sidebar__submenu px-8 py-[15px]"
-            style={{ top: "42.8%" }}
+            style={{ top: "47%" }}
           >
             <Link to="/history">History</Link>
           </span>

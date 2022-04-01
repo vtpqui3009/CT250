@@ -13,6 +13,8 @@ const CommentList = ({ productId }) => {
   const state = useContext(DataContext);
   const socket = state.socket;
   const [reply, setReply] = useState(false);
+  const [lastClicked, setLastClicked] = useState(null);
+
   useEffect(() => {
     const getAllReviews = async () => {
       try {
@@ -20,11 +22,17 @@ const CommentList = ({ productId }) => {
           `${process.env.REACT_APP_BASE_API}/comments/${productId}`
         );
         const responseData = await response.data.comments;
+        // const totalRating = responseData.reduce(
+        //   (previousValue, currentValue) => previousValue + currentValue.ratings,
+        //   0
+        // );
+        // const averageRating = totalRating / responseData.length;
         setComments(responseData);
       } catch (err) {}
     };
     getAllReviews();
   }, [productId]);
+
   //realtime
   // join room
   useEffect(() => {
@@ -36,7 +44,7 @@ const CommentList = ({ productId }) => {
     if (socket) {
       socket.on("sendCommentToClient", (message) => {
         setComments([message, ...comments]);
-        console.log([message, ...comments]);
+        // console.log([message, ...comments]);
       });
       // return socket.off("sendCommentToClient");
     }
@@ -47,11 +55,18 @@ const CommentList = ({ productId }) => {
       setModalVisible(true);
     }
   };
-  const handleRelyComment = () => {
+  const handleRelyComment = (id) => {
     if (!currentUser) {
       setModalVisible(true);
+      setReply(false);
+      return;
     }
+    setLastClicked(id);
     setReply(true);
+  };
+  const handleCloseCommentField = () => {
+    setLastClicked(null);
+    setReply(false);
   };
   const handleCloseModal = () => {
     setModalVisible(false);
@@ -90,7 +105,7 @@ const CommentList = ({ productId }) => {
                 <div className="w-[80%] md:w-[90%] rounded-xl bg-gray-200 md:p-4 px-4 py-2">
                   <div className="flex md:flex-row flex-col justify-between mb-0 md:mb-4">
                     <p className="font-bold">{comment.userName}</p>
-                    <Rating props={comments} />
+                    <Rating props={comment} />
                   </div>
                   <p>{comment.comment}</p>
                 </div>
@@ -98,14 +113,14 @@ const CommentList = ({ productId }) => {
               <div className="ml-[35%] md:ml-[12%] md:px-4 flex items-center text-[14px] ">
                 <button
                   className="mr-4 text-gray-500"
-                  onClick={handleLikeComment}
+                  // onClick={index === commen handleLikeComment}
                 >
                   Like
                 </button>
                 <span className="mr-4 pb-2 md:block hidden">.</span>
                 <button
                   className="mr-4 text-gray-500"
-                  onClick={handleRelyComment}
+                  onClick={() => handleRelyComment(comment._id)}
                 >
                   Rely
                 </button>
@@ -115,7 +130,11 @@ const CommentList = ({ productId }) => {
                 </span>
               </div>
 
-              {reply && <ReplyComment />}
+              {reply && lastClicked === comment._id && (
+                <ReplyComment
+                  handleCloseCommentField={handleCloseCommentField}
+                />
+              )}
             </div>
           ))}
       </div>
