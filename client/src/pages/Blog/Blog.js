@@ -37,10 +37,6 @@ const Blog = () => {
                   <div className="flex items-center ">
                     {new Date(blog.createdAt).toLocaleString()}
                   </div>
-                  <div className="flex items-center ">
-                    {blog.numOfComment}
-                    <UilComment className="w-[16px] h-[16px] ml-2" />
-                  </div>
                 </div>
               </li>
             );

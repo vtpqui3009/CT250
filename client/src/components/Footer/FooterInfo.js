@@ -13,7 +13,7 @@ const FooterInfo = () => {
       </div>
       <div className="flex items-center text-sm mt-4">
         <PhoneIcon className="w-4 h-4 mr-4" />
-        <p>Phone: +0356547882</p>
+        <p>Phone: 0356547882</p>
       </div>
       <div className="flex items-center text-sm mt-4">
         <MailIcon className="w-4 h-4 mr-4" />
