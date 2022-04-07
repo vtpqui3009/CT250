@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
-import FormikControl from "../UI/FormikControl";
+import FormikControl from "../UI/Form/FormikControl";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { loginInitialValues, loginValidationSchema } from "./FormikConfig";
@@ -59,7 +59,7 @@ const LoginForm = () => {
       {isLoading && <LoadingSpinner />}
       {loginError && confirm && (
         <Modal
-          header="Invalid Email"
+          header="Invalid Credentials"
           content="Your email and password you entered didn't match data you registered in our system. Please check and try again."
           onCloseModal={handleCloseModal}
         />

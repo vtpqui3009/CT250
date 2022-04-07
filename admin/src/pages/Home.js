@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import HeadingPath from "../components/Content/HeadingPath/HeadingPath";
-import HeadingPathItem from "../components/Content/HeadingPath/HeadingPathItem";
+// import {useSelector} from "react-redux"
 import ManageOrdersTable from "./Orders/MangeOrdersTable";
 import Modal from "../components/UI/Modal";
-import axios from "axios";
+import HeadingPath from "../components/Content/HeadingPath/HeadingPath";
+import HeadingPathItem from "../components/Content/HeadingPath/HeadingPathItem";
+import Widget from "../components/UI/Widget";
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    document.title = "Organic Dashboard";
+  }, []);
   const handleCloseModal = () => {
     setIsOpen(false);
   };
@@ -17,9 +21,9 @@ const Home = () => {
   return (
     <Layout
       chilren={
-        <div className="w-full h-full bg-bg-color pt-[8%]">
+        <div className="w-full h-full bg-bg-color pt-[4%]">
           <HeadingPath
-            heading="Manage Orders"
+            heading="Dashboard"
             chilren={
               <>
                 <HeadingPathItem
@@ -27,18 +31,19 @@ const Home = () => {
                   pathnameClass="text-gray-900"
                 />
                 <HeadingPathItem
-                  pathname="Orders"
-                  pathnameClass="text-gray-900"
-                />
-                <HeadingPathItem
-                  pathname="Manage Orders"
-                  pathnameClass="text-gray-400"
+                  pathname="Dashboard"
+                  pathnameClass="text-gray-500"
                   iconClass="hidden"
                 />
               </>
             }
           />
-
+          <div className="grid grid-cols-4 h-32 gap-5 px-[9%] pt-[2%]">
+            <Widget type="user" />
+            <Widget type="order" />
+            <Widget type="earning" />
+            <Widget type="balance" />
+          </div>
           {isOpen && (
             <Modal
               onCloseModal={handleCloseModal}
@@ -56,6 +61,7 @@ const Home = () => {
               }
             />
           )}
+
           <ManageOrdersTable onDenyOrder={handleDenyOrder} />
         </div>
       }

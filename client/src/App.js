@@ -6,7 +6,6 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-// import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
@@ -22,14 +21,15 @@ import AllBlog from "./pages/Blog/AllBlog";
 import BlogDetail from "./pages/Blog/BlogDetail";
 import ProductCategoryDetail from "./pages/Product/ProductCategoryDetail";
 import UserAddress from "./pages/User/UserAddress";
-import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
 import Cancel from "./components/Checkout/Cancel";
 import Success from "./components/Checkout/Success";
+import { useSelector } from "react-redux";
 import { DataProvider } from "./context/DataProvider";
 import ConfirmResetToken from "./pages/ForgotPassword/ConfirmResetToken";
 import UserReviewCheckout from "./pages/User/UserReviewCheckout";
-
+import Notifications from "./pages/User/Notifications";
+import MyOrder from "./pages/User/MyOrder";
+import OrderDetail from "./pages/User/OrderDetail";
 function App() {
   const user = useSelector((state) => state.user.currentUser);
 
@@ -48,12 +48,13 @@ function App() {
             path="/register"
             element={user ? <Navigate to="/" /> : <Register />}
           />
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> */}
           <Route path="user" element={<Outlet />}>
             <Route path="profile" element={<UserProfile />} />
             <Route path="address" element={<UserAddress />} />
             <Route path="checkout" element={<UserCheckOut />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="my-order" element={<MyOrder />} />
+            <Route path="order/:orderId" element={<OrderDetail />} />
             <Route path="review-checkout" element={<UserReviewCheckout />} />
           </Route>
           <Route path="password" element={<Outlet />}>

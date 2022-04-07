@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import FormikControl from "../../components/UI/FormikControl";
+
+import FormikControl from "../../components/UI/Form/FormikControl";
 import { addressInitialValues, addressValidationSchema } from "./FormikConfig";
 import axios from "axios";
 import Navigation from "../../components/Header/Navigation";

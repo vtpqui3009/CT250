@@ -60,7 +60,7 @@ const ManageCustomer = () => {
             <div>
               <CustomerTable
                 customerData={loadedUsers}
-                onClick={handleDeleteUser}
+                handleDeleteUser={handleDeleteUser}
               />
             </div>
           </div>

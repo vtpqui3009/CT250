@@ -17,7 +17,10 @@ const Home = () => {
       <Feature />
       <Blog />
       <CallToAction />
-      <Footer />
+      <div className="mt-auto">
+        {" "}
+        <Footer />
+      </div>
     </div>
   );
 };

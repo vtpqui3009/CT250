@@ -4,7 +4,7 @@ import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import FormikControl from "../../components/UI/FormikControl";
+import FormikControl from "../../components/UI/Form/FormikControl";
 import axios from "axios";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import Modal from "../../components/UI/Modal";

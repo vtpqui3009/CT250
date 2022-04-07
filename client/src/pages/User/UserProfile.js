@@ -3,7 +3,7 @@ import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import axios from "axios";
 import { Formik, Form } from "formik";
-import FormikControl from "../../components/UI/FormikControl";
+import FormikControl from "../../components/UI/Form/FormikControl";
 import * as Yup from "yup";
 import { CameraIcon } from "@heroicons/react/outline";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";

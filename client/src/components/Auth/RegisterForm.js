@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { UploadImage } from "../UI/UploadImage";
+import { UploadImage } from "../UI/Form/UploadImage";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import FormikControl from "../UI/FormikControl";
+import FormikControl from "../UI/Form/FormikControl";
 import axios from "axios";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import {

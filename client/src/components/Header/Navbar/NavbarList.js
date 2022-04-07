@@ -83,7 +83,7 @@ const NavbarList = () => {
       </li>
 
       <li className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm">
-        <a href="#home">Contact</a>
+        <a href="#footer">Contact</a>
       </li>
 
       <li className="md:ml-14 md:p-0 p-4 hover:text-green-600 ease-linear duration-300 md:text-base text-sm">

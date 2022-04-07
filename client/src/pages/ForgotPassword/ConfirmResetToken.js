@@ -6,7 +6,7 @@ import axios from "axios";
 import Modal from "../../components/UI/Modal";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import FormikControl from "../../components/UI/FormikControl";
+import FormikControl from "../../components/UI/Form/FormikControl";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 const initialValues = {
   token: "",

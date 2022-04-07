@@ -1,5 +1,6 @@
 const app = require("./app");
 const Comments = require("./models/commentModel");
+const Notifications = require("./models/notificationModel");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
 const cloudinary = require("cloudinary");
@@ -76,7 +77,24 @@ io.on("connection", (socket) => {
     } else {
     }
   });
-
+  socket.on("sendNotification", async (noti) => {
+    const { senderId, senderName, senderAvatar, message, orderId, receiverId } =
+      noti;
+    const newNotification = new Notifications({
+      senderId,
+      senderName,
+      senderAvatar,
+      message,
+      orderId,
+      receiverId,
+    });
+    await newNotification.save();
+    console.log(newNotification);
+    io.to(newNotification.receiverId).emit(
+      "sendNotificationToClient",
+      newNotification
+    );
+  });
   socket.on("disconnect", () => {
     console.log(socket.id + " disconnected.");
   });

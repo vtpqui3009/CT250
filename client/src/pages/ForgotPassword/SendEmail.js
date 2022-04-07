@@ -7,7 +7,7 @@ import Modal from "../../components/UI/Modal";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
-import FormikControl from "../../components/UI/FormikControl";
+import FormikControl from "../../components/UI/Form/FormikControl";
 const initialValues = {
   email: "",
 };

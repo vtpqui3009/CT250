@@ -210,4 +210,20 @@
   .blog-content {
     -webkit-line-clamp: 3;
   }
+  .table-content,
+  .featured,
+  .chart,
+  .widget {
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  }
+  .featured {
+    @apply p-3 bg-white;
+  }
+  .chart {
+    @apply flex items-center justify-center text-gray-500 p-3 text-sm bg-white;
+  }
+  .widget {
+    @apply px-4 py-2 bg-white;
+  }
 }

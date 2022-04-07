@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import {
   UilUserCircle,
   UilWallet,
@@ -8,33 +8,27 @@ import {
 } from "@iconscout/react-unicons";
 import { Link, useNavigate } from "react-router-dom";
 import Backdrop from "../../UI/Backdrop";
-import { AuthContext } from "../../../context/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../../redux/userSlice";
 const TopbarAuth = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { dispatch } = useContext(AuthContext);
-  const [avatar, setAvatar] = useState({});
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const avatar = currentUser && currentUser.user.avatar.url;
   const navigate = useNavigate();
-  const userData =
-    localStorage.getItem("user") && JSON.parse(localStorage.getItem("user"));
-  // const avatar = userData && userData.avatar.url;
-  useEffect(() => {
-    if (userData) {
-      setAvatar(userData.avatar.url);
-    }
-  }, [userData]);
   const handleToggleSubmenu = () => {
     setIsOpen((prevstate) => !prevstate);
   };
 
   const handleLogOut = () => {
-    dispatch({ type: "LOGOUT" });
+    dispatch(logout());
     navigate("/");
   };
   return (
     <div className="relative">
-      {avatar ? (
+      {currentUser ? (
         <img
-          src={avatar}
+          src={currentUser && avatar}
           alt=""
           className="user-avatar"
           onClick={handleToggleSubmenu}

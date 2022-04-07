@@ -28,6 +28,7 @@ const order = require("./routes/orderRoute");
 const address = require("./routes/addressRoute");
 const blog = require("./routes/blogRoute");
 const comment = require("./routes/commentRoute");
+const notification = require("./routes/notificationRoute");
 const stripe = require("./routes/stripeRoute");
 const createCheckoutSession = require("./controller/stripeController");
 
@@ -37,6 +38,7 @@ app.use("/api/v1", order);
 app.use("/api/v1", address);
 app.use("/api/v1", blog);
 app.use("/api/v1", comment);
+app.use("/api/v1", notification);
 app.use("/api/v1", stripe);
 app.post("/create-checkout-session", createCheckoutSession);
 
