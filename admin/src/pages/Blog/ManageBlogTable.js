@@ -1,30 +1,7 @@
-import { useState } from "react";
 import TableHeader from "../../components/Content/TableLayout/TableHeader";
 import TableFooter from "../../components/Content/TableLayout/TableFooter";
 import { Link } from "react-router-dom";
-import Tooltip from "../../components/UI/Tooltip";
 const ManageBlogTable = (props) => {
-  const [titleLastClicked, setTitleLastClicked] = useState(null);
-  const [descLastClicked, setDescLastClicked] = useState(null);
-  // const [contentLastClicked, setContentLastClicked] = useState(null);
-  function handleOpenTitleTooltip(id) {
-    setTitleLastClicked(id);
-  }
-  function handleCloseTitleTooltip() {
-    setTitleLastClicked(0);
-  }
-  function handleOpenDescTooltip(id) {
-    setDescLastClicked(id);
-  }
-  function handleCloseDescTooltip() {
-    setDescLastClicked(0);
-  }
-  // function handleOpenContentTooltip(id) {
-  //   setContentLastClicked(id);
-  // }
-  // function handleCloseContentTooltip() {
-  //   setContentLastClicked(0);
-  // }
   return (
     <div className="content ml-[5%] text-[12px] overflow-hidden">
       <TableHeader
@@ -58,38 +35,15 @@ const ManageBlogTable = (props) => {
               >
                 <td className="table-item">
                   <div className="relative">
-                    <p
-                      className="blog-title relative z-0"
-                      onMouseEnter={() => handleOpenTitleTooltip(data._id)}
-                      onMouseLeave={() => handleCloseTitleTooltip(data._id)}
-                    >
-                      {data.title}
-                    </p>
-                  </div>
-                  <div className="absolute left-1/5 translate-y-[-80px] translate-x-4">
-                    {titleLastClicked === data._id ? (
-                      <Tooltip content={data.title} style={{ zIndex: "0" }} />
-                    ) : null}
+                    <p className="blog-title relative z-0">{data.title}</p>
                   </div>
                 </td>
 
                 <td className="table-item">
                   <div className="relative">
-                    <p
-                      className="blog-description relative z-100"
-                      onMouseEnter={() => handleOpenDescTooltip(data._id)}
-                      onMouseLeave={() => handleCloseDescTooltip(data._id)}
-                    >
+                    <p className="blog-description relative z-100">
                       {data.shortDescription}
                     </p>
-                  </div>
-                  <div className="absolute left-1/5 translate-y-[-100px] translate-x-4">
-                    {descLastClicked === data._id ? (
-                      <Tooltip
-                        content={data.shortDescription}
-                        style={{ zIndex: "40" }}
-                      />
-                    ) : null}
                   </div>
                 </td>
                 <td className="table-item text-center">

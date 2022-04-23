@@ -3,11 +3,12 @@ import { SearchIcon } from "@heroicons/react/outline";
 import { UilTimes } from "@iconscout/react-unicons";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useToogle from "../../hooks/useToogle";
 const SearchScreen = () => {
-  const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [focus, setFocus] = useState(false);
   const [loadedProducts, setLoadedProducts] = useState([]);
+  const [visible, toogleVisible] = useToogle(false);
   useEffect(() => {
     const getLoadedProducts = async () => {
       const response = await axios.get(
@@ -33,10 +34,11 @@ const SearchScreen = () => {
     setInputValue(e.target.value);
   };
   const handleOpenSearchbar = () => {
-    setOpen(true);
+    // setOpen(true);
+    toogleVisible(true);
   };
   const handleCloseSearchbar = () => {
-    setOpen(false);
+    toogleVisible(false);
     setFocus(false);
     setInputValue("");
   };
@@ -45,14 +47,14 @@ const SearchScreen = () => {
       <div
         className="flex items-center mr-2 absolute top-[-16px] right-10 w-[200px] "
         style={{
-          background: open ? "white" : "",
+          background: visible ? "white" : "",
         }}
       >
         <div
           className=" flex items-center justify-center "
           style={{
-            width: open ? "20%" : "16px",
-            transform: open ? "translateX(0)" : "translateX(220px)",
+            width: visible ? "20%" : "16px",
+            transform: visible ? "translateX(0)" : "translateX(220px)",
           }}
         >
           <SearchIcon
@@ -64,12 +66,12 @@ const SearchScreen = () => {
           type="text"
           className="mr-4 rounded py-[6px] px-2 bg-transparent focus:outline-none outline-none "
           style={{
-            width: open ? "80%" : "0",
+            width: visible ? "80%" : "0",
           }}
           onChange={handleInputChange}
           value={inputValue}
         />
-        {open && (
+        {visible && (
           <UilTimes
             className="w-6 h-6 translate-x-[-50%] cursor-pointer"
             onClick={handleCloseSearchbar}

@@ -17,6 +17,7 @@ const ManageCustomer = () => {
         );
         const responseData = await response.data.users;
         const filterData = responseData.filter((data) => data.role === "user");
+        console.log(responseData);
         setLoadedUsers(filterData);
       } catch (err) {}
     };

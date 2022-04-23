@@ -37,8 +37,9 @@ const ProductDetail = () => {
         document.title = `Chi tiết sản phẩm - ${responseData.name}`;
         setLoadedProduct(responseData);
         setLoadedProductImages(responseData.images);
+        console.log(responseData.price);
         setProductPrice(
-          responseData.product.price.toLocaleString("it-IT", {
+          responseData.price.toLocaleString("it-IT", {
             style: "currency",
             currency: "VND",
           })
@@ -97,11 +98,12 @@ const ProductDetail = () => {
           <main className="w-[90%] ml-[5%] my-12 md:my-24">
             {loadedProduct && (
               <section className="flex flex-col md:flex-row w-full gap-[5%]">
-                <div className="md:hidden block mb-4">
-                  <div className="">
-                    <div className="">{loadedProduct.name}</div>
-                    {/* <Rating /> */}
+                <div className="block md:hidden">
+                  <div className="flex items-center mt-2">
+                    <div className="mr-4">{loadedProduct.name}</div>
+                    <Rating props={loadedProduct} />
                   </div>
+                  <div className="my-2">Price : {productPrice}</div>
                 </div>
                 <div className="w-full">
                   {loadedProductImages && (
@@ -126,13 +128,14 @@ const ProductDetail = () => {
                 </div>
                 <div className="w-full ">
                   <div className="md:block hidden">
-                    <div className="">{loadedProduct.name}</div>
-                    <Rating props={loadedProduct} />
+                    <div className="flex items-center mt-2">
+                      <div className="mr-4">{loadedProduct.name}</div>
+                      <Rating props={loadedProduct} />
+                    </div>
+                    <div className="my-2">Price : {productPrice}</div>
                   </div>
                   <div className=" mt-2">{loadedProduct.description}</div>
-                  <div className="flex items-center mt-2">
-                    <div>{productPrice}</div>
-                  </div>
+
                   <div className="flex items-center mt-2">
                     <span>In Stock : </span>
                     <p>{loadedProduct.stock}</p>{" "}

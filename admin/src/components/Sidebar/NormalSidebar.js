@@ -6,12 +6,11 @@ import {
   UilDashboard,
   UilBox,
   UilUsersAlt,
-  UilHistory,
   UilInvoice,
   UilPen,
 } from "@iconscout/react-unicons";
 
-const NormalSidebar = (props) => {
+const NormalSidebar = () => {
   const [activeProductSubmenu, setActiveProductSubmenu] = useState(false);
   const [activeBlogSubmenu, setActiveBlogSubmenu] = useState(false);
   const handleOpenProductSubmenu = () => {
@@ -80,12 +79,6 @@ const NormalSidebar = (props) => {
               <span>Customer</span>
             </li>
           </NavLink>
-          {/* <NavLink to="/orders/manage">
-            <li className="px-6 py-4 cursor-pointer hover:text-white flex items-center">
-              <UilInvoice size="16" className="mr-6" />
-              <span>Orders</span>
-            </li>
-          </NavLink> */}
           <li
             className="cursor-pointer relative"
             onClick={handleOpenBlogSubmenu}
@@ -123,12 +116,14 @@ const NormalSidebar = (props) => {
               </ul>
             </div>
           </li>
-          <NavLink to="/history">
-            <li className="px-6 py-4 cursor-pointer hover:text-white flex items-center">
-              <UilHistory size="16" className="mr-6" />
-              <span>History</span>
-            </li>
-          </NavLink>
+          <li>
+            <NavLink to="/orders/manage">
+              <li className="px-6 py-4 cursor-pointer hover:text-white flex items-center">
+                <UilInvoice size="16" className="mr-6" />
+                <span>Orders</span>
+              </li>
+            </NavLink>
+          </li>
         </ul>
       </main>
     </>

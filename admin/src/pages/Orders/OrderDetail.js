@@ -142,7 +142,8 @@ const OrderDetail = () => {
                   <div className="ml-[5%] leading-6">
                     <span>Created At : </span>
                     <span>
-                      {orderDetail && orderDetail.createdAt.toLocaleString()}
+                      {orderDetail &&
+                        new Date(orderDetail.createdAt).toLocaleString("vi-VI")}
                     </span>
                   </div>
                   <div className="ml-[5%] leading-6">

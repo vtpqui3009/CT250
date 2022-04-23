@@ -4,7 +4,7 @@ import {
   UilBox,
   UilUsersAlt,
   UilPen,
-  UilHistory,
+  UilInvoice,
 } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 const ToogleSidebar = () => {
@@ -64,13 +64,14 @@ const ToogleSidebar = () => {
             </Link>
           </ul>
         </li>
+
         <li className="toggle-sidebar__item group">
-          <UilHistory size="18" className="relative " />
+          <UilInvoice size="18" className="relative " />
           <span
             className="toggle-sidebar__submenu px-8 py-[15px]"
             style={{ top: "47%" }}
           >
-            <Link to="/history">History</Link>
+            <Link to="/orders/manage">Orders</Link>
           </span>
         </li>
       </ul>

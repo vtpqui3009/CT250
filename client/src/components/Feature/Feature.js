@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import FeatureItem from "./FeatureItem";
 import { ChevronDoubleRightIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
+
 const Feature = () => {
   const [featureProducts, setFeatureProducts] = useState([]);
+
   useEffect(() => {
     const getFeatureProducts = async () => {
       try {
@@ -12,6 +14,7 @@ const Feature = () => {
           ` ${process.env.REACT_APP_BASE_API}/products`
         );
         const responseData = await response.data.products;
+        // console.log(responseData);
         const filterData = responseData.slice(0, 8);
         setFeatureProducts(filterData);
       } catch (err) {}

@@ -12,6 +12,7 @@ const ManageOrdersTable = (props) => {
   const [total, setTotal] = useState(null);
   const [value, setValue] = useState(0);
   const [percentage, setPercentage] = useState(0);
+  const [allOrders, setAllOrders] = useState([]);
   const currentUser = useSelector((state) => state.user.currentUser);
   const state = useContext(DataContext);
   const socket = state.socket;
@@ -25,6 +26,7 @@ const ManageOrdersTable = (props) => {
           `${process.env.REACT_APP_BASE_API}/admin/orders`
         );
         const responseData = await response.data.orders;
+        setAllOrders(responseData);
         const processingOrder = responseData.filter(
           (order) => order.orderStatus === "Processing"
         );
@@ -161,24 +163,22 @@ const ManageOrdersTable = (props) => {
 
     try {
       setIsLoading(true);
-      const response = await axios.put(
+      await axios.put(
         `${process.env.REACT_APP_BASE_API}/admin/order/${orderId}`,
         { status: "Delivered" }
       );
-      if (response) {
-        setOrders((prev) =>
-          prev.filter((order) => order.orderStatus === "Processing")
-        );
-        socket.emit("sendNotification", {
-          senderId,
-          senderName,
-          senderAvatar,
-          message,
-          orderId,
-          receiverId,
-        });
-        setIsLoading(false);
-      }
+      setOrders((prev) =>
+        prev.filter((order) => order.orderStatus === "Processing")
+      );
+      socket.emit("sendNotification", {
+        senderId,
+        senderName,
+        senderAvatar,
+        message,
+        orderId,
+        receiverId,
+      });
+      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
     }

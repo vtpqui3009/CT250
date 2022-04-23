@@ -1,10 +1,10 @@
-const TableFooter = ({ fromItem, toItem, totalItem }) => {
+const TableFooter = () => {
   return (
     <footer className="table-footer">
-      <span>
+      {/* <span>
         Showing {fromItem} to {toItem} of {totalItem} entries
-      </span>
-      <div className="flex items-center">
+      </span> */}
+      <div className="flex items-center justify-center">
         <button className="table-actions">Previous</button>
         <ul className="flex items-center">
           <li className="border-[1px] border-sidebar-color px-[10px] py-1 bg-sidebar-color  text-white">

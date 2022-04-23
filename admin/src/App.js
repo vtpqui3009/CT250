@@ -24,6 +24,7 @@ import UpdateBlog from "./pages/Blog/UpdateBlog";
 import OrderDetail from "./pages/Orders/OrderDetail";
 import { useSelector } from "react-redux";
 import { DataProvider } from "./context/DataProvider";
+import ManageOrders from "./pages/Orders/ManageOrders";
 function App() {
   const user = useSelector((state) => state.user.currentUser);
 
@@ -50,7 +51,7 @@ function App() {
           </Route>
           <Route path="orders" element={<Outlet />}>
             <Route path="detail/:oid" element={<OrderDetail />} />
-            {/* <Route path="manage" element={<ManageOrders />} /> */}
+            <Route path="manage" element={<ManageOrders />} />
           </Route>
           <Route path="/change-password" element={<ChangePassword />} />
           <Route

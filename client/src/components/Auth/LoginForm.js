@@ -16,7 +16,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
   const showPassword = () => {
     setPasswordShown(passwordShown ? false : true);
   };

@@ -5,16 +5,17 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartTotal from "../Cart/CartTotal";
 import Backdrop from "./Backdrop";
+import useToogle from "../../hooks/useToogle";
 const CartNoti = () => {
   const cart = useSelector((state) => state.cart.cartItems);
   const [openBackdrop, setOpenBackdrop] = useState(false);
-  const [cartVisible, setCartVisible] = useState(false);
+  const [visible, toogleVisible] = useToogle(false);
   const handleCartVisible = () => {
-    setCartVisible((prevstate) => !prevstate);
+    toogleVisible(true);
     setOpenBackdrop(true);
   };
   const handleToogleCart = () => {
-    setCartVisible(false);
+    toogleVisible(false);
     setOpenBackdrop(false);
   };
   return (
@@ -35,7 +36,7 @@ const CartNoti = () => {
           className="absolute font-bold top-[-120%] right-[0%] flex items-center justify-center"
         />
 
-        {cartVisible && (
+        {visible && (
           <div className="w-[50vw] sm:w-[40vw] lg:w-[20vw] absolute top-8 right-0 sm:right-[50%] shadow-lg bg-[#fff] p-2 z-40">
             {cart.length === 0 ? (
               <div className="text-center my-4 w-[60%] ml-[20%]">

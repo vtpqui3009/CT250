@@ -24,7 +24,6 @@ const CustomerTable = (props) => {
               <th className="table-item">Name</th>
               <th className="table-item">Contact</th>
               <th className="table-item">Profile</th>
-              <th className="table-item">Address</th>
               <th className="table-item">Role</th>
             </tr>
           </thead>
@@ -43,7 +42,6 @@ const CustomerTable = (props) => {
                     className="w-[50px] h-[50px] rounded-full"
                   />
                 </td>
-                <td className="table-item">{data.address}</td>
                 <td className="table-item">{data.role}</td>
                 <td className="p-2 text-center">
                   <Link to={`/customer/edit/${data._id}`}>

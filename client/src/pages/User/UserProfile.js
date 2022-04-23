@@ -41,19 +41,15 @@ const UserProfile = () => {
       setLoadedAvatar(reader.result);
     };
   };
-  const initialValues = { name: loadedInfo.name, email: loadedInfo.email };
+  const initialValues = { name: loadedInfo.name };
 
   const validationSchema = Yup.object({
     name: Yup.string().required("This field is required!"),
-    email: Yup.string()
-      .email("Invalid email format!")
-      .required("This field is required!"),
   });
   const onSubmit = async (values, onSubmitProps) => {
     const formData = new FormData();
     formData.append("avatar", loadedAvatar);
     formData.append("name", values.name);
-    formData.append("email", values.email);
     try {
       setLoading(true);
       const response = await axios.put(
@@ -110,12 +106,6 @@ const UserProfile = () => {
                     type="text"
                     label="Name *"
                     name="name"
-                  />
-                  <FormikControl
-                    control="input"
-                    type="email"
-                    label="Email *"
-                    name="email"
                   />
 
                   <div className="flex items-center justify-center">

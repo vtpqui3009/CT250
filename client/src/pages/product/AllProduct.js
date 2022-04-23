@@ -6,6 +6,7 @@ import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import { UilFilter } from "@iconscout/react-unicons";
 import SidebarFilterAndSort from "./Sidebar/SidebarFilterAndSort";
 import Pagination from "../../components/UI/Pagination";
+
 const AllProduct = () => {
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +14,7 @@ const AllProduct = () => {
   const [selectedPriceOption, setSelectedPriceOption] = useState("all");
   const [selectedCategoryOption, setSelectedCategoryOption] = useState("all");
   const [query, setQuery] = useState("/all");
+
   useEffect(() => {
     const fetchLoadedProduct = async () => {
       try {

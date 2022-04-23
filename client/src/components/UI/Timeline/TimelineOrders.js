@@ -18,7 +18,18 @@ const TimelineOrders = () => {
           `${process.env.REACT_APP_BASE_API}/orders/me`
         );
         const responseData = await response.data.orders;
-
+        const sortData = responseData.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        // const sortData = responseData.sort();
+        // const test = responseData.map((data) =>
+        //   moment(data.createdAt).format("MMMM Do YYYY")
+        // );
+        // responseData.groupBy()
+        // const test1 = responseData.groupBy(({ createdAt }) =>
+        //   moment(createdAt).format("MMMM Do YYYY")
+        // );
+        // console.log(test1);
         // const groupDate = responseData.map((data) =>
         //   moment(data.createdAt).format("MMMM Do YYYY")
         // );
@@ -35,7 +46,7 @@ const TimelineOrders = () => {
         // }
         // setGroupOrders(data);
 
-        setMyOrders(responseData);
+        setMyOrders(sortData);
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);

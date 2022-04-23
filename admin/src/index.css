@@ -47,7 +47,7 @@
     @apply odd:text-sm mt-6 w-full flex items-center flex-col;
   }
   .toggle-sidebar__item {
-    @apply px-6 py-4 cursor-pointer  hover:bg-siderbar-darker  z-10;
+    @apply px-6 py-4 cursor-pointer  hover:bg-siderbar-darker  z-50;
   }
   .toggle-sidebar__submenu {
     @apply absolute  left-[95%] text-[12.5px] text-white  bg-siderbar-darker hidden group-hover:block z-0 w-44;
@@ -108,7 +108,7 @@
   }
   /*---------------Table Footer Components-----------------*/
   .table-footer {
-    @apply flex items-center justify-between mt-6 w-[90%] ml-[5%];
+    @apply flex items-center justify-center mt-6 w-[90%] ml-[5%];
   }
   .table-page {
     @apply border-[1px] border-gray-300 px-[10px] py-1;
