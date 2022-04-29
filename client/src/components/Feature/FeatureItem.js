@@ -3,11 +3,20 @@ import { addToCart } from "../../redux/cartSlice";
 import React from "react";
 import { EyeIcon, HeartIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const FeatureItem = (props) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
+    toast(`🦄 Bạn vừa thêm sản phẩm  ${product.name} vào giỏ hàng của bạn !`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     dispatch(addToCart({ product, cartQuantity: 1 }));
   };
 

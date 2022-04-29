@@ -6,7 +6,7 @@ import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import { UilFilter } from "@iconscout/react-unicons";
 import SidebarFilterAndSort from "./Sidebar/SidebarFilterAndSort";
 import Pagination from "../../components/UI/Pagination";
-
+import ProductPagination from "./ProductPagination";
 const AllProduct = () => {
   const [loadedProduct, setLoadedProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,6 @@ const AllProduct = () => {
   const [selectedPriceOption, setSelectedPriceOption] = useState("all");
   const [selectedCategoryOption, setSelectedCategoryOption] = useState("all");
   const [query, setQuery] = useState("/all");
-
   useEffect(() => {
     const fetchLoadedProduct = async () => {
       try {
@@ -195,7 +194,13 @@ const AllProduct = () => {
             {loadedProduct && loadedProduct.length === 0 ? (
               <div></div>
             ) : (
-              <Pagination dataPerPage="10" data={loadedProduct} />
+              <Pagination
+                data={loadedProduct}
+                RenderComponent={ProductPagination}
+                pageLimit={3}
+                dataLimit={8}
+                paginationClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 "
+              />
             )}
           </div>
           <div className="mt-auto">

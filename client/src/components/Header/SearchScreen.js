@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 import { UilTimes } from "@iconscout/react-unicons";
 import axios from "axios";
@@ -9,6 +9,7 @@ const SearchScreen = () => {
   const [focus, setFocus] = useState(false);
   const [loadedProducts, setLoadedProducts] = useState([]);
   const [visible, toogleVisible] = useToogle(false);
+
   useEffect(() => {
     const getLoadedProducts = async () => {
       const response = await axios.get(
@@ -42,16 +43,20 @@ const SearchScreen = () => {
     setFocus(false);
     setInputValue("");
   };
+  const handleFocus = () => {
+    setFocus(true);
+  };
   return (
     <div className=" hidden md:block relative z-40">
       <div
-        className="flex items-center mr-2 absolute top-[-16px] right-10 w-[200px] "
+        className="flex items-center mr-2 absolute top-[-16px] right-10 w-[200px]"
         style={{
           background: visible ? "white" : "",
+          border: focus ? "border 1px solid black" : "",
         }}
       >
         <div
-          className=" flex items-center justify-center "
+          className=" flex items-center justify-center"
           style={{
             width: visible ? "20%" : "16px",
             transform: visible ? "translateX(0)" : "translateX(220px)",
@@ -64,12 +69,13 @@ const SearchScreen = () => {
         </div>
         <input
           type="text"
-          className="mr-4 rounded py-[6px] px-2 bg-transparent focus:outline-none outline-none "
+          className="mr-4 rounded py-[6px] px-2 bg-transparent focus:outline-none outline-none"
           style={{
             width: visible ? "80%" : "0",
           }}
           onChange={handleInputChange}
           value={inputValue}
+          onFocus={handleFocus}
         />
         {visible && (
           <UilTimes

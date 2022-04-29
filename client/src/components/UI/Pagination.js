@@ -1,59 +1,85 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import ReactPaginate from "react-paginate";
-const Pagination = (props) => {
-  const [pageNumber, setPageNumber] = useState(0);
-  const dataPerPage = props.dataPerPage;
-  const pagesVisited = pageNumber * dataPerPage;
+import "./Pagination.css";
+function Pagination({
+  data,
+  RenderComponent,
+  title,
+  pageLimit,
+  dataLimit,
+  paginationClass,
+}) {
+  const [pages] = useState(Math.round(data.length / dataLimit));
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const displayData = props.data
-    .slice(pagesVisited, pagesVisited + dataPerPage)
-    .map((product) => (
-      <div key={product._id}>
-        <Link to={`/product/${product._id}`}>
-          <img
-            src={product.images[0].url}
-            alt=""
-            className="w-full h-[200px] object-cover"
-          />
-        </Link>
+  function goToNextPage() {
+    setCurrentPage((page) => page + 1);
+  }
 
-        <div className="text-center">
-          <Link to={`/product/${product._id}`}>
-            {" "}
-            <div>{product.name}</div>{" "}
-          </Link>
-          <div>
-            {product.price.toLocaleString("it-IT", {
-              style: "currency",
-              currency: "VND",
-            })}
-          </div>
-        </div>
-      </div>
-    ));
-  const pageCount = Math.ceil(props.data.length / dataPerPage);
-  const handlePageChange = (selected) => {
-    setPageNumber(selected.selected);
-    console.log(selected);
+  function goToPreviousPage() {
+    setCurrentPage((page) => page - 1);
+  }
+
+  function changePage(event) {
+    const pageNumber = Number(event.target.textContent);
+    setCurrentPage(pageNumber);
+  }
+  const getPaginatedData = () => {
+    const startIndex = currentPage * dataLimit - dataLimit;
+    const endIndex = startIndex + dataLimit;
+    return data.slice(startIndex, endIndex);
+  };
+  const getPaginationGroup = () => {
+    let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
+    return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
   };
   return (
-    <>
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-[2%] md:mb-[8%] mb-[70vh] sm:mb-[55vh]">
-        {displayData}
+    <div>
+      <h1>{title}</h1>
+
+      {/* show the posts, 10 posts at a time */}
+      <ul className={paginationClass}>
+        {getPaginatedData().map((d, idx) => (
+          <RenderComponent key={d._id} data={d} />
+        ))}
+      </ul>
+
+      {/* show the pagiantion
+              it consists of next and previous buttons
+              along with page numbers, in our case, 5 page
+              numbers at a time
+          */}
+      <div className="pagination">
+        {/* previous button */}
+        <button
+          onClick={goToPreviousPage}
+          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
+        >
+          prev
+        </button>
+
+        {/* show page numbers */}
+        {getPaginationGroup().map((item, index) => (
+          <button
+            key={index}
+            onClick={changePage}
+            className={`paginationItem ${
+              currentPage === item ? "isActive" : null
+            }`}
+          >
+            <span>{item}</span>
+          </button>
+        ))}
+
+        {/* next button */}
+        <button
+          onClick={goToNextPage}
+          className={`next ${currentPage === pages ? "disabled" : ""}`}
+        >
+          next
+        </button>
       </div>
-      <ReactPaginate
-        previousLabel={"Previous"}
-        nextLabel={"Next"}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-        containerClassName={"paginationBttns"}
-        previousLinkClassName={"previousBttn"}
-        nextLinkClassName={"nextBttn"}
-        disabledClassName={"paginationDisabled"}
-        activeClassName={"paginationActive"}
-      />
-    </>
+    </div>
   );
-};
+}
+
 export default Pagination;

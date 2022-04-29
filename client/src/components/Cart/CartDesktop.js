@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react";
 import { UilPlus, UilMinus } from "@iconscout/react-unicons";
 import axios from "axios";
 import { addToCart, decreaseCartQuantity } from "../../redux/cartSlice";
+import { toast } from "react-toastify";
 const CartDesktop = () => {
   const [loadedAddress, setLoadedAddress] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -28,12 +29,49 @@ const CartDesktop = () => {
     fetchUserAddress();
   }, []);
   const handleRemoveFromCart = (cartItem) => {
+    toast(
+      `🦄 Bạn vừa xóa sản phẩm  ${cartItem.product.name} khỏi giỏ hàng của bạn !`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     dispatch(removeItemFromCart(cartItem));
   };
   const handleAddToCart = (product) => {
+    toast(
+      `🦄 Bạn vừa tăng số lượng sản phẩm  ${product.name} trong giỏ hàng của bạn !`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     dispatch(addToCart({ product, cartQuantity: 1 }));
   };
   const handleDecreaseFromCart = (product) => {
+    console.log(product);
+    toast(
+      `🦄 Bạn vừa giảm số lượng sản phẩm  ${product.product.name} trong giỏ hàng của bạn !`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     dispatch(decreaseCartQuantity(product));
   };
   const handleLoginRequire = () => {
@@ -78,7 +116,7 @@ const CartDesktop = () => {
                       <img
                         src={cartItem.product.images[0].url}
                         alt=""
-                        className="mr-4 w-[100px] h-[100px]"
+                        className="mr-4 w-[100px] h-[100px] object-cover"
                       />
                       <span>{cartItem.product.name}</span>
                     </td>

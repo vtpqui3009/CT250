@@ -30,11 +30,14 @@ import UserReviewCheckout from "./pages/User/UserReviewCheckout";
 import Notifications from "./pages/User/Notifications";
 import MyOrder from "./pages/User/MyOrder";
 import OrderDetail from "./pages/User/OrderDetail";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const user = useSelector((state) => state.user.currentUser);
 
   return (
     <BrowserRouter>
+      <ToastContainer />
       <DataProvider>
         <Routes>
           <Route path="/cart" element={<Cart />} />

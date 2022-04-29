@@ -38,8 +38,8 @@ io.on("connection", (socket) => {
       });
     }
 
-    console.log(users);
-    console.log(socket.adapter.rooms);
+    // console.log(users);
+    // console.log(socket.adapter.rooms);
   });
   socket.on("createComment", async (message) => {
     const { productId, userId, userName, userAvatar, ratings, comment } =
@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
     });
 
     await newComment.save();
-    console.log(newComment);
+    // console.log(newComment);
     io.to(newComment.productId).emit("sendCommentToClient", newComment);
   });
   socket.on("replyComment", async (replyMessage) => {
@@ -89,7 +89,7 @@ io.on("connection", (socket) => {
       receiverId,
     });
     await newNotification.save();
-    console.log(newNotification);
+    // console.log(newNotification);
     io.to(newNotification.receiverId).emit(
       "sendNotificationToClient",
       newNotification

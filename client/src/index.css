@@ -10,6 +10,7 @@
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* height: 100%; */
     /* font-family: "Playfair Display", serif; */
   }
   html {
@@ -298,10 +299,8 @@
     @apply text-white bg-base-color;
   }
 
-  .paginationDisabled a {
-    /* color: grey; */
+  .paginationDisabled {
     @apply bg-gray-300 text-white cursor-not-allowed border-[1px] border-gray-300;
-    /* background-color: grey; */
   }
   .paginationDisabled a:hover {
     @apply bg-gray-300;
