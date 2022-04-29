@@ -12,7 +12,7 @@ function Pagination({
   const [currentPage, setCurrentPage] = useState(1);
 
   function goToNextPage() {
-    setCurrentPage((page) => page + 1);
+    setCurrentPage((page) => (page < pages ? page + 1 : page));
   }
 
   function goToPreviousPage() {
@@ -37,24 +37,11 @@ function Pagination({
       <h1>{title}</h1>
 
       {/* show the posts, 10 posts at a time */}
-      <table className="table-content">
-        <thead className="border-b border-t border-gray-300">
-          <tr>
-            <th className="table-item">Name</th>
-            <th className="table-item">Description</th>
-            <th className="table-item">Image</th>
-            <th className="table-item">Quantity</th>
-            <th className="table-item">Price</th>
-            <th className="table-item">Weight</th>
-            <th className="table-item">Discount</th>
-            <th className="table-item"></th>
-            <th className="table-item"></th>
-          </tr>
-        </thead>
+      <ul className={paginationClass}>
         {getPaginatedData().map((d, idx) => (
           <RenderComponent key={d._id} data={d} />
         ))}
-      </table>
+      </ul>
 
       {/* show the pagiantion
               it consists of next and previous buttons
@@ -68,7 +55,6 @@ function Pagination({
           className={`prev ${currentPage === 1 ? "disabled" : ""}`}
         >
           prev
-          {/* <span> prev</span> */}
         </button>
 
         {/* show page numbers */}
@@ -87,10 +73,9 @@ function Pagination({
         {/* next button */}
         <button
           onClick={goToNextPage}
-          className={`next ${currentPage === pages ? "disabled" : ""}`}
+          className={`next ${currentPage === pages + 1 ? "disabled" : ""}`}
         >
           next
-          {/* <span> next</span> */}
         </button>
       </div>
     </div>

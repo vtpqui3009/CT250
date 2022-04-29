@@ -12,7 +12,7 @@ function Pagination({
   const [currentPage, setCurrentPage] = useState(1);
 
   function goToNextPage() {
-    setCurrentPage((page) => page + 1);
+    setCurrentPage((page) => (page < pages ? page + 1 : page));
   }
 
   function goToPreviousPage() {
@@ -73,7 +73,7 @@ function Pagination({
         {/* next button */}
         <button
           onClick={goToNextPage}
-          className={`next ${currentPage === pages ? "disabled" : ""}`}
+          className={`next ${currentPage === pages + 1 ? "disabled" : ""}`}
         >
           next
         </button>
