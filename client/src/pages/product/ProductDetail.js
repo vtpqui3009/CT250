@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navigation from "../../components/Header/Navigation";
 import Footer from "../../components/Footer/Footer";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 import {
   UilPlus,
   UilMinus,
@@ -16,7 +17,6 @@ import Comments from "./Comments";
 import Rating from "./Rating";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 const ProductDetail = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
   const [count, setCount] = useState(1);
@@ -37,7 +37,6 @@ const ProductDetail = () => {
         document.title = `Chi tiết sản phẩm - ${responseData.name}`;
         setLoadedProduct(responseData);
         setLoadedProductImages(responseData.images);
-        console.log(responseData.price);
         setProductPrice(
           responseData.price.toLocaleString("it-IT", {
             style: "currency",
@@ -51,9 +50,6 @@ const ProductDetail = () => {
     };
     fetchDetailProduct();
   }, [params.pid]);
-  // useEffect(() => {
-  //   document.title = loadedProduct.name;
-  // }, [loadedProduct.name]);
   const handleQuantityChange = (e) => {
     setCount(e.target.value);
   };
@@ -64,8 +60,16 @@ const ProductDetail = () => {
     setCount((count) => (count <= 1 ? (count = 1) : count - 1));
   };
   const handleAddToCart = (product) => {
+    toast(`🦄 Bạn vừa thêm sản phẩm  ${product.name} vào giỏ hàng của bạn !`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     dispatch(addToCart({ product, cartQuantity: count }));
-    navigate("/cart");
   };
   const handlePrevImage = () => {
     setImageIndex((index) =>

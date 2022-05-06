@@ -30,7 +30,7 @@ const CommentList = ({ productId }) => {
           `${process.env.REACT_APP_BASE_API}/comments/${productId}`
         );
         const responseData = await response.data.comments;
-        console.log(responseData);
+
         setComments(responseData);
       } catch (err) {}
     };
@@ -62,7 +62,6 @@ const CommentList = ({ productId }) => {
           }
         });
         setComments(newArr);
-        console.log(replyMessage);
       });
       // return socket.off("sendCommentToClient");
     }
@@ -77,7 +76,6 @@ const CommentList = ({ productId }) => {
           }
         });
         setComments(newArr);
-        console.log(replyMessage);
       });
       // return socket.off("sendCommentToClient");
     }

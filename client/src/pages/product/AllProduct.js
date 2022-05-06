@@ -23,6 +23,7 @@ const AllProduct = () => {
         );
         const responseData = await response.data.products;
         document.title = "Tất cả sản phẩm";
+        console.log(responseData);
         setLoadedProduct(responseData);
         setIsLoading(false);
       } catch (err) {
@@ -40,11 +41,9 @@ const AllProduct = () => {
   };
   const handlePriceChange = (e) => {
     setSelectedPriceOption(e.target.value);
-    console.log(e.target.value);
   };
   const handleCategoryChange = (e) => {
     setSelectedCategoryOption(e.target.value);
-    console.log(e.target.value);
   };
   const handleFilterProduct = () => {
     const queryMeatArr = [
