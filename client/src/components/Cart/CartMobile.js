@@ -6,6 +6,7 @@ import { removeItemFromCart, getTotals } from "../../redux/cartSlice";
 import Modal from "../UI/Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 const CartMobile = () => {
   const cart = useSelector((state) => state.cart);
   const [loadedAddress, setLoadedAddress] = useState([]);
@@ -33,6 +34,18 @@ const CartMobile = () => {
     fetchUserAddress();
   }, []);
   const handleRemoveFromCart = (cartItem) => {
+    toast.error(
+      `🦄 Bạn vừa xóa sản phẩm  ${cartItem.product.name} khỏi giỏ hàng của bạn !`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     dispatch(removeItemFromCart(cartItem));
   };
   const handleCartQuantityChange = (event) => {};

@@ -11,15 +11,19 @@ const ManageCustomer = () => {
   useEffect(() => {
     const getLoadedUsers = async () => {
       try {
+        setLoading(true);
         axios.defaults.withCredentials = true;
         const response = await axios.get(
           ` ${process.env.REACT_APP_BASE_API}/admin/users`
         );
         const responseData = await response.data.users;
         const filterData = responseData.filter((data) => data.role === "user");
-        console.log(responseData);
+
         setLoadedUsers(filterData);
-      } catch (err) {}
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
     };
     getLoadedUsers();
   }, []);

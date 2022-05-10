@@ -29,7 +29,7 @@ const CartDesktop = () => {
     fetchUserAddress();
   }, []);
   const handleRemoveFromCart = (cartItem) => {
-    toast(
+    toast.error(
       `🦄 Bạn vừa xóa sản phẩm  ${cartItem.product.name} khỏi giỏ hàng của bạn !`,
       {
         position: "top-right",
@@ -44,7 +44,7 @@ const CartDesktop = () => {
     dispatch(removeItemFromCart(cartItem));
   };
   const handleAddToCart = (product) => {
-    toast(
+    toast.success(
       `🦄 Bạn vừa tăng số lượng sản phẩm  ${product.name} trong giỏ hàng của bạn !`,
       {
         position: "top-right",
@@ -59,19 +59,34 @@ const CartDesktop = () => {
     dispatch(addToCart({ product, cartQuantity: 1 }));
   };
   const handleDecreaseFromCart = (product) => {
-    console.log(product);
-    toast(
-      `🦄 Bạn vừa giảm số lượng sản phẩm  ${product.product.name} trong giỏ hàng của bạn !`,
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      }
-    );
+    if (product.cartQuantity === 1) {
+      toast.error(
+        `🦄 Bạn vừa xóa sản phẩm  ${product.product.name} khỏi giỏ hàng của bạn !`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    } else {
+      toast.warning(
+        `🦄 Bạn vừa giảm số lượng sản phẩm  ${product.product.name} trong giỏ hàng của bạn !`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    }
+
     dispatch(decreaseCartQuantity(product));
   };
   const handleLoginRequire = () => {

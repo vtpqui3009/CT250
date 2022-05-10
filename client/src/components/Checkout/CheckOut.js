@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { UilPlus, UilMinus } from "@iconscout/react-unicons";
 import CardIcon from "./credit-card.svg";
 import { useStripe } from "@stripe/react-stripe-js";
+import { toast } from "react-toastify";
 const CheckOut = () => {
   const stripe = useStripe();
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const CheckOut = () => {
       };
     });
     const data = {
-      shippingPrice: 25000,
+      shippingPrice: cart.cartItems.length > 0 ? 25000 : 0,
       shippingInfo: {
         name: "Nguyen Hoang Thai Hoc",
         address: "Can Ther",
@@ -62,9 +63,6 @@ const CheckOut = () => {
       totalPrice: data.totalPrice,
       userId: user.user._id,
     });
-    // if (response) {
-    //   dispatch(clearCart());
-    // }
   };
   const handleCheckOut = async () => {
     setIsLoading(true);
@@ -98,9 +96,49 @@ const CheckOut = () => {
   };
 
   const handleIncreaseQuantity = (product) => {
+    toast.success(
+      `🦄 Bạn vừa tăng số lượng sản phẩm  ${product.name} trong giỏ hàng của bạn !`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     dispatch(addToCart({ product, cartQuantity: 1 }));
   };
   const handleDecreaseQuantity = (product) => {
+    if (product.cartQuantity === 1) {
+      toast.error(
+        `🦄 Bạn vừa xóa sản phẩm  ${product.product.name} khỏi giỏ hàng của bạn !`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    } else {
+      toast.warning(
+        `🦄 Bạn vừa giảm số lượng sản phẩm  ${product.product.name} trong giỏ hàng của bạn !`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    }
+
     dispatch(decreaseCartQuantity(product));
   };
   return (
@@ -187,6 +225,9 @@ const CheckOut = () => {
                 <hr className="h-[1px] bg-slate-300 w-full my-4" />
               </div>
             ))}
+          {cart.cartItems.length === 0 && (
+            <div>There no product available. </div>
+          )}
         </div>
         <div className="w-full sm:w-[30%] mt-2 sm:mt-14 border-[1px] border-slate-300 p-6 h-[80%]">
           <h1 className="uppercase text-2xl mb-4">Order Summary</h1>
@@ -201,7 +242,7 @@ const CheckOut = () => {
           </div>
           <div className="flex items-center justify-between mb-4">
             <span>Shipping price</span>
-            <span> 25.000 VND</span>
+            <span> {cart.cartItems.length > 0 ? 25000 : 0}</span>
           </div>
           <div className="flex items-center justify-between mb-4">
             <span>Shipping discount</span>
@@ -210,7 +251,10 @@ const CheckOut = () => {
           <div className="flex items-center justify-between mb-4 font-bold">
             <span>Total</span>
             <span>
-              {(cart.cartTotalAmount + 25000).toLocaleString("it-IT", {
+              {(cart.cartTotalAmount + cart.cartItems.length > 0
+                ? 25000
+                : 0
+              ).toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
               })}

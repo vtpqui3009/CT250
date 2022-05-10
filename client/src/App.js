@@ -8,29 +8,6 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { DataProvider } from "./context/DataProvider";
-
-// import Home from "./pages/Home";
-// import Cart from "./pages/Cart";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import UserCheckOut from "./pages/User/UserCheckOut";
-// import SendEmail from "./pages/ForgotPassword/SendEmail";
-// import PasswordChange from "./pages/ChangePassword/PasswordChange";
-// import UserProfile from "./pages/User/UserProfile";
-// import ProductDetail from "./pages/Product/ProductDetail";
-// import PasswordChangeSuccess from "./pages/ChangePassword/PasswordChangeSuccess";
-// import AllProduct from "./pages/Product/AllProduct";
-// import AllBlog from "./pages/Blog/AllBlog";
-// import BlogDetail from "./pages/Blog/BlogDetail";
-// import ProductCategoryDetail from "./pages/Product/ProductCategoryDetail";
-// import UserAddress from "./pages/User/UserAddress";
-// import Cancel from "./components/Checkout/Cancel";
-// import Success from "./components/Checkout/Success";
-// import ConfirmResetToken from "./pages/ForgotPassword/ConfirmResetToken";
-// import UserReviewCheckout from "./pages/User/UserReviewCheckout";
-// import Notifications from "./pages/User/Notifications";
-// import MyOrder from "./pages/User/MyOrder";
-// import OrderDetail from "./pages/User/OrderDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
