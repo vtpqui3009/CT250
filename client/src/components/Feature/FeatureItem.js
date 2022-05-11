@@ -20,6 +20,7 @@ const FeatureItem = (props) => {
         progress: undefined,
       }
     );
+
     dispatch(addToCart({ product, cartQuantity: 1 }));
   };
 

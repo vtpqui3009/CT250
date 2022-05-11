@@ -18,11 +18,11 @@ const CommentList = ({ productId }) => {
   const [lastClicked, setLastClicked] = useState(null);
   const [replyListIsVisible, setReplyListIsVisible] = useState(false);
   const [toggleVisible, setToggleVisible] = useState(true);
-  const [prevUser, setPrevUser] = useState(null);
+  // const [prevUser, setPrevUser] = useState(null);
   const [ratings, setRatings] = useState(0);
   const [commentEmpty, setCommentEmpty] = useState("");
   const [comment, setComment] = useState("");
-  const [replyCommentIsVisible, setReplyCommentIsVisible] = useState(false);
+  // const [replyCommentIsVisible, setReplyCommentIsVisible] = useState(false);
   useEffect(() => {
     const getAllReviews = async () => {
       try {
@@ -49,7 +49,6 @@ const CommentList = ({ productId }) => {
         setComments([message, ...comments]);
         // console.log([message, ...comments]);
       });
-      // return socket.off("sendCommentToClient");
     }
   }, [socket, comments]);
   useEffect(() => {

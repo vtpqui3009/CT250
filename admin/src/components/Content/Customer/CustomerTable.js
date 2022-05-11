@@ -1,6 +1,6 @@
 import React from "react";
 import TableHeader from "../TableLayout/TableHeader";
-import TableFooter from "../TableLayout/TableFooter";
+// import TableFooter from "../TableLayout/TableFooter";
 import { Link } from "react-router-dom";
 
 const CustomerTable = (props) => {
@@ -62,7 +62,7 @@ const CustomerTable = (props) => {
         </table>
       )}
 
-      <TableFooter />
+      {/* <TableFooter /> */}
     </div>
   );
 };

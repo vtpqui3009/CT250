@@ -33,13 +33,10 @@ const Auth = () => {
     axios.defaults.withCredentials = "true";
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_API}/login`,
-        formData
-      );
-      if (response) {
-        login(dispatch, { email, password });
-      }
+      await axios.post(`${process.env.REACT_APP_BASE_API}/login`, formData);
+      // if (response) {
+      login(dispatch, { email, password });
+      // }
       setIsLoading(false);
       navigate("/");
     } catch (err) {

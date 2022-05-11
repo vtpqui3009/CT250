@@ -1,5 +1,5 @@
 import TableHeader from "../../components/Content/TableLayout/TableHeader";
-import TableFooter from "../../components/Content/TableLayout/TableFooter";
+// import TableFooter from "../../components/Content/TableLayout/TableFooter";
 import { Link } from "react-router-dom";
 const ManageBlogTable = (props) => {
   return (
@@ -86,11 +86,11 @@ const ManageBlogTable = (props) => {
         </table>
       )}
 
-      <TableFooter
+      {/* <TableFooter
         fromItem={props.fromItem}
         toItem={props.toItem}
         totalItem={props.totalItem}
-      />
+      /> */}
     </div>
   );
 };

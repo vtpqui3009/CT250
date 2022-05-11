@@ -11,8 +11,12 @@ const ProductPagination = (props) => {
             <p className="relative">{description}</p>
           </div>
         </td>
-        <td className=" text-center">
-          <img src={images[0].url} alt="" width={50} height={50} />
+        <td className="table-item text-center w-[10vw] h-[100px]">
+          <img
+            src={images[0].url}
+            alt=""
+            className="w-full h-full object-cover"
+          />
         </td>
         <td className="table-item">{quantity}</td>
         <td className="table-item">{price}</td>

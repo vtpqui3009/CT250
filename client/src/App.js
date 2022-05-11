@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { DataProvider } from "./context/DataProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const Home = React.lazy(() => import("./pages/Home"));
   const Cart = React.lazy(() => import("./pages/Cart"));

@@ -40,8 +40,7 @@ const Widget = ({ type }) => {
         const totalPrice = orderTotalPrice.reduce((prev, next) => {
           return prev + next;
         }, 0);
-        console.log(orderTotalPrice);
-        console.log(totalPrice);
+
         setTotalOrders(responseData ? responseData.length : 0);
         setTotalMoney(
           responseData

@@ -6,9 +6,10 @@ import Featured from "../../components/UI/Featured";
 import Chart from "../../components/UI/Chart";
 import { DataContext } from "../../context/DataProvider";
 import { useSelector } from "react-redux";
+import Modal from "../../components/UI/Modal";
 const ManageOrdersTable = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(null);
   const [value, setValue] = useState(0);
   const [percentage, setPercentage] = useState(0);
@@ -16,6 +17,10 @@ const ManageOrdersTable = (props) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const state = useContext(DataContext);
   const socket = state.socket;
+  const [denyOrderId, setDenyOrderId] = useState(null);
+  const [denyReceiverId, setDenyReceiverId] = useState(null);
+  const [denyMessage, setDenyMessage] = useState("");
+  const [orders, setOrders] = useState([]);
   useEffect(() => {
     const fetchOrders = async () => {
       let maxValue = 10000000;
@@ -26,11 +31,11 @@ const ManageOrdersTable = (props) => {
           `${process.env.REACT_APP_BASE_API}/admin/orders`
         );
         const responseData = await response.data.orders;
-        setAllOrders(responseData);
-        const processingOrder = responseData.filter(
+        const processingOrder = responseData?.filter(
           (order) => order.orderStatus === "Processing"
         );
-        const deliveredOrder = responseData.filter(
+        setAllOrders(responseData);
+        const deliveredOrder = responseData?.filter(
           (order) => order.orderStatus === "Delivered"
         );
 
@@ -156,20 +161,19 @@ const ManageOrdersTable = (props) => {
     fetchOrders();
   }, []);
   const handleAcceptOrder = async (orderId, receiverId) => {
-    const senderId = currentUser && currentUser.user._id;
-    const senderName = currentUser && currentUser.user.name;
-    const senderAvatar = currentUser.user.avatar.url;
-    const message = `Đơn hàng với id ${orderId} của bạn đã được duyệt. Cảm ơn bạn đã tin tưởng và mua sắm tại Organic. Chúc bạn luôn vui khỏe!`;
-
     try {
+      const senderId = currentUser && currentUser.user._id;
+      const senderName = currentUser && currentUser.user.name;
+      const senderAvatar = currentUser.user.avatar.url;
+      const message = `Đơn hàng với id ${orderId} của bạn đã được duyệt. Cảm ơn bạn đã tin tưởng và mua sắm tại Organic. Chúc bạn luôn vui khỏe!`;
       setIsLoading(true);
-      await axios.put(
+      const response = await axios.put(
         `${process.env.REACT_APP_BASE_API}/admin/order/${orderId}`,
         { status: "Delivered" }
       );
-      setOrders((prev) =>
-        prev.filter((order) => order.orderStatus === "Processing")
-      );
+      if (response) {
+        setOrders((prev) => prev.filter((order) => order._id !== orderId));
+      }
       socket.emit("sendNotification", {
         senderId,
         senderName,
@@ -183,8 +187,72 @@ const ManageOrdersTable = (props) => {
       setIsLoading(false);
     }
   };
+  const handleDenyOrder = (orderId, receiverId) => {
+    setIsOpen(true);
+    setDenyOrderId(orderId);
+    setDenyReceiverId(receiverId);
+  };
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    setDenyOrderId(null);
+  };
+  const handleDenyMessage = (e) => {
+    setDenyMessage(e.target.value);
+  };
+  const handleDenyFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const senderId = currentUser && currentUser.user._id;
+      const senderName = currentUser && currentUser.user.name;
+      const senderAvatar = currentUser.user.avatar.url;
+      const message = denyMessage;
+      axios.defaults.withCredentials = true;
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BASE_API}/admin/order/${denyOrderId}`
+      );
+      if (response) {
+        setOrders((order) => order._id !== denyOrderId);
+        await socket.emit("sendNotification", {
+          senderId,
+          senderName,
+          senderAvatar,
+          message,
+          denyOrderId,
+          denyReceiverId,
+        });
+      }
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+    }
+  };
   return (
     <>
+      {isOpen && (
+        <Modal
+          onCloseModal={handleCloseModal}
+          header="Deny Order Dialog"
+          content={
+            <form
+              className="w-full relative text-[14px]"
+              onSubmit={handleDenyFormSubmit}
+            >
+              <input
+                placeholder="Please enter the reason why you deny this order."
+                onChange={handleDenyMessage}
+                className="w-full rounded border border-gray-400 outline-none focus:outline-none px-4 py-2"
+              />
+              <button
+                type="submit"
+                className="absolute right-0 border bg-sidebar-color text-white px-4 py-2"
+              >
+                Send
+              </button>
+            </form>
+          }
+        />
+      )}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -203,75 +271,83 @@ const ManageOrdersTable = (props) => {
             <h1 className="w-[90%] ml-[5%] text-sm uppercase  font-bold my-4">
               Processing Order
             </h1>
-            <table className="table-content bg-white">
-              <thead className="border-b border-t border-gray-300">
-                <tr>
-                  <th className="table-item">STT</th>
-                  <th className="table-item">Name</th>
-                  <th className="table-item">Quantity</th>
-                  <th className="table-item">Total Price</th>
-                  <th className="table-item">Created At</th>
-                  <th className="table-item">Status</th>
-                  <th className="table-item">Detail</th>
-                  <th className="table-item">Deny</th>
-                  <th className="table-item">Accept</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders &&
-                  orders?.map((order, index) => (
-                    <tr
-                      key={order._id}
-                      className="border-b border-gray-300 text-center hover:bg-slate-200"
-                    >
-                      <td className="table-item">{index + 1}</td>
-                      <td className="table-item">
-                        {order.orderItems.map((item) => item.name)}
-                      </td>
-                      <td className="table-item">
-                        {order.orderItems
-                          .map((item) => item.quantity)
-                          .reduce((prev, next) => prev + next, 0)}
-                      </td>
-                      <td className="table-item">
-                        {order.totalPrice.toLocaleString("it-IT", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </td>
-                      <td className="table-item">
-                        {order.createdAt.toLocaleString().slice(0, 10)}
-                      </td>
-                      <td className="table-item">{order.orderStatus}</td>
-                      <td className="table-item">
-                        <Link to={`orders/detail/${order._id}`}>
-                          <button className="table-detail__button">
-                            Detail
+            {orders.length > 0 ? (
+              <table className="table-content bg-white">
+                <thead className="border-b border-t border-gray-300">
+                  <tr>
+                    <th className="table-item">STT</th>
+                    <th className="table-item">Name</th>
+                    <th className="table-item">Quantity</th>
+                    <th className="table-item">Total Price</th>
+                    <th className="table-item">Created At</th>
+                    <th className="table-item">Status</th>
+                    <th className="table-item">Detail</th>
+                    <th className="table-item">Deny</th>
+                    <th className="table-item">Accept</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders &&
+                    orders?.map((order, index) => (
+                      <tr
+                        key={order._id}
+                        className="border-b border-gray-300 text-center hover:bg-slate-200"
+                      >
+                        <td className="table-item">{index + 1}</td>
+                        <td className="table-item">
+                          {order.orderItems.map((item) => item.name)}
+                        </td>
+                        <td className="table-item">
+                          {order.orderItems
+                            .map((item) => item.quantity)
+                            .reduce((prev, next) => prev + next, 0)}
+                        </td>
+                        <td className="table-item">
+                          {order.totalPrice.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </td>
+                        <td className="table-item">
+                          {order.createdAt.toLocaleString().slice(0, 10)}
+                        </td>
+                        <td className="table-item">{order.orderStatus}</td>
+                        <td className="table-item">
+                          <Link to={`orders/detail/${order._id}`}>
+                            <button className="table-detail__button">
+                              Detail
+                            </button>{" "}
+                          </Link>
+                        </td>
+                        <td className="table-item">
+                          <button
+                            className="table-deny__button"
+                            onClick={() =>
+                              handleDenyOrder(order._id, order.user)
+                            }
+                          >
+                            Deny
                           </button>{" "}
-                        </Link>
-                      </td>
-                      <td className="table-item">
-                        <button
-                          className="table-deny__button"
-                          onClick={props.onDenyOrder}
-                        >
-                          Deny
-                        </button>{" "}
-                      </td>
-                      <td className="table-item">
-                        <button
-                          className="table-accept__button"
-                          onClick={() =>
-                            handleAcceptOrder(order._id, order.user)
-                          }
-                        >
-                          Accept
-                        </button>{" "}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                        </td>
+                        <td className="table-item">
+                          <button
+                            className="table-accept__button"
+                            onClick={() =>
+                              handleAcceptOrder(order._id, order.user)
+                            }
+                          >
+                            Accept
+                          </button>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="text-center text-sm">
+                There no processing order available.
+              </p>
+            )}
           </div>
         </div>
       )}

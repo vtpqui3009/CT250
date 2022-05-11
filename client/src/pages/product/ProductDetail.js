@@ -26,6 +26,7 @@ const ProductDetail = () => {
   const [imagePreviewScreen, setImagePreviewScreen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
     const fetchDetailProduct = async () => {
       try {
@@ -51,24 +52,40 @@ const ProductDetail = () => {
     fetchDetailProduct();
   }, [params.pid]);
   const handleQuantityChange = (e) => {
-    setCount(e.target.value);
+    if (e.target.value > loadedProduct.stock) {
+      setError(
+        "The quantity you entered is greater than the stock in our shop. "
+      );
+      return;
+    } else if (e.target.value < 1) {
+      setError("The quantity you entered is not smaller than 1. ");
+    } else {
+      setCount(e.target.value);
+      setError("");
+    }
   };
-  const handleIncreaseQuantity = (e) => {
-    setCount((count) => (count < 10 ? count + 1 : (count = 10)));
+  const handleIncreaseQuantity = () => {
+    if (count > loadedProduct.stock) return;
+    setCount((count) =>
+      count < loadedProduct.stock ? count + 1 : (count = loadedProduct.stock)
+    );
   };
-  const handleDecreaseQuantity = (e) => {
+  const handleDecreaseQuantity = () => {
     setCount((count) => (count <= 1 ? (count = 1) : count - 1));
   };
   const handleAddToCart = (product) => {
-    toast(`🦄 Bạn vừa thêm sản phẩm  ${product.name} vào giỏ hàng của bạn !`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    toast.success(
+      `🦄 Bạn vừa thêm sản phẩm  ${product.name} vào giỏ hàng của bạn !`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     dispatch(addToCart({ product, cartQuantity: count }));
   };
   const handlePrevImage = () => {
@@ -166,6 +183,7 @@ const ProductDetail = () => {
                       />
                     </div>
                   </div>
+                  <div className="text-red-600 font-semibold">{error}</div>
                   <div>
                     <button
                       type="submit"

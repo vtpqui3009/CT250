@@ -14,7 +14,7 @@ const Feature = () => {
           ` ${process.env.REACT_APP_BASE_API}/products`
         );
         const responseData = await response.data.products;
-        // console.log(responseData);
+
         const filterData = responseData.slice(0, 8);
         setFeatureProducts(filterData);
       } catch (err) {}
