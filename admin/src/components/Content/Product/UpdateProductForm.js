@@ -8,6 +8,7 @@ import axios from "axios";
 import ProductCategory from "./AddProduct/ProductCategory";
 import Modal from "../../UI/Modal";
 import LoadingSpinner from "../../UI/LoadingSpinner";
+import { toast } from "react-toastify";
 const options = ["Meat", "Vegetable", "Fruit"];
 const UpdateProductForm = () => {
   const params = useParams();
@@ -56,6 +57,15 @@ const UpdateProductForm = () => {
         formData
       );
       setIsLoading(false);
+      toast.success(`🦄 Cập nhật sản phẩm thành công!!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       navigate("/product/manage");
     } catch (err) {
       setIsLoading(false);

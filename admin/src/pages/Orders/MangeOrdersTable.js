@@ -7,6 +7,7 @@ import Chart from "../../components/UI/Chart";
 import { DataContext } from "../../context/DataProvider";
 import { useSelector } from "react-redux";
 import Modal from "../../components/UI/Modal";
+import { toast } from "react-toastify";
 const ManageOrdersTable = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -151,7 +152,7 @@ const ManageOrdersTable = (props) => {
         }, 0);
         const relativePercentage = ((totalPrice / maxValue) * 100).toFixed(1);
         setPercentage(totalPrice ? relativePercentage : 0);
-        setValue(totalPriceArr ? totalPriceArr : 0);
+        setValue(totalPrice ? totalPrice : 0);
         setOrders(processingOrder);
         setIsLoading(false);
       } catch (err) {
@@ -165,7 +166,7 @@ const ManageOrdersTable = (props) => {
       const senderId = currentUser && currentUser.user._id;
       const senderName = currentUser && currentUser.user.name;
       const senderAvatar = currentUser.user.avatar.url;
-      const message = `Đơn hàng với id ${orderId} của bạn đã được duyệt. Cảm ơn bạn đã tin tưởng và mua sắm tại Organic. Chúc bạn luôn vui khỏe!`;
+      const message = `Đơn hàng của bạn đã được xác nhận. Vui lòng chờ đợi để nhận hàng. Cảm ơn bạn đã tin tưởng và mua sắm tại Organic.`;
       setIsLoading(true);
       const response = await axios.put(
         `${process.env.REACT_APP_BASE_API}/admin/order/${orderId}`,
@@ -173,6 +174,15 @@ const ManageOrdersTable = (props) => {
       );
       if (response) {
         setOrders((prev) => prev.filter((order) => order._id !== orderId));
+        toast.success(`🦄 Bạn vừa accept đơn hàng này!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
       socket.emit("sendNotification", {
         senderId,
@@ -213,6 +223,15 @@ const ManageOrdersTable = (props) => {
       );
       if (response) {
         setOrders((order) => order._id !== denyOrderId);
+        toast.error(`🦄 Bạn vừa xóa đơn hàng này!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         await socket.emit("sendNotification", {
           senderId,
           senderName,
@@ -259,6 +278,7 @@ const ManageOrdersTable = (props) => {
         <div className="text-black relative w-full h-full px-[5%] mt-20 pb-20">
           <div className="flex items-center px-[5%] h-[350px] mb-20 gap-4">
             <Featured
+              // value={value}
               value={value.toLocaleString("it-IT", {
                 style: "currency",
                 currency: "VND",
@@ -345,7 +365,7 @@ const ManageOrdersTable = (props) => {
               </table>
             ) : (
               <p className="text-center text-sm">
-                There no processing order available.
+                There are no processing order available.
               </p>
             )}
           </div>

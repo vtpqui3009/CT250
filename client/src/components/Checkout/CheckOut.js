@@ -112,7 +112,7 @@ const CheckOut = () => {
   };
   const handleDecreaseQuantity = (product) => {
     if (product.cartQuantity === 1) {
-      toast.error(
+      toast.success(
         `🦄 Bạn vừa xóa sản phẩm  ${product.product.name} khỏi giỏ hàng của bạn !`,
         {
           position: "top-right",
@@ -125,7 +125,7 @@ const CheckOut = () => {
         }
       );
     } else {
-      toast.warning(
+      toast.success(
         `🦄 Bạn vừa giảm số lượng sản phẩm  ${product.product.name} trong giỏ hàng của bạn !`,
         {
           position: "top-right",

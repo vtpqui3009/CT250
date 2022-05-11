@@ -8,6 +8,7 @@ import { initialValues, validationSchema } from "../FormikConfig";
 import { UploadMultipleImage } from "../../../UI/UploadImage";
 import LoadingSpinner from "../../../UI/LoadingSpinner";
 import Modal from "../../../UI/Modal";
+import { toast } from "react-toastify";
 const options = ["Fruit", "Vegetable", "Meat"];
 const AddProductForm = (props) => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -34,6 +35,15 @@ const AddProductForm = (props) => {
         formData
       );
       setLoading(false);
+      toast.success(`🦄 Thêm sản phẩm mới thành công !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       navigate("/product/manage");
     } catch (err) {
       setLoading(false);
@@ -64,7 +74,7 @@ const AddProductForm = (props) => {
           <FormikControl
             className="form-control"
             errorclass="error-message"
-            label="Name"
+            label="Name :"
             type="text"
             id="name"
             name="name"
@@ -73,7 +83,7 @@ const AddProductForm = (props) => {
             as="textarea"
             className="form-control h-[150px]"
             errorclass="error-message"
-            label="Desciption"
+            label="Desciption :"
             type="text"
             id="description"
             name="description"
@@ -81,7 +91,7 @@ const AddProductForm = (props) => {
           <FormikControl
             className="form-control"
             errorclass="error-message"
-            label="Price"
+            label="Price :"
             type="number"
             id="price"
             name="price"
@@ -89,7 +99,7 @@ const AddProductForm = (props) => {
           <FormikControl
             className="form-control"
             errorclass="error-message"
-            label="Discount"
+            label="Discount :"
             type="number"
             id="discount"
             name="discount"
@@ -105,7 +115,7 @@ const AddProductForm = (props) => {
           <FormikControl
             className="form-control"
             errorclass="error-message"
-            label="Stock"
+            label="Stock :"
             type="number"
             id="stock"
             name="stock"

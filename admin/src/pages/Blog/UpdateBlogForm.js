@@ -9,6 +9,7 @@ import Modal from "../../components/UI/Modal";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { toast } from "react-toastify";
 const UpdateBlogForm = () => {
   const params = useParams();
   const [content, setContent] = useState("");
@@ -61,6 +62,15 @@ const UpdateBlogForm = () => {
         formData
       );
       setIsLoading(false);
+      toast.success(`🦄 Cập nhật bài viết thành công!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       navigate("/blog/manage");
     } catch (err) {
       console.log(err);

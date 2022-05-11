@@ -29,7 +29,7 @@ const CartDesktop = () => {
     fetchUserAddress();
   }, []);
   const handleRemoveFromCart = (cartItem) => {
-    toast.error(
+    toast.success(
       `🦄 Bạn vừa xóa sản phẩm  ${cartItem.product.name} khỏi giỏ hàng của bạn !`,
       {
         position: "top-right",
@@ -60,7 +60,7 @@ const CartDesktop = () => {
   };
   const handleDecreaseFromCart = (product) => {
     if (product.cartQuantity === 1) {
-      toast.error(
+      toast.success(
         `🦄 Bạn vừa xóa sản phẩm  ${product.product.name} khỏi giỏ hàng của bạn !`,
         {
           position: "top-right",
@@ -73,7 +73,7 @@ const CartDesktop = () => {
         }
       );
     } else {
-      toast.warning(
+      toast.success(
         `🦄 Bạn vừa giảm số lượng sản phẩm  ${product.product.name} trong giỏ hàng của bạn !`,
         {
           position: "top-right",

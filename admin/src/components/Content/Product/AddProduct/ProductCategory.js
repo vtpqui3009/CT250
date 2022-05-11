@@ -2,7 +2,7 @@ import { Field } from "formik";
 const ProductCategory = ({ options, defaultOption }) => {
   return (
     <div className="form-control">
-      <label>Category</label>
+      <label>Category :</label>
       <Field as="select" name="category" id="category">
         <option>{defaultOption}</option>
         {options?.map((option) => (

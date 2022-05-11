@@ -5,6 +5,7 @@ import FormikControl from "../../UI/FormikControl";
 import axios from "axios";
 import * as Yup from "yup";
 import LoadingSpinner from "../../UI/LoadingSpinner";
+import { toast } from "react-toastify";
 const UpdateCustomerForm = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -52,11 +53,20 @@ const UpdateCustomerForm = () => {
         formData
       );
       setLoading(false);
+      toast.success(`🦄 Cập nhật user thành công!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/customer/manage");
     } catch (err) {
       setLoading(false);
       console.log(err);
     }
-    navigate("/customer/manage");
     onSubmitProps.resetForm();
   };
   return (

@@ -19,7 +19,7 @@ export const UploadMultipleImage = ({ selectedImages, setSelectedImages }) => {
   return (
     <div className="px-6 py-4">
       <div className="font-bold text-[12px]">
-        <span className="mr-4">Images</span>
+        <span className="mr-4">Images :</span>
         <label
           htmlFor="images"
           className="px-[14px] py-[8px] bg-blue-800 text-white rounded ml-[9.5%]"
@@ -70,7 +70,7 @@ export const UploadSingleImage = ({ selectedImage, setSelectedImage }) => {
   return (
     <div className="px-6 py-4 mt-4">
       <div className="font-bold text-[12px]">
-        <span className="mr-4">Images</span>
+        <span className="mr-4">Images :</span>
         <label
           htmlFor="images"
           className="px-[14px] py-[8px] bg-blue-800 text-white rounded ml-[9.5%]"

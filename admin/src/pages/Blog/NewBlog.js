@@ -101,7 +101,7 @@ const NewBlog = () => {
                       <FormikControl
                         className="form-control"
                         errorclass="error-message"
-                        label="Title"
+                        label="Title :"
                         type="text"
                         id="title"
                         name="title"
@@ -110,7 +110,7 @@ const NewBlog = () => {
                         as="textarea"
                         className="form-control h-[80px]"
                         errorclass="error-message"
-                        label="Short Description"
+                        label="Short Description :"
                         type="text"
                         id="shortDescription"
                         name="shortDescription"
@@ -121,7 +121,7 @@ const NewBlog = () => {
                       />
                       <div className="flex items-center w-full p-6">
                         <label className="w-[15%] mr-4 font-bold text-[12px]">
-                          Content
+                          Content :
                         </label>
                         <div className="w-[85%] text-[12px]">
                           <CKEditor

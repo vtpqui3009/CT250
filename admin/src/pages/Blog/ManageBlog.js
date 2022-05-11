@@ -5,6 +5,8 @@ import HeadingPath from "../../components/Content/HeadingPath/HeadingPath";
 import HeadingPathItem from "../../components/Content/HeadingPath/HeadingPathItem";
 import ManageBlogTable from "./ManageBlogTable";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
+import { toast } from "react-toastify";
+
 const ManageProduct = () => {
   const [loadedBlogs, setLoadedBlogs] = useState([]);
   const [selectValue, setSelectValue] = useState(5);
@@ -19,9 +21,11 @@ const ManageProduct = () => {
           `${process.env.REACT_APP_BASE_API}/blogs/all`
         );
         const responseData = await response.data.blogs;
-        setLoadedBlogs(responseData);
+        const sortData = responseData.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setLoadedBlogs(sortData);
         setIsLoading(false);
-        console.log(responseData);
       } catch (err) {
         setIsLoading(false);
       }
@@ -36,6 +40,15 @@ const ManageProduct = () => {
       setLoadedBlogs((prevBlogs) =>
         prevBlogs.filter((blog) => blog._id !== id)
       );
+      toast.success(`🦄 Xóa bài viết thành công!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);

@@ -39,7 +39,7 @@ const CustomerTable = (props) => {
                   <img
                     src={data.avatar.url}
                     alt=""
-                    className="w-[50px] h-[50px] rounded-full"
+                    className="w-[50px] h-[50px] rounded-full object-cover"
                   />
                 </td>
                 <td className="table-item">{data.role}</td>

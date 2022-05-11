@@ -125,7 +125,7 @@ const Widget = ({ type }) => {
           <span>{data.icon}</span>
         </div>
       </div>
-      <div className="font-light text-2xl my-2">{data.amount}</div>
+      <div className="font-light text-xl my-2">{data.amount}</div>
       <div className="w-max text-[12px] border-b border-gray-500">
         <span>{data.link}</span>
       </div>

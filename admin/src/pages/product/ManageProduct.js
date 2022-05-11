@@ -5,7 +5,7 @@ import HeadingPath from "../../components/Content/HeadingPath/HeadingPath";
 import HeadingPathItem from "../../components/Content/HeadingPath/HeadingPathItem";
 import ManageProductTable from "../../components/Content/Product/ManageProductTable";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
-
+import { toast } from "react-toastify";
 const ManageProduct = () => {
   const [loadedProducts, setLoadedProducts] = useState([]);
   const [selectValue, setSelectValue] = useState(5);
@@ -20,8 +20,11 @@ const ManageProduct = () => {
           `${process.env.REACT_APP_BASE_API}/products/all`
         );
         const responseData = await response.data.products;
-        console.log(responseData);
-        setLoadedProducts(responseData);
+        const sortData = responseData.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        // console.log(sortData);
+        setLoadedProducts(sortData);
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
@@ -41,6 +44,15 @@ const ManageProduct = () => {
         prevProducts.filter((product) => product._id !== id)
       );
       setIsLoading(false);
+      toast.success(`🦄 Xóa sản phẩm thành công!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (err) {
       setIsLoading(false);
       console.log(err);
@@ -54,7 +66,6 @@ const ManageProduct = () => {
         );
         const responseData = await response.data.products;
         setQueryProduct(responseData);
-        console.log(responseData);
       } catch (err) {}
     };
     const timoutId = setTimeout(() => {
@@ -102,19 +113,12 @@ const ManageProduct = () => {
                 onDeleteProduct={handleDeleteProduct}
                 handleInputChange={handleInputChange}
                 handleSelectChange={handleSelectChange}
-                fromItem="1"
-                toItem={selectValue}
-                totalItem={loadedProducts.length}
               />
             ) : (
               <ManageProductTable
                 productData={queryProduct}
                 onDeleteProduct={handleDeleteProduct}
                 handleInputChange={handleInputChange}
-                handleSelectChange={handleSelectChange}
-                fromItem="1"
-                toItem={selectValue}
-                totalItem={loadedProducts.length}
               />
             )}
           </div>

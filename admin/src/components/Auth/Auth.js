@@ -91,12 +91,7 @@ const Auth = () => {
                 placeholder="Password"
                 autoComplete="on"
               />
-              <div className="flex items-center my-2 ">
-                <input type="checkbox" />
-                <label className="ml-2 text-[14px] font-semibold">
-                  Remember me
-                </label>
-              </div>
+
               <div className="flex items-center justify-center">
                 <button type="submit" className="auth-submit-button">
                   Submit

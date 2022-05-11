@@ -11,13 +11,13 @@ function Pagination({
   const [pages] = useState(Math.round(data.length / dataLimit));
   const [currentPage, setCurrentPage] = useState(1);
 
-  function goToNextPage() {
-    setCurrentPage((page) => (page < pages ? page + 1 : page));
-  }
+  // function goToNextPage() {
+  //   setCurrentPage((page) => (page < pages ? page + 1 : page));
+  // }
 
-  function goToPreviousPage() {
-    setCurrentPage((page) => page - 1);
-  }
+  // function goToPreviousPage() {
+  //   setCurrentPage((page) => page - 1);
+  // }
 
   function changePage(event) {
     const pageNumber = Number(event.target.textContent);
@@ -33,52 +33,49 @@ function Pagination({
     return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
   };
   return (
-    <div>
-      <h1>{title}</h1>
+    // <React.Fragment>
 
-      {/* show the posts, 10 posts at a time */}
-      <ul className={paginationClass}>
-        {getPaginatedData().map((d, idx) => (
-          <RenderComponent key={d._id} data={d} />
-        ))}
-      </ul>
-
-      {/* show the pagiantion
-              it consists of next and previous buttons
-              along with page numbers, in our case, 5 page
-              numbers at a time
-          */}
-      <div className="pagination">
-        {/* previous button */}
-        {/* <button
-          onClick={goToPreviousPage}
-          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
-        >
-          prev
-        </button> */}
-
-        {/* show page numbers */}
-        {getPaginationGroup().map((item, index) => (
-          <button
-            key={index}
-            onClick={changePage}
-            className={`paginationItem ${
-              currentPage === item ? "isActive" : null
-            }`}
-          >
-            <span>{item}</span>
-          </button>
-        ))}
-
-        {/* next button */}
-        {/* <button
-          onClick={goToNextPage}
-          className={`next ${currentPage === pages + 1 ? "disabled" : ""}`}
-        >
-          next
-        </button> */}
-      </div>
-    </div>
+    <React.Fragment>
+      {data.length === 0 ? (
+        <div className="text-center py-[15%]">
+          There are no products available.
+        </div>
+      ) : (
+        <React.Fragment>
+          <table className={paginationClass}>
+            <thead className="border-b border-t border-gray-300">
+              <tr>
+                <th className="table-item">Name</th>
+                <th className="table-item">Description</th>
+                <th className="table-item">Image</th>
+                <th className="table-item">Price</th>
+                <th className="table-item">Weight</th>
+                <th className="table-item">Discount</th>
+                <th className="table-item"></th>
+                <th className="table-item"></th>
+              </tr>
+            </thead>
+            {getPaginatedData().map((d, idx) => (
+              <RenderComponent key={d._id} data={d} />
+            ))}
+          </table>
+          <div className="pagination">
+            {/* show page numbers */}
+            {getPaginationGroup().map((item, index) => (
+              <button
+                key={index}
+                onClick={changePage}
+                className={`paginationItem ${
+                  currentPage === item ? "isActive" : null
+                }`}
+              >
+                <span>{item}</span>
+              </button>
+            ))}
+          </div>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 }
 

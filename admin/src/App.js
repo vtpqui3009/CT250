@@ -25,11 +25,14 @@ import OrderDetail from "./pages/Orders/OrderDetail";
 import { useSelector } from "react-redux";
 import { DataProvider } from "./context/DataProvider";
 import ManageOrders from "./pages/Orders/ManageOrders";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const user = useSelector((state) => state.user.currentUser);
 
   return (
     <BrowserRouter>
+      <ToastContainer />
       <DataProvider>
         <Routes>
           <Route path="/" element={!user ? <Auth /> : <Home />} />
