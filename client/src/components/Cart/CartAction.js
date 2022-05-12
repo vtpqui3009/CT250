@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../redux/cartSlice";
+import CartTotal from "./CartTotal";
 const CartAction = () => {
   const dispatch = useDispatch();
   const handleClearCart = () => {
@@ -12,6 +13,8 @@ const CartAction = () => {
         <button className="cart-coupon__action">Apply Coupon</button>
       </td>
       <td className="cart-update">
+        <span className="text-lg font-bold">Total : </span>{" "}
+        <CartTotal className="text-lg font-bold" />
         <button className="cart-clear__action " onClick={handleClearCart}>
           Clear Cart
         </button>

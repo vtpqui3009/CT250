@@ -10,6 +10,7 @@ import { UilPlus, UilMinus } from "@iconscout/react-unicons";
 import axios from "axios";
 import { addToCart, decreaseCartQuantity } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
+
 const CartDesktop = () => {
   const [loadedAddress, setLoadedAddress] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
