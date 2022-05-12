@@ -5,6 +5,7 @@ import HeadingPathItem from "../../components/Content/HeadingPath/HeadingPathIte
 import CustomerTable from "../../components/Content/Customer/CustomerTable";
 import axios from "axios";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
+import { toast } from "react-toastify";
 const ManageCustomer = () => {
   const [loadedUsers, setLoadedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,15 @@ const ManageCustomer = () => {
       setLoading(true);
       await axios.delete(`${process.env.REACT_APP_BASE_API}/admin/user/${id}`);
       setLoadedUsers((users) => users.filter((user) => user._id !== id));
+      toast.success(`🦄 Xóa user thành công!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       setLoading(false);
     } catch (err) {
       setLoading(false);

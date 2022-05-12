@@ -223,7 +223,4 @@
   .chart {
     @apply flex items-center justify-center text-gray-500 p-3 text-sm bg-white;
   }
-  .widget {
-    @apply px-8 py-4 bg-white rounded;
-  }
 }

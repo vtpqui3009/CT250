@@ -272,105 +272,103 @@ const ManageOrdersTable = (props) => {
           }
         />
       )}
-      {isLoading ? (
+      {/* {isLoading ? (
         <LoadingSpinner />
-      ) : (
-        <div className="text-black relative w-full h-full px-[5%] mt-20 pb-20">
-          <div className="flex items-center px-[5%] h-[350px] mb-20 gap-4">
-            <Featured
-              // value={value}
-              value={value.toLocaleString("it-IT", {
-                style: "currency",
-                currency: "VND",
-              })}
-              percentage={percentage}
-            />
-            <Chart data={total} />
-          </div>
-          <div>
-            <h1 className="w-[90%] ml-[5%] text-sm uppercase  font-bold my-4">
-              Processing Order
-            </h1>
-            {orders.length > 0 ? (
-              <table className="table-content bg-white">
-                <thead className="border-b border-t border-gray-300">
-                  <tr>
-                    <th className="table-item">STT</th>
-                    <th className="table-item">Name</th>
-                    <th className="table-item">Quantity</th>
-                    <th className="table-item">Total Price</th>
-                    <th className="table-item">Created At</th>
-                    <th className="table-item">Status</th>
-                    <th className="table-item">Detail</th>
-                    <th className="table-item">Deny</th>
-                    <th className="table-item">Accept</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders &&
-                    orders?.map((order, index) => (
-                      <tr
-                        key={order._id}
-                        className="border-b border-gray-300 text-center hover:bg-slate-200"
-                      >
-                        <td className="table-item">{index + 1}</td>
-                        <td className="table-item">
-                          {order.orderItems.map((item) => item.name)}
-                        </td>
-                        <td className="table-item">
-                          {order.orderItems
-                            .map((item) => item.quantity)
-                            .reduce((prev, next) => prev + next, 0)}
-                        </td>
-                        <td className="table-item">
-                          {order.totalPrice.toLocaleString("it-IT", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="table-item">
-                          {order.createdAt.toLocaleString().slice(0, 10)}
-                        </td>
-                        <td className="table-item">{order.orderStatus}</td>
-                        <td className="table-item">
-                          <Link to={`orders/detail/${order._id}`}>
-                            <button className="table-detail__button">
-                              Detail
-                            </button>{" "}
-                          </Link>
-                        </td>
-                        <td className="table-item">
-                          <button
-                            className="table-deny__button"
-                            onClick={() =>
-                              handleDenyOrder(order._id, order.user)
-                            }
-                          >
-                            Deny
-                          </button>{" "}
-                        </td>
-                        <td className="table-item">
-                          <button
-                            className="table-accept__button"
-                            onClick={() =>
-                              handleAcceptOrder(order._id, order.user)
-                            }
-                          >
-                            Accept
-                          </button>{" "}
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            ) : (
-              <p className="text-center text-sm">
-                There are no processing order available.
-              </p>
-            )}
-          </div>
+      ) : ( */}
+      <div className="text-black relative w-full h-full px-[5%] mt-20 pb-20">
+        <div className="flex items-center px-[5%] h-[350px] mb-20 gap-4">
+          <Featured
+            // value={value}
+            value={value.toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+            percentage={percentage}
+          />
+          <Chart data={total} />
         </div>
-      )}
+        <div>
+          <h1 className="w-[90%] ml-[5%] text-sm uppercase  font-bold my-4">
+            Processing Order
+          </h1>
+          {orders.length > 0 ? (
+            <table className="table-content bg-white">
+              <thead className="border-b border-t border-gray-300">
+                <tr>
+                  <th className="table-item">STT</th>
+                  <th className="table-item">Name</th>
+                  <th className="table-item">Quantity</th>
+                  <th className="table-item">Total Price</th>
+                  <th className="table-item">Created At</th>
+                  <th className="table-item">Status</th>
+                  <th className="table-item">Detail</th>
+                  <th className="table-item">Deny</th>
+                  <th className="table-item">Accept</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders &&
+                  orders?.map((order, index) => (
+                    <tr
+                      key={order._id}
+                      className="border-b border-gray-300 text-center hover:bg-slate-200"
+                    >
+                      <td className="table-item">{index + 1}</td>
+                      <td className="table-item">
+                        {order.orderItems.map((item) => item.name)}
+                      </td>
+                      <td className="table-item">
+                        {order.orderItems
+                          .map((item) => item.quantity)
+                          .reduce((prev, next) => prev + next, 0)}
+                      </td>
+                      <td className="table-item">
+                        {order.totalPrice.toLocaleString("it-IT", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </td>
+                      <td className="table-item">
+                        {order.createdAt.toLocaleString().slice(0, 10)}
+                      </td>
+                      <td className="table-item">{order.orderStatus}</td>
+                      <td className="table-item">
+                        <Link to={`orders/detail/${order._id}`}>
+                          <button className="table-detail__button">
+                            Detail
+                          </button>{" "}
+                        </Link>
+                      </td>
+                      <td className="table-item">
+                        <button
+                          className="table-deny__button"
+                          onClick={() => handleDenyOrder(order._id, order.user)}
+                        >
+                          Deny
+                        </button>{" "}
+                      </td>
+                      <td className="table-item">
+                        <button
+                          className="table-accept__button"
+                          onClick={() =>
+                            handleAcceptOrder(order._id, order.user)
+                          }
+                        >
+                          Accept
+                        </button>{" "}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-center text-sm">
+              There are no processing order available.
+            </p>
+          )}
+        </div>
+      </div>
+      {/* )} */}
     </>
   );
 };

@@ -28,7 +28,7 @@ const Home = () => {
               </>
             }
           />
-          <div className="grid grid-cols-4 h-32 gap-5 px-[9%] pt-[2%]">
+          <div className="grid grid-cols-4 h-max gap-5 px-[9%]">
             <Widget type="user" />
             <Widget type="order" />
             <Widget type="earning" />
