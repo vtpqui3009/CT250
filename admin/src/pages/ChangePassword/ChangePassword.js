@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -6,10 +6,10 @@ import FormikControl from "../../components/UI/FormikControl";
 import axios from "axios";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import Modal from "../../components/UI/Modal";
-import { AuthContext } from "../../context/AuthContext";
+import { logout } from "../../redux/userSlice";
 import Layout from "../../components/Layout";
 import HeadingPath from "../../components/Content/HeadingPath/HeadingPath";
-
+import { useDispatch } from "react-redux";
 const initialValues = {
   oldPassword: "",
   newPassword: "",
@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
 const ChangePassword = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
-  const { dispatch } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
@@ -51,7 +51,7 @@ const ChangePassword = () => {
       );
       setIsLoading(false);
       navigate("/change-password-success");
-      dispatch({ type: "LOGOUT" });
+      dispatch(logout());
     } catch (err) {
       setIsLoading(false);
       setConfirm(true);
@@ -113,7 +113,7 @@ const ChangePassword = () => {
                           className="mr-2 ml-auto"
                           onClick={showPassword}
                         />
-                        <label>Show password</label>
+                        <label className="text-sm">Show password</label>
                       </div>
                       <div className="flex items-center justify-center">
                         <button

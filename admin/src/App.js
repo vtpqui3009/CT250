@@ -61,8 +61,8 @@ function App() {
             path="/change-password-success"
             element={<ChangePasswordSuccess />}
           />
-          <Route path="/history" element={<p> History Page</p>} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/history" element={<p> History Page</p>} />
           <Route path="/wallet" element={<p> Wallet Page</p>} />
           <Route path="/setting" element={<p> Setting Page</p>} />
         </Routes>

@@ -275,10 +275,6 @@ const CheckOut = () => {
               <p className="text">{isLoading ? "Processing..." : "Buy"}</p>
             </div>
           </button>
-          <p className="text-sm my-4">
-            * Please use card number : 4242 4242 4242 4242 to test the checkout
-            payment method.
-          </p>
         </div>
       </div>
     </>

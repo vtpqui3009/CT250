@@ -51,7 +51,7 @@ const AllBlog = () => {
                       />
                     </Link>
 
-                    <div className="text-center">
+                    <div className="text-center text-base">
                       <Link to={`/blog/${blog._id}`}>
                         {" "}
                         <div>{blog.title}</div>{" "}

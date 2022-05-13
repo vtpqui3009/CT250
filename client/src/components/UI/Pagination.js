@@ -50,12 +50,12 @@ function Pagination({
           */}
       <div className="pagination">
         {/* previous button */}
-        <button
+        {/* <button
           onClick={goToPreviousPage}
           className={`prev ${currentPage === 1 ? "disabled" : ""}`}
         >
           prev
-        </button>
+        </button> */}
 
         {/* show page numbers */}
         {getPaginationGroup().map((item, index) => (
@@ -71,12 +71,12 @@ function Pagination({
         ))}
 
         {/* next button */}
-        <button
+        {/* <button
           onClick={goToNextPage}
           className={`next ${currentPage === pages + 1 ? "disabled" : ""}`}
         >
           next
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -51,24 +51,24 @@ const TopbarAuth = () => {
                 <span>Profile</span>
               </li>
             </Link>
-            <Link to="/wallet">
+            {/* <Link to="/wallet">
               <li className="menu-dropdown__item">
                 <UilWallet size="16" className="mr-2" />
                 <span>Wallet</span>
               </li>
-            </Link>
+            </Link> */}
             <Link to="/change-password">
               <li className="menu-dropdown__item">
                 <UilKeySkeletonAlt size="16" className="mr-2" />
                 <span>Change Password</span>
               </li>
             </Link>
-            <Link to="/setting">
+            {/* <Link to="/setting">
               <li className="menu-dropdown__item">
                 <UilSetting size="16" className="mr-2" />
                 <span>Setting</span>
               </li>
-            </Link>
+            </Link> */}
             <li className="menu-dropdown__logout" onClick={handleLogOut}>
               <UilSignOutAlt size="16" className="mr-2" />
               <span>Log out</span>
